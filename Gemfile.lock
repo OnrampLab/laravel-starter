@@ -1,0 +1,53 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    airbrussh (1.1.0)
+      sshkit (>= 1.6.1, != 1.7.0)
+    capistrano (3.6.0)
+      airbrussh (>= 1.0.0)
+      capistrano-harrow
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-composer (0.0.6)
+      capistrano (>= 3.0.0.pre)
+    capistrano-env-config (0.3.0)
+      capistrano (~> 3.0)
+      dotenv (~> 2.0)
+    capistrano-file-permissions (1.0.0)
+      capistrano (~> 3.0)
+    capistrano-harrow (0.5.3)
+    capistrano-laravel (1.2.2)
+      capistrano (>= 3.0.0)
+      capistrano-composer (>= 0.0.6)
+      capistrano-file-permissions (>= 1.0.0)
+    capistrano-locally (0.2.4)
+      capistrano (~> 3.0)
+    capistrano-nvm (0.0.6)
+      capistrano (~> 3.1)
+    capistrano-yarn (2.0.2)
+      capistrano (~> 3.0)
+    dotenv (2.2.1)
+    i18n (0.7.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.2.0)
+    rake (11.2.2)
+    sshkit (1.11.2)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  capistrano (~> 3.6)
+  capistrano-composer
+  capistrano-env-config
+  capistrano-laravel
+  capistrano-locally
+  capistrano-nvm
+  capistrano-yarn
+
+BUNDLED WITH
+   1.16.1

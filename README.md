@@ -77,3 +77,37 @@ php artisan module:make Blog
 ```bash
 composer require onramplab-lib/hello
 ```
+
+## Deployment
+### Requirements
+
+#### Server Requirememts
+1. 建立 `/opt/www`
+```
+sudo mkdir /opt/www
+sudo chown ubuntu:ubuntu /opt/www
+```
+1. 安裝 phpbrew, php
+1. 安裝 nvm, node, yarn
+
+#### Local Requirements
+##### Install ruby & gems
+1. local 環境需要先安裝好 `ruby` 環境
+1. 執行
+```
+gem install bundler
+bundle install
+```
+
+
+### Command for deploy
+Deploy 到 production
+```
+CI_BRANCH=master cap production deploy
+```
+
+第一次 deploy 可能會遇到可能的錯誤：
+
+1. 找不到 `/opt/www`，解法 =>
+
+第二次執行 deploy 可能會遇到
