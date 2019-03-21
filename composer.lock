@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "538bcb130191e64c994d7592ecf39e23",
+    "content-hash": "5f20cd044a0030a637493e57b5420c4f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1006,6 +1006,32 @@
                 "rad"
             ],
             "time": "2019-03-18T17:56:24+00:00"
+        },
+        {
+            "name": "onramplab-lib/hello",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/hello",
+                "reference": "9e41a67a305e4fe84ef94127d4ecca08715edea2",
+                "shasum": null
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Hello\\HelloServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hello\\": "src/"
+                }
+            }
         },
         {
             "name": "opis/closure",
@@ -4463,7 +4489,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "onramplab-lib/hello": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
