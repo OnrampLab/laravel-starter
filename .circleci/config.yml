@@ -1,0 +1,56 @@
+# https://discuss.circleci.com/t/build-on-tag/9864/42
+# NOTE: a workaround that make circle-ci 2.0 support $CIRCLE_TAG environment variable
+deployment:
+  fake_deploy_for_production:
+    tag: /.*/
+    commands:
+      - echo "make tags run in 2.0"
+
+version: 2
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: ruby:2.2.3
+        cmd: ["/bin/bash"]
+
+    steps:
+      - run:
+          name: Install System Libs
+          command: |
+            apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+            echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+            apt -qq update
+            apt install -y -qq git yarn bcrypt
+
+      - checkout
+
+      - restore_cache:
+          key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: |
+            cp .env.example .env
+
+      - deploy:
+          command: |
+            bundle install
+
+            echo "current branch is ${CIRCLE_BRANCH}"
+            echo "current tag is ${CIRCLE_TAG}"
+
+            if [[ -n "${CIRCLE_TAG}" ]]; then
+              CI_BRANCH="${CIRCLE_TAG}" cap production deploy
+            #elif [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+            #  CI_BRANCH=master cap staging deploy
+            #else
+            #  CI_BRANCH="${CIRCLE_TAG}" cap dev deploy
+            fi
+
+      - save_cache:
+          key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
+          paths:
+            - /var/lib/gems
+            - /usr/local/bin/cap
+            - /usr/local/bin/capify
