@@ -26,7 +26,7 @@ php artisan module:make Blog
 如果要建立一個 package `hello`，範例如下
 
 1. 建立檔案 packages/auth-util/composer.json
-```
+```json
 {
     "name": "onramplab-utils/auth-util",
     "require": {
@@ -55,7 +55,7 @@ php artisan module:make Blog
 ```
 
 2. 將 `hello` 加到 `require` 與 `repositories` block
-```
+```json
 "require": {
     "php": "^7.1.3",
     "fideloper/proxy": "^4.0",
@@ -78,12 +78,16 @@ php artisan module:make Blog
 composer require onramplab-lib/hello
 ```
 
+## Development environment with Docker
+1. Update `.env` file with for docker
+1. run `docker-compose up`
+
 ## Deployment
 ### Requirements
 
 #### Server Requirememts
 1. 建立 `/opt/www`
-```
+```bash
 sudo mkdir /opt/www
 sudo chown ubuntu:ubuntu /opt/www
 ```
@@ -94,7 +98,7 @@ sudo chown ubuntu:ubuntu /opt/www
 ##### Install ruby & gems
 1. local 環境需要先安裝好 `ruby` 環境
 1. 執行
-```
+```bash
 gem install bundler
 bundle install
 ```
@@ -102,12 +106,6 @@ bundle install
 
 ### Command for deploy
 Deploy 到 production
-```
+```bash
 CI_BRANCH=master cap production deploy
 ```
-
-第一次 deploy 可能會遇到可能的錯誤：
-
-1. 找不到 `/opt/www`，解法 =>
-
-第二次執行 deploy 可能會遇到
