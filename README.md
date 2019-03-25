@@ -42,7 +42,7 @@ php artisan module:make Blog
         },
         "laravel": {
             "providers": [
-                "Hello\\HelloServiceProvider"
+                "OnrampLab\\Hello\\HelloServiceProvider"
             ]
         }
     },

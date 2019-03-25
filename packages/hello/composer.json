@@ -1,10 +1,10 @@
 {
-    "name": "onramplab-lib/hello",
+    "name": "onramplab/hello",
     "require": {
     },
     "autoload": {
         "psr-4": {
-            "Hello\\": "src/"
+            "OnrampLab\\Hello\\": "src/"
         }
     },
     "extra": {
@@ -13,7 +13,7 @@
         },
         "laravel": {
             "providers": [
-                "Hello\\HelloServiceProvider"
+                "OnrampLab\\Hello\\HelloServiceProvider"
             ]
         }
     },

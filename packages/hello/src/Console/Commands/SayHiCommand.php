@@ -1,5 +1,5 @@
 <?php
-namespace Hello\Console\Commands;
+namespace OnrampLab\Hello\Console\Commands;
 use Illuminate\Console\Command;
 class SayHiCommand extends Command
 {
