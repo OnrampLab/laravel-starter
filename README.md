@@ -109,3 +109,10 @@ Deploy 到 production
 ```bash
 CI_BRANCH=master cap production deploy
 ```
+
+### How to trigger CircleCI to deploy
+1. You will need to set up a deploy key for CircleCI to have git permission
+1. You will need to set up a ssh private key for CircleCI to deploy
+1. Tag a version
+  1. Run `npm version patch`, `npm version minor` or `npm major` to tag a version
+  1. Push your new commits with `git push --follow-tags`
