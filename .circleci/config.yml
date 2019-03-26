@@ -11,18 +11,10 @@ jobs:
   build:
     working_directory: ~/app
     docker:
-      - image: ruby:2.2.3
+      - image: circleci/ruby:2.4.2-jessie-node
         cmd: ["/bin/bash"]
 
     steps:
-      - run:
-          name: Install System Libs
-          command: |
-            apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
-            echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-            apt -qq update
-            apt install -y -qq git yarn bcrypt
-
       - checkout
 
       - restore_cache:
@@ -32,6 +24,8 @@ jobs:
           name: Install Dependencies
           command: |
             cp .env.example .env
+            php artisan key:generate
+            phpunit
 
       - deploy:
           command: |
