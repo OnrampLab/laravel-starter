@@ -1,11 +1,3 @@
-# https://discuss.circleci.com/t/build-on-tag/9864/42
-# NOTE: a workaround that make circle-ci 2.0 support $CIRCLE_TAG environment variable
-deployment:
-  fake_deploy_for_production:
-    tag: /.*/
-    commands:
-      - echo "make tags run in 2.0"
-
 version: 2
 jobs:
   build:
@@ -21,26 +13,9 @@ jobs:
           key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
 
       - run:
-          name: Install Dependencies
+          name: Copy environment variables
           command: |
             cp .env.example .env
-            php artisan key:generate
-            phpunit
-
-      - deploy:
-          command: |
-            bundle install
-
-            echo "current branch is ${CIRCLE_BRANCH}"
-            echo "current tag is ${CIRCLE_TAG}"
-
-            if [[ -n "${CIRCLE_TAG}" ]]; then
-              CI_BRANCH="${CIRCLE_TAG}" cap production deploy
-            #elif [[ "${CIRCLE_BRANCH}" == "master" ]]; then
-            #  CI_BRANCH=master cap staging deploy
-            #else
-            #  CI_BRANCH="${CIRCLE_TAG}" cap dev deploy
-            fi
 
       - save_cache:
           key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
@@ -48,3 +23,40 @@ jobs:
             - /var/lib/gems
             - /usr/local/bin/cap
             - /usr/local/bin/capify
+  deploy:
+    docker:
+      - image: circleci/ruby:2.4.2-jessie-node
+        cmd: ["/bin/bash"]
+    steps:
+      - checkout
+      - run:
+          name: Copy environment variables
+          command: |
+            cp .env.example .env
+      - deploy:
+          command: |
+            gem install bundler -v 1.17.3
+            bundle check || bundle install
+
+            echo "current branch is ${CIRCLE_BRANCH}"
+            echo "current tag is ${CIRCLE_TAG}"
+
+            if [[ -n "${CIRCLE_TAG}" ]]; then
+              CI_BRANCH="${CIRCLE_TAG}" cap production deploy --trace
+            elif [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+              CI_BRANCH=master cap staging deploy --trace
+            fi
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: master
