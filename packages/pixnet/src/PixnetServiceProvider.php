@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace OnrampLab\Hello;
+namespace OnrampLab\Pixnet;
 use Illuminate\Support\ServiceProvider;
-class HelloServiceProvider extends ServiceProvider
+class PixnetServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -33,7 +33,6 @@ class HelloServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Console\Commands\SayHiCommand::class,
             ]);
         }
     }

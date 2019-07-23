@@ -29,6 +29,11 @@
         <testsuite name="Modules-Unit">
             <directory suffix="Test.php">./Modules/**/Tests/Unit/**</directory>
         </testsuite>
+
+        <testsuite name="Packages">
+            <directory suffix="Test.php">./packages/**/tests</directory>
+            <directory suffix="Test.php">./packages/**/tests/**</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
+use OnrampLab\Pixnet\Api\Client as PixnetClient;
+
 class CoreController extends Controller
 {
     /**
@@ -75,5 +77,24 @@ class CoreController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function getSpots()
+    {
+        $client = PixnetClient::create();
+
+        $filters = [
+            'format' => 'json',
+            'type' => 'tag',
+            'key' => '台東景點',
+        ];
+
+        $result = $client->article->search($filters);
+
+
     }
 }
