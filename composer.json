@@ -13,7 +13,8 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "nwidart/laravel-modules": "^5.0",
-        "onramplab/hello": "^1.0@dev"
+        "onramplab/hello": "^1.0@dev",
+        "prettus/l5-repository": "^2.6"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
