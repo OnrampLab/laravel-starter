@@ -85,6 +85,13 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'testing_sqlite' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', false),
+        ],
+
     ],
 
     /*
