@@ -1,38 +1,46 @@
-version: 2
-jobs:
-  build:
-    working_directory: ~/app
-    docker:
-      - image: circleci/ruby:2.4.2-jessie-node
-        cmd: ["/bin/bash"]
+version: 2.1
 
+commands:
+  build_and_test:
+    description: "Build and test"
     steps:
       - checkout
-
+      - restore_cache:
+          key: dependency-cache-composer-{{ checksum "composer.lock" }}
+      - run:
+          name: Copy environment variables
+          command: |
+            cp .env.example .env
+      - run:
+          name: Install pcntl extension
+          command: sudo docker-php-ext-install pcntl
+      - run:
+          name: Install composer packages
+          command: |
+            composer install
+      - save_cache:
+          key: dependency-cache-composer-{{ checksum "composer.lock" }}
+          paths:
+            - ~/app/vendor
+      - run:
+          name: Test
+          command: |
+            php artisan key:generate
+            vendor/bin/phpunit
+  deploy_to_server:
+    description: "Deploy"
+    steps:
+      - checkout
       - restore_cache:
           key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
-
       - run:
           name: Copy environment variables
           command: |
             cp .env.example .env
-
-      - save_cache:
-          key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
-          paths:
-            - /var/lib/gems
-            - /usr/local/bin/cap
-            - /usr/local/bin/capify
-  deploy:
-    docker:
-      - image: circleci/ruby:2.4.2-jessie-node
-        cmd: ["/bin/bash"]
-    steps:
-      - checkout
       - run:
-          name: Copy environment variables
+          name: Fix host authenticity for wiki.onramplab.com
           command: |
-            cp .env.example .env
+            ssh-keyscan wiki.onramplab.com >> ~/.ssh/known_hosts
       - deploy:
           command: |
             gem install bundler -v 1.17.3
@@ -42,21 +50,75 @@ jobs:
             echo "current tag is ${CIRCLE_TAG}"
 
             if [[ -n "${CIRCLE_TAG}" ]]; then
-              CI_BRANCH="${CIRCLE_TAG}" cap production deploy --trace
+              USERNAME=${CIRCLE_USERNAME} VIA_BASTION=1 CI_BRANCH="${CIRCLE_TAG}" cap production deploy --trace
             elif [[ "${CIRCLE_BRANCH}" == "master" ]]; then
-              CI_BRANCH=master cap staging deploy --trace
+              USERNAME=${CIRCLE_USERNAME} VIA_BASTION=1 CI_BRANCH=master cap staging deploy --trace
             fi
+
+      - save_cache:
+          key: dependency-cache-rubygem-{{ checksum "Gemfile.lock" }}
+          paths:
+            - /var/lib/gems
+            - /usr/local/bin/cap
+            - /usr/local/bin/capify
+
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: circleci/php:7.3.3
+
+    steps:
+      - build_and_test
+
+  build_prod:
+    working_directory: ~/app
+    docker:
+      - image: circleci/php:7.3.3
+
+    steps:
+      - build_and_test
+
+  deploy_staging:
+    docker:
+      - image: circleci/ruby:2.4.2-jessie-node
+
+    steps:
+      - deploy_to_server
+
+  deploy_prod:
+    docker:
+      - image: circleci/ruby:2.4.2-jessie-node
+
+    steps:
+      - deploy_to_server
 
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
-      - deploy:
+      - deploy_staging:
           requires:
             - build
           filters:
-            tags:
-              only: /.*/
             branches:
               only: master
+      - build_prod:
+          filters:  # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - deploy_prod:
+          requires:
+            - build_prod
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+notify:
+  webhooks:
+    - url: https://outlook.office.com/webhook/13ff7064-18ae-46ae-be31-c4e270887265@2ba2b2cc-b763-4ff2-a082-b58860f92d89/CircleCI/e2ee1fd1a9e34454b4d21b3667c650c2/3c10f313-e3bc-44a5-b0b4-dc78f67daa8e
