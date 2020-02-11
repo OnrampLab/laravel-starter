@@ -1,5 +1,14 @@
 version: 2.1
 
+defaults: &defaults
+  working_directory: ~/app
+  docker:
+    - image: circleci/php:7.3.3
+    - image: circleci/mysql:5.7-ram
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: testing_db
+
 commands:
   build_and_test:
     description: "Build and test"
@@ -12,8 +21,10 @@ commands:
           command: |
             cp .env.example .env
       - run:
-          name: Install pcntl extension
-          command: sudo docker-php-ext-install pcntl
+          name: Install php extensions
+          command: |
+            sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+            sudo docker-php-ext-install pcntl pdo_mysql
       - run:
           name: Install composer packages
           command: |
@@ -26,7 +37,7 @@ commands:
           name: Test
           command: |
             php artisan key:generate
-            vendor/bin/phpunit
+            DB_CONNECTION=testing_mysql DB_HOST=127.0.01 DB_DATABASE=testing_db vendor/bin/phpunit
   deploy_to_server:
     description: "Deploy"
     steps:
@@ -64,18 +75,12 @@ commands:
 
 jobs:
   build:
-    working_directory: ~/app
-    docker:
-      - image: circleci/php:7.3.3
-
+    <<: *defaults
     steps:
       - build_and_test
 
   build_prod:
-    working_directory: ~/app
-    docker:
-      - image: circleci/php:7.3.3
-
+    <<: *defaults
     steps:
       - build_and_test
 
