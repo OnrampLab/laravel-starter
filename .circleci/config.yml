@@ -98,26 +98,26 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy_staging:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+      # - deploy_staging:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: master
       - build_prod:
           filters:  # required since `deploy` has tag filters AND requires `build`
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
-      - deploy_prod:
-          requires:
-            - build_prod
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+      # - deploy_prod:
+      #     requires:
+      #       - build_prod
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
 
 notify:
   webhooks:
