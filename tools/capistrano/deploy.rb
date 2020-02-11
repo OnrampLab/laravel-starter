@@ -36,7 +36,7 @@ set :default_env, {
 # laravel setting
 set :laravel_working_dir, "./"
 set :laravel_dotenv_file, '' # do not copy local .env to the server
-set :laravel_version, 5.7
+set :laravel_version, 6.14
 set :laravel_upload_dotenv_file_on_deploy, false
 set :laravel_artisan_flags, "--env=production"
 set :laravel_set_linked_dirs, false
