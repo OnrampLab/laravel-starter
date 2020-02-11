@@ -12,14 +12,3 @@ RUN	mv composer.phar /usr/local/bin/composer
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install pdo_mysql
 RUN echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> ~/.bashrc
-RUN git clone http://github.com/creationix/nvm.git /root/.nvm;
-RUN chmod -R 777 /root/.nvm/;
-RUN bash /root/.nvm/install.sh;
-RUN bash -i -c "nvm ls-remote";
-RUN bash -i -c "nvm install 10.13.0";
-
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get install apt-transport-https ca-certificates -y
-RUN apt-get install libpng-dev -y --no-install-recommends
-RUN apt-get update && apt-get install --no-install-recommends yarn

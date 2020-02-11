@@ -19,8 +19,19 @@ services:
         cd app;
         composer install;
         php artisan migrate;
-        yarn install;
         php artisan serve --host 0.0.0.0
+        "
+
+  node:
+    image: node:12.15.0
+    volumes:
+      - ./:/app
+    command:
+      >
+        bash -i -c -e
+        "
+        cd app;
+        yarn install;
         "
 
   db:
