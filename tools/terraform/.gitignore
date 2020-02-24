@@ -1,0 +1,6 @@
+.idea/
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+key-default
+key-default.pub

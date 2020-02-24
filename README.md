@@ -8,6 +8,7 @@
 * deploy tool (Capistrano)
 * CI (CircleCI)
 * Docker 開發環境 (phpmyadmin, mysql)
+* 使用 Terraform 建置 AWS 環境 (VPC, RDS, EC2)
 * 系統需求：
   * nvm
   * yarn
@@ -81,6 +82,22 @@ composer require onramplab-lib/hello
 ## Development environment with Docker
 1. Update `.env` file with for docker
 1. run `docker-compose up`
+
+## Provisioning
+### Install terraform
+至 https://www.terraform.io/downloads.html 下載並安裝
+
+### Init terraform
+```
+cd tools/terraform
+terraform init
+```
+
+### Start provisioning
+```
+cd tools/terraform
+terraform apply
+```
 
 ## Deployment
 ### Requirements
