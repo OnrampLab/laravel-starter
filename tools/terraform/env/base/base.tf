@@ -27,12 +27,12 @@ module "rds" {
 
 // vm
 module "ec2" {
-  source           = "../../modules/ec2"
-  environment      = var.environment
-  bu               = var.bu
-  project_name     = var.project_name
-  stack_name       = var.stack_name
-  vpc_id           = module.vpc.vpc_id
-  public_subnet_id = module.vpc.public_subnet_ids[0]
-  public_ips       = var.public_ips
+  source       = "../../modules/ec2"
+  environment  = var.environment
+  bu           = var.bu
+  project_name = var.project_name
+  stack_name   = var.stack_name
+  vpc_id       = module.vpc.vpc_id
+  subnet_ids   = module.vpc.public_subnet_ids
+  public_ips   = var.public_ips
 }

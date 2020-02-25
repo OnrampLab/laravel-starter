@@ -6,7 +6,7 @@ variable "bu" {}
 
 variable "project_name" {}
 
-variable "public_subnet_id" {}
+variable "subnet_ids" {}
 
 variable "vpc_id" {}
 

@@ -25,6 +25,64 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+# ALB
+
+resource "aws_security_group" "lb_sg" {
+  description = "controls access to the application ELB"
+
+  vpc_id = var.vpc_id
+  name   = "${var.stack_name}-lbsg"
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
+  }
+}
+
+resource "aws_alb_target_group" "alb_tg" {
+  name     = "${var.stack_name}-tg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
+
+resource "aws_alb" "alb" {
+  name            = "${var.stack_name}-alb"
+  subnets         = var.subnet_ids
+  security_groups = [aws_security_group.lb_sg.id]
+}
+
+resource "aws_alb_listener" "web" {
+  load_balancer_arn = aws_alb.alb.id
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_alb_target_group.alb_tg.id
+    type             = "forward"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "svc_physical_external" {
+  target_group_arn = aws_alb_target_group.alb_tg.arn
+  target_id        = aws_instance.vm.id
+  port             = 80
+}
+
+# EC2
+
 resource "aws_eip_association" "proxy_eip" {
   count         = local.use_eip == true ? 1 : 0
   instance_id   = aws_instance.vm.id
@@ -37,7 +95,7 @@ resource "aws_instance" "vm" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.generated.key_name
   vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
-  subnet_id                   = var.public_subnet_id
+  subnet_id                   = var.subnet_ids[0]
   iam_instance_profile        = aws_iam_instance_profile.vm_profile.name
 
   tags = {
@@ -72,13 +130,6 @@ resource "aws_security_group" "ec2_security_group" {
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 2376
-    to_port     = 2376
     cidr_blocks = ["0.0.0.0/0"]
   }
 
