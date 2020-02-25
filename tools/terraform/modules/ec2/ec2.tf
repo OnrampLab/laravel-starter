@@ -231,3 +231,37 @@ resource "null_resource" "chmod" {
     command = "chmod 400 ${local.private_key_filename}"
   }
 }
+
+resource "null_resource" "install_python_for_vm" {
+  depends_on = [aws_instance.vm, local_file.private_key_pem]
+
+  connection {
+    host        = aws_instance.vm.public_ip
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(local.private_key_filename)
+  }
+
+  # Instance need python to run ansible commands
+  provisioner "remote-exec" {
+    inline = ["sudo apt-get -qq install python -y"]
+  }
+}
+
+resource "null_resource" "ansible" {
+  depends_on = [aws_instance.vm, local_file.private_key_pem]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      >hosts.ini;
+      echo "[hosts]" | tee -a hosts.ini;
+      echo "${aws_instance.vm.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=${local.private_key_filename}" | tee -a hosts.ini;
+      ansible-playbook -i hosts.ini ../../../ansible/provision-${lower(var.environment)}.yml
+    EOT
+
+    environment = {
+      ANSIBLE_HOST_KEY_CHECKING = "False"
+      ANSIBLE_CONFIG            = "../../../ansible/ansible.cfg"
+    }
+  }
+}
