@@ -1,0 +1,10 @@
+mysql_root_password: super-secure-password
+mysql_databases:
+  - name: laravel_starter
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
+mysql_users:
+  - name: laravel_starter_user
+    host: "%"
+    password: similarly-secure-password
+    priv: "laravel_starter.*:ALL"
