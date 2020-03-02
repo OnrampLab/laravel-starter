@@ -1,6 +1,7 @@
 ---
   - hosts: hosts
-
+    vars:
+      site_name: www.laravel-starter.com
     roles:
       - phpbrew
       - nginx

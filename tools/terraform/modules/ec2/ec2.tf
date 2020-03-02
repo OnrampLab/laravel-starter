@@ -239,7 +239,7 @@ resource "null_resource" "install_python_for_vm" {
     host        = aws_instance.vm.public_ip
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file(local.private_key_filename)
+    private_key = file(local_file.private_key_pem)
   }
 
   # Instance need python to run ansible commands
@@ -249,7 +249,7 @@ resource "null_resource" "install_python_for_vm" {
 }
 
 resource "null_resource" "ansible" {
-  depends_on = [aws_instance.vm, local_file.private_key_pem]
+  depends_on = [null_resource.install_python_for_vm, aws_instance.vm, local_file.private_key_pem]
 
   provisioner "local-exec" {
     command = <<EOT
