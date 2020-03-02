@@ -1,3 +1,13 @@
+terraform {
+  backend "s3" {
+    # NOTE: need to create a s3 bucket and set bucket name
+    # https://www.terraform.io/docs/backends/types/s3.html
+    bucket = "laravel-starter-production-terraform-backend"
+    key    = "terraform.tfstate"
+    region = "us-west-1"
+  }
+}
+
 // base
 module "base" {
   source       = "../base"
