@@ -239,7 +239,7 @@ resource "null_resource" "install_python_for_vm" {
     host        = aws_instance.vm.public_ip
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file(local_file.private_key_pem)
+    private_key = file(local_file.private_key_pem.filename)
   }
 
   # Instance need python to run ansible commands
