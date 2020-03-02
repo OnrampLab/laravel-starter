@@ -8,7 +8,7 @@
 * deploy tool (Capistrano)
 * CI (CircleCI)
 * Docker 開發環境 (phpmyadmin, mysql)
-* 使用 Terraform 建置 AWS 環境 (VPC, RDS, EC2)
+* 使用 Terraform 與 Ansible 建置 AWS 環境 (VPC, RDS, EC2)
 * 系統需求：
   * nvm
   * yarn
@@ -84,18 +84,34 @@ composer require onramplab-lib/hello
 1. run `docker-compose up`
 
 ## Provisioning
-### Install terraform
+### Install Terraform
 至 https://www.terraform.io/downloads.html 下載並安裝
+
+### Install Ansible
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+and then install requirements
+
+```
+cd tools/ansible
+ansible-galaxy install -r requirements.yml
+```
+
+### Create AWS S3 Bucket
+
+https://www.terraform.io/docs/backends/types/s3.html
+
+update bucket name in your master.tf for the env (e.g. tools/terraform/env/production)
 
 ### Init terraform
 ```
-cd tools/terraform
+cd tools/terraform/env/production
 terraform init
 ```
 
 ### Start provisioning
 ```
-cd tools/terraform
+cd tools/terraform/env/production
 terraform apply
 ```
 
