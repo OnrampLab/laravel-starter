@@ -4,5 +4,6 @@
       site_name: staging.laravel-starter.com
     roles:
       - phpbrew
+      - role : geerlingguy.composer
       - nginx
       - role: geerlingguy.mysql
