@@ -1,2 +1,6 @@
 - src: geerlingguy.mysql
 - src: geerlingguy.composer
+- src: moviedo.nvm
+- src: oefenweb.yarn
+- src: geerlingguy.pip
+- src: geerlingguy.supervisor

@@ -6,7 +6,7 @@ Documentation=https://github.com/gitinsky/ansible-role-phpbrew
 Type=forking
 User=root
 Group=root
-ExecStart=/opt/phpbrew/php/php-{{ phpbrew_php_version }}/sbin/php-fpm -y /opt/phpbrew/php/php-{{ phpbrew_php_version }}/etc/php-fpm.conf
+ExecStart=/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/sbin/php-fpm -y /home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/etc/php-fpm.conf
 StandardOutput=journal
 StandardError=journal
 

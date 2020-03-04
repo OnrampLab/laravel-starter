@@ -19,3 +19,11 @@
     dest: "/etc/nginx/sites-enabled/{{ site_name }}"
   notify:
   - restart nginx
+
+- name: Create folder for deployment if it does not exist
+  file:
+    path: /opt/www
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'

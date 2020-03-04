@@ -20,13 +20,3 @@ set :ssh_options, {
   auth_methods: %w(publickey password),
   proxy: fetch(:ssh_proxy, nil)
 }
-
-### ============================================================
-
-### service restart
-after 'deploy:symlink:release', :update_php_fpm do
-  on roles(:app), in: :groups, limit: 3, wait: 10 do
-    execute :phpbrew, :fpm, :start
-    execute :sudo, :service, :supervisor, :reload
-  end
-end

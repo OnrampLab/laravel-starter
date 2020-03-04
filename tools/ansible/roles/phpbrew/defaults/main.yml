@@ -1,7 +1,7 @@
 phpbrew_php_version: 7.3.3
 phpbrew_php_variants: "+default +mysql +pdo +curl +gd +soap +fpm +hash +openssl=/usr/include/openssl/opensslv.h -- --with-gd=shared --with-openssl --with-jpeg-dir=/usr --with-png-dir=/usr --with-webp-dir=/usr"
-phpbrew_enable_php_fpm_service: True
-phpbrew_php_fpm_listen: "/opt/phpbrew/php/php-{{ phpbrew_php_version }}/var/run/php-fpm.sock"
+phpbrew_enable_php_fpm_service: False
+phpbrew_php_fpm_listen: "/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/var/run/php-fpm.sock"
 phpbrew_php_fpm_user: www-data
 phpbrew_php_fpm_group: www-data
 phpbrew_php_fpm_pm_max_children: 5
@@ -9,7 +9,7 @@ phpbrew_php_fpm_pm_max_requests: 0
 phpbrew_php_fpm_pm_status_path: "/phpbrew_php_fpm_pm_status_path"
 phpbrew_php_fpm_request_slowlog_timeout: 0
 phpbrew_php_fpm_request_terminate_timeout: 0
-phpbrew_php_fpm_request_slowlog: "/opt/phpbrew/php/php-{{ phpbrew_php_version }}/var/log/$pool.log.slow"
+phpbrew_php_fpm_request_slowlog: "/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/var/log/$pool.log.slow"
 
 phpbrew_requirements:
   - build-essential

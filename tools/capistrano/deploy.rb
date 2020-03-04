@@ -77,11 +77,13 @@ if ENV['VIA_BASTION']
   set :ssh_proxy, Net::SSH::Proxy::Jump.new("#{bastion_user}@#{bastion_host}")
 end
 
-
-
-
-
-
+### service restart
+after 'deploy:symlink:release', :update_php_fpm do
+  on roles(:app), in: :groups, limit: 3, wait: 10 do
+    execute "#{fetch(:exec_phpbrew)} && phpbrew fpm start"
+    execute :sudo, :service, :supervisord, :reload
+  end
+end
 
 ### ============================================================
 namespace :deploy do

@@ -8,9 +8,6 @@
 - name: install PHP CLI interpreter
   apt: name=php-cli state=present
 
-- name: create phpbrew root
-  file: state=directory dest=/opt/phpbrew
-
 - name: Install system packages
   apt: name={{ item }} state=present
   with_items: "{{ phpbrew_requirements }}"
@@ -24,26 +21,32 @@
     autoremove: yes
 
 - name: run phpbrew init
-  shell: phpbrew init --root=/opt/phpbrew
+  shell: phpbrew init
+  become_user: ubuntu
+
 
 - name: create a PHP environment with phpbrew
-  shell: PHPBREW_ROOT=/opt/phpbrew PHPBREW_HOME=/opt/phpbrew phpbrew install {{ phpbrew_php_version }} {{ phpbrew_php_variants }} creates="/opt/phpbrew/php/php-{{ phpbrew_php_version }}/bin/php"
+  shell: phpbrew install {{ phpbrew_php_version }} {{ phpbrew_php_variants }} creates="/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/bin/php"
+  become_user: ubuntu
 
 - name: install PHP extensions
-  shell: bash -c "export PHPBREW_ROOT=/opt/phpbrew && export PHPBREW_HOME=/opt/phpbrew && source /root/.phpbrew/bashrc && phpbrew switch php-{{ phpbrew_php_version }} && phpbrew ext install {{ item.name }}" creates="/opt/phpbrew/php/php-{{ phpbrew_php_version }}/var/db/{{ item.config }}"
+  shell: bash -c "source /home/ubuntu/.phpbrew/bashrc && phpbrew switch php-{{ phpbrew_php_version }} && phpbrew ext install {{ item.name }}" creates="/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/var/db/{{ item.config }}"
+  become_user: ubuntu
   with_items:
     - { name: gd, config: "gd.ini" }
     - { name: curl, config: "curl.ini" }
   notify: "restart php-fpm"
 
 - name: put php-fpm.conf
-  template: src=php-fpm.conf dest="/opt/phpbrew/php/php-{{ phpbrew_php_version }}/etc/php-fpm.conf"
+  template: src=php-fpm.conf dest="/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/etc/php-fpm.conf"
+  become_user: ubuntu
   when: "phpbrew_enable_php_fpm_service"
   notify: "restart php-fpm"
 
 - name: set timezone in php.ini
+  become_user: ubuntu
   lineinfile:
-    dest: "/opt/phpbrew/php/php-{{ phpbrew_php_version }}/etc/php.ini"
+    dest: "/home/ubuntu/.phpbrew/php/php-{{ phpbrew_php_version }}/etc/php.ini"
     regexp: "^;date.timezone ="
     line: "date.timezone = \"{{ timezone }}\""
   when: "timezone|default(False) != False"
@@ -53,7 +56,7 @@
   template: src=php-fpm.service dest="/etc/systemd/system/php-fpm{{ phpbrew_php_version | regex_replace('\\.', '_') }}.service" owner=root group=root mode=0644
   when: "phpbrew_enable_php_fpm_service and ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '8') or (ansible_distribution == 'Ubuntu' and (ansible_distribution_version|version_compare(14.04, '>'))))"
 
-# add to sudo service
-# - name: enable php-fpm service
-#   service: name="php-fpm{{ phpbrew_php_version | regex_replace('\\.', '_') }}" enabled=yes state=started
-#   when: "phpbrew_enable_php_fpm_service and ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '8') or (ansible_distribution == 'Ubuntu' and (ansible_distribution_version|version_compare(14.04, '>'))))"
+add to sudo service
+- name: enable php-fpm service
+  service: name="php-fpm{{ phpbrew_php_version | regex_replace('\\.', '_') }}" enabled=yes state=started
+  when: "phpbrew_enable_php_fpm_service and ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '8') or (ansible_distribution == 'Ubuntu' and (ansible_distribution_version|version_compare(14.04, '>'))))"

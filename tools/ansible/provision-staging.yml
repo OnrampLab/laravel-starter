@@ -3,7 +3,14 @@
     vars:
       site_name: staging.laravel-starter.com
     roles:
-      - phpbrew
-      - role : geerlingguy.composer
+      - role: geerlingguy.mysql # only on mysql
       - nginx
-      - role: geerlingguy.mysql
+      - phpbrew
+      - role: oefenweb.yarn
+      - role: geerlingguy.pip
+      - role: geerlingguy.supervisor
+      - role: geerlingguy.composer
+      - role: moviedo.nvm
+        nvm_user: ubuntu
+        nvm_version: "v0.35.2"
+        nvm_node_version: "12.15.0"
