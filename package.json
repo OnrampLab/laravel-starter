@@ -27,7 +27,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-mocha": "^6.2.2",
     "eslint-plugin-react": "^7.18.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "laravel-mix": "^5.0.1",
     "lodash": "^4.17.15",
     "popper.js": "^1.16.1",
