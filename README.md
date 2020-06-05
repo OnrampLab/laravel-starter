@@ -1,14 +1,23 @@
 # laravel-starter
 
-為了讓公司有統一的 coding style 以及方便開始一個新專案並套用我們的 best practice，所以希望可以建立一個 github repo 符合下面的幾個 best practice
+為了讓公司有統一的 coding style 以及方便開始一個新專案並套用我們的 best practice，所以希望可以建立一個 github repo 符合下面的幾個 best practices
 
-* 最新的 laravel (6.x)
+* 最新的 Laravel (7.x)
   * 以 feature 當一個 module
   * 有 local composer packages
-* deploy tool (Capistrano)
-* CI (CircleCI)
-* Docker 開發環境 (phpmyadmin, mysql)
-* 使用 Terraform 與 Ansible 建置 AWS 環境 (VPC, RDS, EC2)
+* Useful Laravel packages
+  * owen-it/laravel-auditing: handle entity change logs
+* DevOps Tools
+  * Development Environment
+    * Docker (phpmyadmin, mysql)
+  * Provisioning tools
+    * Terraform (AWS VPC, RDS, EC2)
+    * Ansible
+  * Deployment tools
+    * Capistrano
+  * CI (CircleCI)
+    * Static Code Analysis
+    * Unit Testing
 * 系統需求：
   * nvm
   * yarn
