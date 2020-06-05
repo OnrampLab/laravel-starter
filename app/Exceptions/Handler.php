@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,9 +51,32 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if (strpos($request->header('Content-Type'), 'application/json') !== false) {
+            $status = 500;
+
+            if ($this->isHttpException($exception)) {
+                // Grab the HTTP status code from the Exception
+                $status = $exception->getStatusCode();
+            }
+
+            if ($exception instanceof AuthenticationException || $exception instanceof JWTException) {
+                $status = 401;
+            }
+
+            $message = $exception->getMessage();
+
+            if ($exception instanceof NotFoundHttpException) {
+                $message = 'Route not found';
+            }
+
+            Log::error("[Handler] $message", [
+                'url' => $request->fullUrl(),
+                'data' => $request->except(['password']),
+                'exception' => $exception,
+            ]);
+
             return response()->json([
-                'message' => $exception->getMessage(),
-            ], 500);
+                'message' => $message,
+            ], $status);
         } elseif ($this->isHttpException($exception)) {
             return $this->renderHttpException($exception);
         }
