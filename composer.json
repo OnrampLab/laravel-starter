@@ -16,6 +16,7 @@
         "laravel/ui": "^2.0",
         "nwidart/laravel-modules": "^6.0",
         "onramplab/hello": "^1.0@dev",
+        "owen-it/laravel-auditing": "^10.0",
         "phpunit/phpunit": "^8.5",
         "prettus/l5-repository": "^2.6"
     },
