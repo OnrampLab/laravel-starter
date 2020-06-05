@@ -24,6 +24,7 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^4.1",
+        "nunomaduro/larastan": "^0.5.8",
         "sempro/phpunit-pretty-print": "^1.0"
     },
     "repositories": [
@@ -60,6 +61,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "code:analysis": [
+            "phpstan analyse"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
