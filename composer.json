@@ -13,6 +13,7 @@
         "fideloper/proxy": "^4.2",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.0",
         "nwidart/laravel-modules": "^6.0",
         "onramplab/hello": "^1.0@dev",
         "phpunit/phpunit": "^8.5",
