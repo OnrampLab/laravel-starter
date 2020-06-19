@@ -33,7 +33,7 @@ php artisan module:make Blog
 ```
 
 ## local packages
-如果要建立一個 package `hello`，範例如下
+如果要建立一個 package `auth-util`，範例如下
 
 1. 建立檔案 packages/auth-util/composer.json
 ```json
@@ -43,7 +43,7 @@ php artisan module:make Blog
     },
     "autoload": {
         "psr-4": {
-            "Hello\\": "src/"
+            "AuthUtil\\": "src/"
         }
     },
     "extra": {
@@ -52,7 +52,7 @@ php artisan module:make Blog
         },
         "laravel": {
             "providers": [
-                "OnrampLab\\Hello\\HelloServiceProvider"
+                "OnrampLab\\AuthUtil\\AuthUtilServiceProvider"
             ]
         }
     },
@@ -64,7 +64,7 @@ php artisan module:make Blog
 }
 ```
 
-2. 將 `hello` 加到 `require` 與 `repositories` block
+2. 將 `auth-util` 加到 `require` 與 `repositories` block
 ```json
 "require": {
     "php": "^7.1.3",
@@ -72,20 +72,20 @@ php artisan module:make Blog
     "laravel/framework": "5.8.*",
     "laravel/tinker": "^1.0",
     "nwidart/laravel-modules": "^5.0",
-    "onramplab-lib/hello": "^1.0@dev"
+    "onramplab-lib/auth-util": "^1.0@dev"
 },
 ...
 "repositories": [
     {
         "type": "path",
-        "url": "packages/hello"
+        "url": "packages/auth-util"
     }
 ],
 ```
 
 3. 安裝 package
 ```bash
-composer require onramplab-lib/hello
+composer require onramplab-lib/auth-util
 ```
 
 ## Development environment with Docker
