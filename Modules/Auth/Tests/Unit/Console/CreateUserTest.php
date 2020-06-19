@@ -10,7 +10,6 @@ use Modules\Auth\Entities\User;
 use Tests\TestCase;
 
 /**
- * @group only
  * @group console
  */
 class CreateUserTest extends TestCase
