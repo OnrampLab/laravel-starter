@@ -1,0 +1,29 @@
+<?php
+
+namespace Modules\Auth\Tests\Entities;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\Auth\Entities\User;
+
+class UserTest extends TestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->make();
+    }
+
+    /**
+     * @test
+     */
+    public function properties()
+    {
+        $this->assertNotNull($this->user->name);
+        $this->assertNotNull($this->user->email);
+        $this->assertNotNull($this->user->email_verified_at);
+        $this->assertNotNull($this->user->password);
+        $this->assertNotNull($this->user->remember_token);
+    }
+}
