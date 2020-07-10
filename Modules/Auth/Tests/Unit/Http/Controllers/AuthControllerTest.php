@@ -123,7 +123,7 @@ class AuthControllerTest extends TestCase
      *
      * @return void
      */
-    public function refresh_should_get_a_new_token_and_invalid_old_token()
+    public function refresh_should_get_a_new_token()
     {
         $token = auth()->attempt($this->userData);
         $url = '/api/auth/refresh';
@@ -137,8 +137,6 @@ class AuthControllerTest extends TestCase
                 'access_token', 'expires_in', 'token_type'
             ],
         ]);
-
-        $this->assertFailedToken($this->token);
     }
 
     public function assertFailedToken($token)
