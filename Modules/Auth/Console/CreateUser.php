@@ -2,12 +2,12 @@
 
 namespace Modules\Auth\Console;
 
-use Hash;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Modules\Auth\Services\UserService;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+
+use Modules\Auth\Services\CreateUserService;
 
 class CreateUser extends Command
 {
@@ -26,20 +26,20 @@ class CreateUser extends Command
     protected $description = 'Create a user.';
 
     /**
-     * @var UserService
+     * @var CreateUserService
      */
-    protected $userService;
+    protected $createUserService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(UserService $userService)
+    public function __construct(CreateUserService $createUserService)
     {
         parent::__construct();
 
-        $this->userService = $userService;
+        $this->createUserService = $createUserService;
     }
 
     /**
@@ -56,7 +56,7 @@ class CreateUser extends Command
             'password' => $this->argument('password') ?? $randomPassword,
         ];
 
-        $this->userService->createUser($userData);
+        $this->createUserService->perform($userData);
 
         $this->info('User created, password: ' . $userData['password']);
     }
