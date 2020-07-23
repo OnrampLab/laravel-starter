@@ -10,6 +10,7 @@ use Modules\Auth\Entities\User;
 use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Services\GetUserService;
+use Modules\Auth\Services\UpdateUserService;
 
 class UserControllerTest extends TestCase
 {
@@ -30,6 +31,9 @@ class UserControllerTest extends TestCase
 
         $this->getUserServiceMock = Mockery::mock(GetUserService::class);
         $this->app->instance(GetUserService::class, $this->getUserServiceMock);
+
+        $this->updateUserServiceMock = Mockery::mock(UpdateUserService::class);
+        $this->app->instance(UpdateUserService::class, $this->updateUserServiceMock);
     }
 
     /**
@@ -112,6 +116,43 @@ class UserControllerTest extends TestCase
             ->andReturn($this->user);
 
         $response = $this->getAuthedRequest()->json('GET', $url);
+
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'email',
+                'roles',
+                'accounts',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function update()
+    {
+        $url = "/api/users/{$this->user->id}";
+        $payload = [
+            'name' => 'test',
+            'email' => 'test@test.com',
+            'roles' => ['role2'],
+            'accounts' => [1, 2]
+        ];
+
+        $this->updateUserServiceMock
+            ->shouldReceive('perform')
+            ->once()
+            ->withArgs(function ($attributes, $userId) use ($payload) {
+                return $attributes === $payload
+                    && $userId === $this->user->id;
+            })
+            ->andReturn($this->user);
+
+        $response = $this->getAuthedRequest()->json('PATCH', $url, $payload);
 
         $response->assertStatus(201);
         $response->assertJsonStructure([

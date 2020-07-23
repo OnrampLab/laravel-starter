@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Services\GetUserService;
+use Modules\Auth\Services\UpdateUserService;
 use Modules\Auth\Http\Resources\UserResource;
 
 class UserController extends Controller
@@ -28,14 +29,21 @@ class UserController extends Controller
      */
     protected $getUserService;
 
+    /**
+     * @var UpdateUserService
+     */
+    protected $updateUserService;
+
     public function __construct(
         CreateUserService $createUserService,
         ListUserService $listUserService,
-        GetUserService $getUserService
+        GetUserService $getUserService,
+        UpdateUserService $updateUserService
     ){
         $this->createUserService = $createUserService;
         $this->listUserService = $listUserService;
         $this->getUserService = $getUserService;
+        $this->updateUserService = $updateUserService;
     }
 
     /**
@@ -96,12 +104,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param int $userId
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $userId)
     {
-        //
+        $payload = $request->input();
+        $user = $this->updateUserService->perform($payload, $userId);
+
+        return new UserResource($user);
     }
 
     /**
