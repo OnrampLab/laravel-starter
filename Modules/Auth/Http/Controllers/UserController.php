@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Modules\Auth\Services\CreateUserService;
+use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Http\Resources\UserResource;
 
 class UserController extends Controller
@@ -16,10 +17,17 @@ class UserController extends Controller
      */
     protected $createUserService;
 
+    /**
+     * @var ListUserService
+     */
+    protected $listUserService;
+
     public function __construct(
-        CreateUserService $createUserService
+        CreateUserService $createUserService,
+        ListUserService $listUserService
     ){
         $this->createUserService = $createUserService;
+        $this->listUserService = $listUserService;
     }
 
     /**
@@ -28,7 +36,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('auth::index');
+        $users = $this->listUserService->perform();
+
+        return UserResource::collection($users);
     }
 
     /**

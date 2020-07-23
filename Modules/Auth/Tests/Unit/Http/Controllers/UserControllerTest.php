@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Modules\Auth\Entities\User;
 use Modules\Auth\Services\CreateUserService;
+use Modules\Auth\Services\ListUserService;
 
 class UserControllerTest extends TestCase
 {
@@ -22,6 +23,9 @@ class UserControllerTest extends TestCase
 
         $this->createUserServiceMock = Mockery::mock(CreateUserService::class);
         $this->app->instance(CreateUserService::class, $this->createUserServiceMock);
+
+        $this->listUserServiceMock = Mockery::mock(ListUserService::class);
+        $this->app->instance(ListUserService::class, $this->listUserServiceMock);
     }
 
     /**
@@ -54,6 +58,35 @@ class UserControllerTest extends TestCase
                 'email',
                 'roles',
                 'accounts',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function index()
+    {
+        $url = '/api/users';
+
+        $this->listUserServiceMock
+            ->shouldReceive('perform')
+            ->once()
+            ->andReturn(collect([$this->user]));
+
+        $response = $this->getAuthedRequest()->json('GET', $url);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'email',
+                    'roles',
+                    'accounts',
+                ],
             ],
         ]);
     }
