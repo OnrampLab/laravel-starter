@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 
 use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
+use Modules\Auth\Services\GetUserService;
 use Modules\Auth\Http\Resources\UserResource;
 
 class UserController extends Controller
@@ -22,12 +23,19 @@ class UserController extends Controller
      */
     protected $listUserService;
 
+     /**
+     * @var GetUserService
+     */
+    protected $getUserService;
+
     public function __construct(
         CreateUserService $createUserService,
-        ListUserService $listUserService
+        ListUserService $listUserService,
+        GetUserService $getUserService
     ){
         $this->createUserService = $createUserService;
         $this->listUserService = $listUserService;
+        $this->getUserService = $getUserService;
     }
 
     /**
@@ -65,12 +73,14 @@ class UserController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param int $userId
      * @return Response
      */
-    public function show($id)
+    public function show(int $userId)
     {
-        return view('auth::show');
+        $user = $this->getUserService->perform($userId);
+
+        return new UserResource($user);
     }
 
     /**
