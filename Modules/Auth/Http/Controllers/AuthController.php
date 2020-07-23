@@ -4,9 +4,11 @@ namespace Modules\Auth\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Resources\Json\JsonResource;
+
+use App\Http\Controllers\Controller;
+use Modules\Auth\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -63,7 +65,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(new UserResource(auth()->user()));
     }
 
     /**
