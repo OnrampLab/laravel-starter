@@ -6,8 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
+use Modules\Auth\Services\CreateUserService;
+use Modules\Auth\Http\Resources\UserResource;
+
 class UserController extends Controller
 {
+    /**
+     * @var CreateUserService
+     */
+    protected $createUserService;
+
+    public function __construct(
+        CreateUserService $createUserService
+    ){
+        $this->createUserService = $createUserService;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -33,7 +47,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $payload = $request->input();
+        $user = $this->createUserService->perform($payload);
+
+        return new UserResource($user);
     }
 
     /**
