@@ -2,12 +2,12 @@
 
 namespace Modules\Auth\Tests\Unit\Console;
 
-use Hash;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Bus;
-use Mockery;
-use Modules\Auth\Entities\User;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
+
+use Modules\Account\Entities\Account;
+use Modules\Auth\Entities\User;
 
 /**
  * @group console
@@ -19,6 +19,10 @@ class CreateUserTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Role::create(['name' => 'system-admin']);
+
+        $this->account = factory(Account::class)->create();
     }
 
     /**
@@ -33,6 +37,8 @@ class CreateUserTest extends TestCase
         $userData = [
             'email' => 'test@test.com',
             'name' => 'Test User',
+            'role' => 'system-admin',
+            'account' => $this->account->id,
             'password' => 'test',
         ];
         $this->artisan('auth:create-user', $userData)
@@ -57,6 +63,8 @@ class CreateUserTest extends TestCase
         $userData = [
             'email' => 'test@test.com',
             'name' => 'Test User',
+            'role' => 'system-admin',
+            'account' => $this->account->id,
         ];
         $this->artisan('auth:create-user', $userData)
             ->assertExitCode(0);

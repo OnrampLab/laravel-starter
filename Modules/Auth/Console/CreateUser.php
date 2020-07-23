@@ -16,7 +16,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'auth:create-user {name} {email} {password?}';
+    protected $signature = 'auth:create-user {name} {email} {role} {account} {password?}';
 
     /**
      * The console command description.
@@ -53,6 +53,8 @@ class CreateUser extends Command
         $userData = [
             'name' => $this->argument('name'),
             'email' => $this->argument('email'),
+            'roles' => [$this->argument('role')],
+            'accounts' => [$this->argument('account')],
             'password' => $this->argument('password') ?? $randomPassword,
         ];
 
@@ -71,6 +73,8 @@ class CreateUser extends Command
         return [
             ['name', InputArgument::REQUIRED, 'Name of the user'],
             ['email', InputArgument::REQUIRED, 'Email of the user'],
+            ['role', InputArgument::REQUIRED, 'Role of the user'],
+            ['account', InputArgument::REQUIRED, 'Accessed account of the user'],
             ['password', InputArgument::OPTIONAL, 'Password of the user, will generate a random password if not given'],
         ];
     }
