@@ -46,6 +46,14 @@ services:
     healthcheck:
       test: "exit 0"
 
+  redis:
+    image:
+      redis:5.0.4
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: "exit 0"
+
   phpmyadmin:
     image:
       phpmyadmin/phpmyadmin:latest

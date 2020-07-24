@@ -23,6 +23,24 @@
   * yarn
   * phpbrew
 
+## Application Architecture
+
+### App
+  * 內建 `laravel-modules` 支援
+  * 內建 `horizon` 支援
+  * 內建 `laravel-cors` 支援
+  * 整合 `l5-repository` ，方便建立 `Repository`
+
+### Modules
+  * Account
+    * 提供多帳號的支援，每個帳號可以擁有各自的使用者
+  * Auth
+    * 使用者管理
+    * JWT 登入
+    * 使用 `laravel-permission` 做權限處理
+  * Core
+    * 提供核心自訂的框架元件，像是內建支援 `Audit` 功能
+
 ## laravel-modules Commands
 
 ### Create a module
