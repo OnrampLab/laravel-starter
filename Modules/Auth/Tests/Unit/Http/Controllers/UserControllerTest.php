@@ -10,6 +10,7 @@ use Modules\Auth\Entities\User;
 use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Services\GetUserService;
+use Modules\Auth\Services\DeleteUserService;
 use Modules\Auth\Services\UpdateUserService;
 
 class UserControllerTest extends TestCase
@@ -34,6 +35,9 @@ class UserControllerTest extends TestCase
 
         $this->updateUserServiceMock = Mockery::mock(UpdateUserService::class);
         $this->app->instance(UpdateUserService::class, $this->updateUserServiceMock);
+
+        $this->deleteUserServiceMock = Mockery::mock(DeleteUserService::class);
+        $this->app->instance(DeleteUserService::class, $this->deleteUserServiceMock);
     }
 
     /**
@@ -164,6 +168,27 @@ class UserControllerTest extends TestCase
                 'accounts',
             ],
         ]);
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function destroy()
+    {
+        $url = "/api/users/{$this->user->id}";
+
+        $this->deleteUserServiceMock
+            ->shouldReceive('perform')
+            ->once()
+            ->withArgs(function ($userId) {
+                return $userId === $this->user->id;
+            })
+            ->andReturn(true);
+
+        $response = $this->getAuthedRequest()->json('DELETE', $url);
+
+        $response->assertStatus(204);
     }
 
     private function getAuthedRequest()

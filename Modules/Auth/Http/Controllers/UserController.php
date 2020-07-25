@@ -10,6 +10,7 @@ use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Services\GetUserService;
 use Modules\Auth\Services\UpdateUserService;
+use Modules\Auth\Services\DeleteUserService;
 use Modules\Auth\Http\Resources\UserResource;
 
 class UserController extends Controller
@@ -34,16 +35,23 @@ class UserController extends Controller
      */
     protected $updateUserService;
 
+    /**
+     * @var DeleteUserService
+     */
+    protected $deleteUserService;
+
     public function __construct(
         CreateUserService $createUserService,
         ListUserService $listUserService,
         GetUserService $getUserService,
-        UpdateUserService $updateUserService
+        UpdateUserService $updateUserService,
+        DeleteUserService $deleteUserService
     ){
         $this->createUserService = $createUserService;
         $this->listUserService = $listUserService;
         $this->getUserService = $getUserService;
         $this->updateUserService = $updateUserService;
+        $this->deleteUserService = $deleteUserService;
     }
 
     /**
@@ -117,11 +125,13 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param int $userId
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(int $userId)
     {
-        //
+        $this->deleteUserService->perform($userId);
+
+        return response(null, 204);
     }
 }
