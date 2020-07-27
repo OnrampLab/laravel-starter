@@ -3,6 +3,7 @@
 namespace Modules\Auth\Policies;
 
 use Modules\Account\Contracts\AccountContract;
+use Modules\Account\Entities\Account;
 use Modules\Auth\Entities\User;
 
 class BaseEntityPolicy
@@ -16,7 +17,7 @@ class BaseEntityPolicy
      */
     public function view(User $user, AccountContract $model)
     {
-        return $user->can('view', $model->getAccount());
+        return $this->canAccess($user, $model->getAccount()) && $user->hasAnyRole(['account-analyst', 'account-admin']);
     }
 
     /**
@@ -28,7 +29,7 @@ class BaseEntityPolicy
      */
     public function update(User $user, AccountContract $model)
     {
-        return $user->can('update', $model->getAccount());
+        return $this->canAccess($user, $model->getAccount()) && $user->hasRole('account-admin');
     }
 
     /**
@@ -40,6 +41,20 @@ class BaseEntityPolicy
      */
     public function delete(User $user, AccountContract $model)
     {
-        return $user->can('delete', $model->getAccount());
+        return $this->canAccess($user, $model->getAccount()) && $user->hasRole('account-admin');
+    }
+
+    /**
+     * Determine if the user can access the given account.
+     *
+     * @param  \Modules\Auth\Entities\User  $user
+     * @param  Account  $account
+     * @return bool
+     */
+    private function canAccess(User $user, Account $account)
+    {
+        return $user->accounts->contains(function(Account $userAccount) use ($account) {
+            return $userAccount->id === $account->id;
+        });
     }
 }
