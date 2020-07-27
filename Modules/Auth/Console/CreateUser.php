@@ -2,12 +2,12 @@
 
 namespace Modules\Auth\Console;
 
-use Hash;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Modules\Auth\Services\UserService;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+
+use Modules\Auth\Services\CreateUserService;
 
 class CreateUser extends Command
 {
@@ -16,7 +16,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'auth:create-user {name} {email} {password?}';
+    protected $signature = 'auth:create-user {name} {email} {role} {account} {password?}';
 
     /**
      * The console command description.
@@ -26,20 +26,20 @@ class CreateUser extends Command
     protected $description = 'Create a user.';
 
     /**
-     * @var UserService
+     * @var CreateUserService
      */
-    protected $userService;
+    protected $createUserService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(UserService $userService)
+    public function __construct(CreateUserService $createUserService)
     {
         parent::__construct();
 
-        $this->userService = $userService;
+        $this->createUserService = $createUserService;
     }
 
     /**
@@ -53,10 +53,12 @@ class CreateUser extends Command
         $userData = [
             'name' => $this->argument('name'),
             'email' => $this->argument('email'),
+            'roles' => [$this->argument('role')],
+            'accounts' => [$this->argument('account')],
             'password' => $this->argument('password') ?? $randomPassword,
         ];
 
-        $this->userService->createUser($userData);
+        $this->createUserService->perform($userData);
 
         $this->info('User created, password: ' . $userData['password']);
     }
@@ -71,6 +73,8 @@ class CreateUser extends Command
         return [
             ['name', InputArgument::REQUIRED, 'Name of the user'],
             ['email', InputArgument::REQUIRED, 'Email of the user'],
+            ['role', InputArgument::REQUIRED, 'Role of the user'],
+            ['account', InputArgument::REQUIRED, 'Accessed account of the user'],
             ['password', InputArgument::OPTIONAL, 'Password of the user, will generate a random password if not given'],
         ];
     }

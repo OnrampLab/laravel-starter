@@ -1,11 +1,12 @@
 <?php
 namespace Modules\Contact\Http\Controllers;
 
-use Modules\Auth\Entities\User;
 use Hash;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use Modules\Auth\Entities\User;
+use Modules\Auth\Http\Resources\UserResource;
 
 /**
  * @group api
@@ -94,7 +95,7 @@ class AuthControllerTest extends TestCase
         $response = $this->json('POST', $url, $data, $this->headers);
 
         $response->assertStatus(200);
-        $response->assertExactJson($this->user->toArray());
+        $response->assertExactJson((new UserResource($this->user))->toArray($data));
     }
 
     /**

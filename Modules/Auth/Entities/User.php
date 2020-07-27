@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use Modules\Account\Entities\Account;
+
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
@@ -41,6 +43,13 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The accounts that belong to the user.
+     */
+    function accounts() {
+        return $this->belongsToMany(Account::class, 'account_user', 'user_id', 'account_id');
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
