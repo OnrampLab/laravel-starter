@@ -8,6 +8,28 @@ use Modules\Auth\Entities\User;
 class AccountPolicy
 {
     /**
+     * Determine if the given resource can be created by the user.
+     *
+     * @param  \Modules\Auth\Entities\User  $user
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return $user->hasRole('system-admin');
+    }
+
+    /**
+     * Determine if any resources can be viewed by the user.
+     *
+     * @param  \Modules\Auth\Entities\User  $user
+     * @return bool
+     */
+    public function viewAny(User $user)
+    {
+        return $user->hasAnyRole(['account-analyst', 'account-admin']);
+    }
+
+    /**
      * Determine if the given resource can be viewed by the user.
      *
      * @param  \Modules\Auth\Entities\User  $user
