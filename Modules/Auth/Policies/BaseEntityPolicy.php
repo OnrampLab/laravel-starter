@@ -9,6 +9,30 @@ use Modules\Auth\Entities\User;
 class BaseEntityPolicy
 {
     /**
+     * Determine if the resource can be created by the user.
+     *
+     * @param  \Modules\Auth\Entities\User  $user
+     * @param  Account  $account
+     * @return bool
+     */
+    public function create(User $user, Account $account)
+    {
+        return $this->canAccess($user, $account) && $user->hasRole('account-admin');
+    }
+
+    /**
+     * Determine if any resources can be viewed by the user.
+     *
+     * @param  \Modules\Auth\Entities\User  $user
+     * @param  Account  $account
+     * @return bool
+     */
+    public function viewAny(User $user, Account $account)
+    {
+        return $this->canAccess($user, $account) && $user->hasAnyRole(['account-analyst', 'account-admin']);
+    }
+
+    /**
      * Determine if the given resource can be viewed by the user.
      *
      * @param  \Modules\Auth\Entities\User  $user
