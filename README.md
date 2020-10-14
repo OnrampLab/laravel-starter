@@ -2,7 +2,7 @@
 
 為了讓公司有統一的 coding style 以及方便開始一個新專案並套用我們的 best practice，所以希望可以建立一個 github repo 符合下面的幾個 best practices
 
-* 最新的 Laravel (7.x)
+* 最新的 Laravel (8.x)
   * 以 feature 當一個 module
   * 有 local composer packages
 * Useful Laravel packages
