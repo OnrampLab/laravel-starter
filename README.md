@@ -120,7 +120,7 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 and then install requirements
 
 ```
-cd tools/ansible
+cd tools/infrastructure/vm-based/provisioning/ansible
 ansible-galaxy install -r requirements.yml
 ```
 
@@ -128,17 +128,17 @@ ansible-galaxy install -r requirements.yml
 
 https://www.terraform.io/docs/backends/types/s3.html
 
-update bucket name in your master.tf for the env (e.g. tools/terraform/env/production)
+update bucket name in your master.tf for the env (e.g. tools/infrastructure/vm-based/provisioning/terraform/env/production)
 
 ### Init terraform
 ```
-cd tools/terraform/env/production
+cd tools/infrastructure/vm-based/provisioning/terraform/env/production
 terraform init
 ```
 
 ### Start provisioning
 ```
-cd tools/terraform/env/production
+cd tools/infrastructure/vm-based/provisioning/terraform/env/production
 terraform apply
 ```
 
