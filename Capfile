@@ -1,6 +1,6 @@
 # default deploy_config_path is 'config/deploy.rb'
-set :deploy_config_path, 'tools/capistrano/deploy.rb'
-set :stage_config_path, 'tools/capistrano/stages'
+set :deploy_config_path, 'tools/infrastructure/vm-based/ochestration/capistrano/deploy.rb'
+set :stage_config_path, 'tools/infrastructure/vm-based/ochestration/capistrano/stages'
 
 require 'capistrano/env-config'
 
@@ -15,7 +15,7 @@ require 'capistrano/nvm'
 require 'capistrano/yarn'
 require 'capistrano/locally'
 require 'slackistrano/capistrano'
-require_relative 'tools/capistrano/notification'
+require_relative 'tools/infrastructure/vm-based/ochestration/capistrano/notification'
 require 'net/ssh/proxy/jump'
 
 # Include tasks from other gems included in your Gemfile
@@ -30,7 +30,7 @@ require 'net/ssh/proxy/jump'
 #   https://github.com/capistrano/passenger
 #
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
-Dir.glob('tools/capistrano/tasks/*.rake').each { |r| import r }
+Dir.glob('tools/infrastructure/vm-based/ochestration/capistrano/tasks/*.rake').each { |r| import r }
 
 
 
