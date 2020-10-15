@@ -1,16 +1,23 @@
-FROM php:7.3.3-cli
+ARG PHP_EXTENSIONS="pdo_mysql pdo_sqlite"
+FROM thecodingmachine/php:7.4-v3-slim-apache AS php
+ENV TEMPLATE_PHP_INI=production \
+    APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-EXPOSE 8000
-
-RUN apt-get update && apt-get install -y git zlib1g-dev libzip-dev gnupg2
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') \
-	{ echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN	php composer-setup.php
-RUN	php -r "unlink('composer-setup.php');"
-RUN	mv composer.phar /usr/local/bin/composer
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install pdo_mysql
-RUN docker-php-ext-install pcntl
-RUN echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> ~/.bashrc
 RUN composer global require hirak/prestissimo
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+ADD --chown=docker:docker . /var/www/html
+
+WORKDIR /var/www/html
+
+### PHP Development
+FROM php AS php-dev
+
+RUN composer install
+
+### PHP Production
+FROM php AS php-prod
+
+RUN composer install --quiet --optimize-autoloader
+
+WORKDIR /var/www/html

@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - backend/config-map.yaml
+  - backend/cronjob.yaml
+  - backend/deployment-app.yaml
+  - backend/deployment-horizon.yaml
+  - backend/deployment-phpmyadmin.yaml
+  - backend/deployment-redis.yaml
+  - backend/hpa.yaml
+  - backend/ingress.yaml
+  - backend/service.yaml
+  - system/aws-auth.yaml
+
+images:
+  - name: laravel-starter
+    newName: account_id.dkr.ecr.us-east-1.amazonaws.com/laravel-starter #NOTE: need to be updated
+    newTag: v1.0.0 #NOTE: since we will dynamatically change tag on deploy, we don't need to manually change the tag except manual deploy

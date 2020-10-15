@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  APP_DEBUG: "false"
+  APP_ENV: production
+  APP_KEY: update_your_key
+  APP_LOG_LEVEL: debug
+  APP_NAME: "Laravel K8s"
+  APP_URL: http://staging.api.laravel-starter.com
+  BROADCAST_DRIVER: log
+  CACHE_DRIVER: redis
+  SESSION_DRIVER: redis
+  DB_CONNECTION: mysql
+  DB_DATABASE: laravel-starter
+  DB_HOST: laravel-starter-staging-db.c8q8b7fgusdt.us-east-1.rds.amazonaws.com
+  DB_PASSWORD: "your_staging_password"
+  DB_PORT: "3306"
+  DB_USERNAME: admin
+  REDIS_HOST: redis-service
+  REDIS_PORT: "6379"
+  SCOUT_ELASTIC_HOST: https://vpc-laravel-starter-staging-elasticsearch-ntrnck62w3hiuumvw2maiovc5i.us-east-1.es.amazonaws.com

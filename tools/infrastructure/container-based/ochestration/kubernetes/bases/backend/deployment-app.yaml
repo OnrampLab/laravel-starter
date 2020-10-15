@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: laravel-starter
+  name: laravel-starter
+spec:
+  minReadySeconds: 5
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: laravel-starter
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: laravel-starter
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - laravel-starter
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      initContainers:
+        - args:
+            - /bin/bash
+            - -c
+            - (php artisan migrate --force || true) && (php artisan config:cache || true) && (php
+              artisan route:cache || true) && (cp -rp /var/www/html /app)
+          envFrom:
+            - configMapRef:
+                name: backend-config
+          image: laravel-starter
+          imagePullPolicy: Always
+          name: artisan
+          volumeMounts:
+            - mountPath: /app
+              name: app
+
+      containers:
+        - name: app
+          envFrom:
+            - configMapRef:
+                name: backend-config
+          image: laravel-starter
+          imagePullPolicy: Always
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            tcpSocket:
+              port: 80
+            timeoutSeconds: 30
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            tcpSocket:
+              port: 80
+          resources:
+            limits:
+              cpu: 200m
+              memory: 400M
+            requests:
+              cpu: 100m
+              memory: 200M
+          volumeMounts:
+            - mountPath: /var/www
+              name: app
+
+      volumes:
+        - emptyDir: {}
+          name: app

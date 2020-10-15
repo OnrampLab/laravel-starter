@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  APP_DEBUG: "false"
+  APP_ENV: production
+  APP_KEY: "null"
+  APP_LOG_LEVEL: debug
+  APP_NAME: "laravel-starter"
+  APP_URL: http://localhost:8000
+  BROADCAST_DRIVER: log
+  CACHE_DRIVER: file
+  SESSION_DRIVER: file
+  DB_CONNECTION: mysql
+  DB_DATABASE: laravel-starter
+  DB_HOST: db
+  DB_PASSWORD: password
+  DB_PORT: "3306"
+  DB_USERNAME: admin
+  REDIS_HOST: redis-service
+  REDIS_PORT: "6379"
+  SCOUT_ELASTIC_HOST: http://localhost:9200

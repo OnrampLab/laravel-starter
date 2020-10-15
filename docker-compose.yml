@@ -1,22 +1,27 @@
-version: '2.1'
+version: '3.4'
 
 services:
   php7:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php-dev
     volumes:
-      - ./:/app
+      - ./:/var/www/html
     ports:
       - 8000:8000
     links:
       - db
+      - redis
+      - elasticsearch
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+      - redis
+      - elasticsearch
     command:
       >
         bash -i -c -e
         "
-        cd app;
         composer install;
         php artisan migrate;
         php artisan serve --host 0.0.0.0
@@ -25,12 +30,11 @@ services:
   node:
     image: node:12.15.0
     volumes:
-      - ./:/app
+      - ./:/var/www/html
     command:
       >
         bash -i -c -e
         "
-        cd app;
         yarn install;
         "
 
@@ -61,6 +65,26 @@ services:
       - db
     ports:
       - "${PHP_MYADMIN_PORT}:80"
+
+  elasticsearch:
+    image:
+      docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - cluster.name=group-project-test-cluster
+      - cluster.routing.allocation.disk.watermark.low=30mb
+      - cluster.routing.allocation.disk.watermark.high=20mb
+      - cluster.routing.allocation.disk.watermark.flood_stage=10mb
+      - cluster.info.update.interval=1m
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: ["CMD", "curl", "${SCOUT_ELASTIC_HOST}"]
+      interval: 60s
+
 
 volumes:
   data: {}
