@@ -1,17 +1,32 @@
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@6.12.2
+  aws-eks: circleci/aws-eks@1.0.0
+  kustomize: finc/kustomize@0.0.2
+
 defaults: &defaults
   working_directory: ~/app
   docker:
-    - image: circleci/php:7.3.3
+    - image: circleci/php:7.4.3
     - image: circleci/mysql:5.7-ram
       environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: testing_db
+    - image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+      environment:
+        - cluster.name: group-project-test-cluster
+        - xpack.security.enabled: false
+        - transport.host: localhost
+        - network.host: 127.0.0.1
+        - http.port: 9200
+        - discovery.type: single-node
+        - ES_JAVA_OPTS: "-Xms256m -Xmx512m"
+
 
 commands:
-  build_and_test:
-    description: "Build and test"
+  run_test:
+    description: "Run test"
     steps:
       - checkout
       - restore_cache:
@@ -36,13 +51,15 @@ commands:
       - run:
           name: Do static analysis
           command: |
-            composer code:analysis -- --memory-limit=-1
+            composer code:analysis
       - run:
           name: Test
           command: |
             php artisan key:generate
             DB_CONNECTION=testing_mysql DB_HOST=127.0.01 DB_DATABASE=testing_db vendor/bin/phpunit
-  deploy_to_server:
+
+  # for vm based deployment
+  use_capistrano_to_deploy:
     description: "Deploy"
     steps:
       - checkout
@@ -78,55 +95,165 @@ commands:
             - /usr/local/bin/capify
 
 jobs:
-  build:
+  run_test:
     <<: *defaults
     steps:
-      - build_and_test
+      - run_test
 
-  build_prod:
-    <<: *defaults
-    steps:
-      - build_and_test
-
-  deploy_staging:
+  use_capistrano_to_deploy_staging:
     docker:
       - image: circleci/ruby:2.4.2-jessie-node
 
     steps:
-      - deploy_to_server
+      - use_capistrano_to_deploy
 
-  deploy_prod:
+  use_capistrano_to_deploy_prod:
     docker:
       - image: circleci/ruby:2.4.2-jessie-node
 
     steps:
-      - deploy_to_server
+      - use_capistrano_to_deploy
+
+  build-staging-image:
+    executor: aws-ecr/default
+    steps:
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: false
+          dockerfile: Dockerfile
+          path: .
+          region: AWS_REGION
+          repo: laravel-starter
+          tag: "latest,release-${CIRCLE_SHA1}"
+          extra-build-args: "--target php-prod"
+
+  build-production-image:
+    executor: aws-ecr/default
+    steps:
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: false
+          dockerfile: Dockerfile
+          path: .
+          region: AWS_REGION
+          repo: laravel-starter
+          tag: "${CIRCLE_TAG}"
+          extra-build-args: "--target php-prod"
+
+  create-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+      aws-region:
+        description: |
+          AWS Region
+        type: string
+    steps:
+      - checkout
+
+      - kustomize/install:
+          version: v3.8.4
+
+      - aws-eks/update-kubeconfig-with-authenticator:
+          authenticator-release-tag: v0.5.1
+          cluster-name: << parameters.cluster-name >>
+          aws-region: << parameters.aws-region >>
+          install-kubectl: true
+
+      - run:
+          name: Update image tag and deploy
+          command: |
+              ENVIRONMENT="staging"
+              TAG="release-${CIRCLE_SHA1}"
+
+              if [ -n "${CIRCLE_TAG}" ]; then
+                ENVIRONMENT="production"
+                TAG="${CIRCLE_TAG}"
+              fi
+
+              root=$(pwd)
+
+              echo "deploying ${TAG} to ${ENVIRONMENT}"
+
+              cd ${root}/tools/infrastructure/container-based/ochestration/kubernetes/bases
+              kustomize edit set image "laravel-starter=account_id.dkr.ecr.us-east-1.amazonaws.com/laravel-starter:${TAG}"
+
+              cd ${root}/tools/infrastructure/container-based/ochestration/kubernetes/${ENVIRONMENT}/bases
+              kustomize build | kubectl apply -f -
 
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
-      # - deploy_staging:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only: master
-      - build_prod:
-          filters:  # required since `deploy` has tag filters AND requires `build`
+      - run_test:
+          filters:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
-      # - deploy_prod:
+              only: /.*/
+
+      # - build-staging-image:
       #     requires:
-      #       - build_prod
+      #       - run_test
+      #     filters:
+      #       branches:
+      #         only: master
+
+      # - build-production-image:
+      #     requires:
+      #       - run_test
       #     filters:
       #       tags:
       #         only: /^v.*/
       #       branches:
       #         ignore: /.*/
+
+      # for staging
+      # - create-deployment:
+      #     cluster-name: laravel-starter-staging-eks-cluster
+      #     aws-region: "${AWS_REGION}"
+      #     requires:
+      #       - build-staging-image
+      #     filters:
+      #       branches:
+      #         only: master
+
+      # for production
+      # - create-deployment:
+      #     cluster-name: laravel-starter-production-eks-cluster
+      #     aws-region: "${AWS_REGION}"
+      #     requires:
+      #       - build-production-image
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
+
+      # for vm-based deployment
+      # - use_capistrano_to_deploy_staging:
+      #     requires:
+      #       - run_test
+      #     filters:
+      #       branches:
+      #         only: master
+
+      # - use_capistrano_to_deploy_prod:
+      #     requires:
+      #       - run_test
+      #     filters:
+      #       tags:
+      #         only: /^v.*/
+      #       branches:
+      #         ignore: /.*/
+
 
 notify:
   webhooks:
