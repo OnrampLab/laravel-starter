@@ -1,0 +1,79 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  # name: "larevel-starter"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # certmanager.k8s.io/cluster-issuer: cert-manager-test
+
+    # kubernetes.io/ingress.class: alb
+    # alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:aws_account_id:certificate/93326033-85eb-465a-bbac-5dc4b3a022f9
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    # alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    # alb.ingress.kubernetes.io/actions.phpmyadmin-service: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTP", "Port": "80", "Path":"/", "Query": "#{query}", "StatusCode": "HTTP_301"}}'
+  labels:
+    app: backend
+  name: backend
+spec:
+  # tls:
+  # - hosts:
+  #   - api.larevel-starter.com
+  #   - larevel-starter.com
+  #   secretName: cert-manager-test
+  rules:
+    - host: larevel-starter.com
+      http:
+        paths:
+          # - path: /*
+          #   backend:
+          #     serviceName: ssl-redirect
+          #     servicePort: use-annotation
+          - path: /
+            backend:
+              serviceName: next-starter-service
+              servicePort: 80
+    - host: api.larevel-starter.com
+      http:
+        paths:
+          # - path: /
+          #   backend:
+          #     serviceName: ssl-redirect
+          #     servicePort: use-annotation
+          - path: /
+            backend:
+              serviceName: laravel-starter-service
+              servicePort: 80
+    - host: pma.larevel-starter.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: phpmyadmin-service
+              servicePort: 80
+
+# ---
+# apiVersion: certmanager.k8s.io/v1alpha1
+# kind: Certificate
+# metadata:
+#   name: yourdomain.com
+# spec:
+#   acme:
+#     config:
+#       - dns01:
+#           provider: cf-dns
+#         domains:
+#           - yourdomain.com
+#   commonName: yourdomain.com
+#   dnsNames:
+#     - yourdomain.com
+#   issuerRef:
+#     kind: ClusterIssuer
+#     name: letsencrypt
+#   secretName: yourdomain-com-tls
