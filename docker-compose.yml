@@ -1,22 +1,25 @@
-version: '2.1'
+version: '3.4'
 
 services:
   php7:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php-dev
     volumes:
-      - ./:/app
+      - ./:/var/www/html
     ports:
       - 8000:8000
     links:
       - db
+      - redis
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+      - redis
     command:
       >
         bash -i -c -e
         "
-        cd app;
         composer install;
         php artisan migrate;
         php artisan serve --host 0.0.0.0
@@ -25,12 +28,11 @@ services:
   node:
     image: node:12.15.0
     volumes:
-      - ./:/app
+      - ./:/var/www/html
     command:
       >
         bash -i -c -e
         "
-        cd app;
         yarn install;
         "
 
