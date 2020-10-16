@@ -51,7 +51,7 @@ commands:
       - run:
           name: Do static analysis
           command: |
-            composer code:analysis
+            php -d memory_limit=4G vendor/bin/phpstan analyse
       - run:
           name: Test
           command: |
