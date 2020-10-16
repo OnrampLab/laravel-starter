@@ -88,3 +88,4 @@ services:
 
 volumes:
   data: {}
+  esdata: {}
