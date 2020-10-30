@@ -19,5 +19,13 @@ RUN composer install
 FROM php AS php-prod
 
 RUN composer install --quiet --optimize-autoloader
+ENV OPCACHE_ENABLE=1 \
+    OPCACHE_MEMORY_CONSUMPTION=128 \
+    OPCACHE_STRINGS_BUFFER=8 \
+    OPCACHE_MAX_FILES=10000 \
+    OPCACHE_VALIDATE_TIMESTAMPS=0 \
+    OPCACHE_REVALIDATE_FREQ=2 \
+    OPCACHE_SAVE_COMMENTS=0
+COPY ./tools/php.ini /etc/php/7.4/cli/php.ini
 
 WORKDIR /var/www/html
