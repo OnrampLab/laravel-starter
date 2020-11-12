@@ -93,4 +93,14 @@ namespace :deploy do
   end
 
   after 'composer:install', "composer:update_composer"
+
+  after :updated, :build_js_bundle do
+    on roles(:app), in: :groups, limit: 3, wait: 10 do
+      within fetch(:yarn_target_path, release_path) do
+        with fetch(:yarn_env_variables, {}) do
+          # execute :yarn, :run, 'production'
+        end
+      end
+    end
+  end
 end
