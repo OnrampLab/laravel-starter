@@ -1,0 +1,21 @@
+---
+# Default variables for this role
+
+# PHPMyAdmin default configuration
+phpmyadmin_database: phpmyadmin
+phpmyadmin_server_ip: localhost
+
+# PHPMyAdmin credentials
+phpmyadmin_user: phpmyadmin
+phpmyadmin_password: MyPassword
+
+# PHPMyAdmin allowed IP addresses
+phpmyadmin_client_ip: localhost
+
+# PHPMyAdmin Website configuration
+phpmyadmin_hostname: phpmyadmin.myserver.com
+
+# Let's Encrypt email address (used to generate SSL certificate for the Website)
+cerbot_email: myemail@email.com
+
+php_version: 7.4.12
