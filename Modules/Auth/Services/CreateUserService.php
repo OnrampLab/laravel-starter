@@ -25,7 +25,6 @@ class CreateUserService
     public function perform(array $attributes)
     {
         $user = $this->createUser($attributes);
-
         $this->assignUserRoles($user, $attributes['roles']);
         $this->assignUserAccounts($user, $attributes['accounts']);
 
@@ -37,6 +36,9 @@ class CreateUserService
         $password = data_get($attributes, 'password', Str::random(8));
         $encryptedPassword = Hash::make($password);
         $attributes['password'] = $encryptedPassword;
+
+        unset($attributes['roles']);
+        unset($attributes['accounts']);
 
         return $this->userRepository->create($attributes);
     }
