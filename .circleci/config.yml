@@ -255,6 +255,6 @@ workflows:
       #         ignore: /.*/
 
 
-notify:
-  webhooks:
-    - url: https://outlook.office.com/webhook/13ff7064-18ae-46ae-be31-c4e270887265@2ba2b2cc-b763-4ff2-a082-b58860f92d89/CircleCI/e2ee1fd1a9e34454b4d21b3667c650c2/3c10f313-e3bc-44a5-b0b4-dc78f67daa8e
+# notify:
+#   webhooks:
+#     - url: your slack or teams webhook url

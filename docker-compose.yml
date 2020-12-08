@@ -8,6 +8,7 @@ services:
       target: php-dev
     volumes:
       - ./:/var/www/html
+    working_dir: /var/www/html
     ports:
       - 8000:8000
     links:
@@ -31,6 +32,7 @@ services:
     image: node:12.15.0
     volumes:
       - ./:/var/www/html
+    working_dir: /var/www/html
     command:
       >
         bash -i -c -e

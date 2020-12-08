@@ -64,7 +64,9 @@ resource "aws_db_instance" "mysql_db_instance" {
   publicly_accessible  = false
   engine               = "mysql"
   engine_version       = "8.0"
-  username             = "mr_admin"
+  # TODO: should use variables
+  name:                = "laravel_starter"
+  username             = "laravel_starter_admin"
   password             = random_string.rds_master_password.result
 
   vpc_security_group_ids = [

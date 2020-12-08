@@ -54,9 +54,8 @@
 
 - name: put php-fpm unit file
   template: src=php-fpm.service dest="/etc/systemd/system/php-fpm{{ phpbrew_php_version | regex_replace('\\.', '_') }}.service" owner=root group=root mode=0644
-  when: "phpbrew_enable_php_fpm_service and ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '8') or (ansible_distribution == 'Ubuntu' and (ansible_distribution_version|version_compare(14.04, '>'))))"
+  when: phpbrew_enable_php_fpm_service and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
-add to sudo service
 - name: enable php-fpm service
   service: name="php-fpm{{ phpbrew_php_version | regex_replace('\\.', '_') }}" enabled=yes state=started
-  when: "phpbrew_enable_php_fpm_service and ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '8') or (ansible_distribution == 'Ubuntu' and (ansible_distribution_version|version_compare(14.04, '>'))))"
+  when: phpbrew_enable_php_fpm_service and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
