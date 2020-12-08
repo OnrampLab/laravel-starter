@@ -3,9 +3,9 @@
 namespace Modules\Account\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Account\Entities\Account;
 
-class AccountDatabaseSeeder extends Seeder
+class AccountSeederTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,6 @@ class AccountDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        $this->call(AccountSeederTableSeeder::class);
+        Account::create(['name' => 'Default Account']);
     }
 }
