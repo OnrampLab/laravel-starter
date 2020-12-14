@@ -13,6 +13,55 @@
   notify:
   - restart nginx
 
+- name: (nginx) Check if the hostname can be solved
+  command: dig {{ site_name }} +short
+  register: dig
+  changed_when: false
+
+- name: (nginx) Generate certificate for site
+  command: "certbot certonly -n -d {{ site_name }} --agree-tos --standalone --email {{ certbot_email }}"
+  register: certbot
+  when: not dig.stdout == ""
+
+- name: (nginx) Check if Let's Encrypt certificates exist
+  stat:
+    path: /etc/letsencrypt/live/{{ site_name }}/fullchain.pem
+  register: cert
+
+- name: (nginx) Copy default SSL certificates due to Certbot failure
+  copy:
+    src: ssl-cert-snakeoil.pem
+    dest: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    owner: root
+    group: root
+    mode: 0644
+  when: not cert.stat.exists
+
+- name: (nginx) Copy default SSL key due to Certbot failure
+  copy:
+    src: ssl-cert-snakeoil.key
+    dest: /etc/ssl/private/ssl-cert-snakeoil.key
+    owner: root
+    group: root
+    mode: 0644
+  when: not cert.stat.exists
+
+- name: (nginx) Use default SSL certificate due to Certbot failure
+  lineinfile:
+    path: /etc/nginx/sites-available/{{ site_name }}
+    regexp: '^    ssl_certificate '
+    line: "    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;"
+    backrefs: yes
+  when: not cert.stat.exists
+
+- name: (nginx) Use default SSL private key due to Certbot failure
+  lineinfile:
+    path: /etc/nginx/sites-available/{{ site_name }}
+    regexp: '^    ssl_certificate_key'
+    line: "    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;"
+    backrefs: yes
+  when: not cert.stat.exists
+
 - name: Copy nginx config for site
   template:
     src: templates/site.conf

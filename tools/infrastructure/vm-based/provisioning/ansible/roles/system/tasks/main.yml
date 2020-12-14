@@ -1,0 +1,10 @@
+---
+- name: Make sure pymysql is present
+  pip:
+    name: PyMySQL
+    state: present
+
+- name: Make sure unzip is present
+  apt:
+    name: unzip
+    state: present

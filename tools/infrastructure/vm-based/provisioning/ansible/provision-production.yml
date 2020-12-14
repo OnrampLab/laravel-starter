@@ -3,8 +3,19 @@
     vars:
       site_name: www.laravel-starter.com
     roles:
-      - nginx
+      - system
       - phpbrew
+      - role: nginx
+        certbot_email: myemail@email.com
+      - role: phpmyadmin
+        tags: [ 'phpmyadmin' ]
+        phpmyadmin_database: phpmyadmin
+        phpmyadmin_server_ip: localhost
+        phpmyadmin_user: admin
+        phpmyadmin_password: mypassword
+        phpmyadmin_client_ip: pma.laravel-starter.com
+        phpmyadmin_hostname: pma.laravel-starter.com
+        certbot_email: myemail@email.com
       - role: oefenweb.yarn
       - role: geerlingguy.pip
       - role: geerlingguy.supervisor

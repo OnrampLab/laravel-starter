@@ -1,0 +1,24 @@
+- name: (PHPMYADMIN) Create database
+  mysql_db:
+    name: "{{ phpmyadmin_database }}"
+    login_host: "{{ phpmyadmin_server_ip }}"
+    login_user: "{{ phpmyadmin_user }}"
+    login_password: "{{ phpmyadmin_password }}"
+  register: database
+
+# - name: (PHPMYADMIN) Create PHPMyAdmin control user
+#   mysql_user:
+#     name: "{{ phpmyadmin_user }}"
+#     host: "{{ phpmyadmin_client_ip }}"
+#     password: "{{ phpmyadmin_password }}"
+#     priv: "*.*:ALL,GRANT"
+
+- name: (PHPMYADMIN) Importing MySQL schema
+  mysql_db:
+    name: "{{ phpmyadmin_database }}"
+    state: import
+    target: /usr/share/dbconfig-common/data/phpmyadmin/install/mysql
+    login_host: "{{ phpmyadmin_server_ip }}"
+    login_user: "{{ phpmyadmin_user }}"
+    login_password: "{{ phpmyadmin_password }}"
+  when: database.changed

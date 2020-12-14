@@ -1,0 +1,83 @@
+---
+- name: (PHPMYADMIN) Create site in Nginx
+  template:
+    src: phpmyadmin_nginx.conf
+    dest: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}.conf
+    force: true
+
+- name: (PHPMYADMIN) Enable the site in Nginx
+  file:
+    src: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}.conf
+    path: /etc/nginx/sites-enabled/{{ phpmyadmin_hostname }}.conf
+    state: link
+  notify: reload nginx
+
+- name: (PHPMYADMIN) Stop Nginx to generate certificate
+  service:
+    name: nginx
+    state: stopped
+  changed_when: false
+
+- name: (PHPMYADMIN) Make sure Certbot is installed
+  package:
+    name: certbot
+    state: latest
+
+- name: (PHPMYADMIN) Check if the PHPMyAdmin hostname can be solved
+  command: dig {{ phpmyadmin_hostname }} +short
+  register: dig
+  changed_when: false
+
+- name: (PHPMYADMIN) Generate certificate for PHPMyAdmin
+  command: "certbot certonly -n -d {{ phpmyadmin_hostname }} --agree-tos --standalone --email {{ certbot_email }}"
+  register: certbot
+  when: not dig.stdout == ""
+
+- name: (PHPMYADMIN) Check if Let's Encrypt certificates exist
+  stat:
+    path: /etc/letsencrypt/live/{{ phpmyadmin_hostname }}/fullchain.pem
+  register: cert
+
+- name: (PHPMYADMIN) Copy default SSL certificates due to Certbot failure
+  copy:
+    src: ssl-cert-snakeoil.pem
+    dest: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    owner: root
+    group: root
+    mode: 0644
+  when: not cert.stat.exists
+
+- name: (PHPMYADMIN) Copy default SSL key due to Certbot failure
+  copy:
+    src: ssl-cert-snakeoil.key
+    dest: /etc/ssl/private/ssl-cert-snakeoil.key
+    owner: root
+    group: root
+    mode: 0644
+  when: not cert.stat.exists
+
+- name: (PHPMYADMIN) Use default SSL certificate due to Certbot failure
+  lineinfile:
+    path: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}
+    regexp: '^    ssl_certificate '
+    line: "    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;"
+    backrefs: yes
+  when: not cert.stat.exists
+
+- name: (PHPMYADMIN) Use default SSL private key due to Certbot failure
+  lineinfile:
+    path: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}
+    regexp: '^    ssl_certificate_key'
+    line: "    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;"
+    backrefs: yes
+  when: not cert.stat.exists
+
+# - name: Generate Diffie-Hellman parameters with the default size (4096 bits)
+#   openssl_dhparam:
+#     path: /etc/ssl/dhparams.pem
+
+- name: (PHPMYADMIN) Start Nginx
+  service:
+    name: nginx
+    state: started
+  changed_when: false

@@ -1,0 +1,6 @@
+---
+# Install and configure PHPMyAdmin + Create a Website in Nginx
+- include_tasks: apt.yml
+- include_tasks: install.yml
+- include_tasks: dbconfigure.yml
+- include_tasks: website_nginx.yml
