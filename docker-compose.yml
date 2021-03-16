@@ -29,7 +29,7 @@ services:
         "
 
   node:
-    image: node:12.15.0
+    image: node:14.1.0
     volumes:
       - ./:/var/www/html
     working_dir: /var/www/html
@@ -54,7 +54,7 @@ services:
 
   redis:
     image:
-      redis:5.0.4
+      redis:5.1.4
     ports:
       - 6379:6379
     healthcheck:
