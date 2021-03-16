@@ -37,7 +37,10 @@ services:
       >
         bash -i -c -e
         "
+        node --version;
+        yarn --version;
         yarn install;
+        yarn start;
         "
 
   db:
