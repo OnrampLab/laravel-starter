@@ -58,7 +58,7 @@
 
 - name: (PHPMYADMIN) Use default SSL certificate due to Certbot failure
   lineinfile:
-    path: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}
+    path: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}.conf
     regexp: '^    ssl_certificate '
     line: "    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;"
     backrefs: yes
@@ -66,7 +66,7 @@
 
 - name: (PHPMYADMIN) Use default SSL private key due to Certbot failure
   lineinfile:
-    path: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}
+    path: /etc/nginx/sites-available/{{ phpmyadmin_hostname }}.conf
     regexp: '^    ssl_certificate_key'
     line: "    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;"
     backrefs: yes
