@@ -3,6 +3,7 @@
     vars:
       site_name: staging.laravel-starter.com
     roles:
+      - role: geerlingguy.pip
       - role: geerlingguy.mysql # only on mysql
       - system
       - phpbrew
@@ -18,7 +19,6 @@
         phpmyadmin_hostname: pma.staging.laravel-starter.com
         certbot_email: myemail@email.com
       - role: oefenweb.yarn
-      - role: geerlingguy.pip
       - role: geerlingguy.supervisor
       - role: geerlingguy.composer
       - role: moviedo.nvm
