@@ -47,3 +47,4 @@ phpbrew_requirements:
   - libxslt-dev
   - libbz2-dev
   - php-bz2
+  - libonig-dev
