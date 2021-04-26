@@ -3,6 +3,10 @@
   apt:
     name: nginx
 
+- name: Install certbot using apt
+  apt:
+    name: certbot
+
 - name: Remove default nginx site
   file: path=/etc/nginx/sites-enabled/default state=absent
 
