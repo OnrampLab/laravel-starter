@@ -28,7 +28,7 @@ class AccountController extends Controller
     {
         $accounts = $this->accountRepository->all();
 
-        return $accounts;
+        return AccountResource::collection($accounts);
     }
 
     /**

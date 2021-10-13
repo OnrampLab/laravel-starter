@@ -38,8 +38,10 @@ class AccountControllerTest extends TestCase
         $response->assertJsonCount(1);
         $response->assertJsonStructure([
             '*' => [
-                'id',
-                'name',
+                '*' => [
+                    'id',
+                    'name',
+                ]
             ],
         ]);
     }
