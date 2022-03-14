@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  php7:
+  php:
     build:
       context: .
       dockerfile: Dockerfile
