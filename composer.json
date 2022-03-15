@@ -24,7 +24,7 @@
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.7.0",
         "spatie/laravel-ignition": "^1.0",
-        "spatie/laravel-permission": "^3.17.0"
+        "spatie/laravel-permission": "^5.5.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.5.0",
