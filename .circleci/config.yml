@@ -8,7 +8,7 @@ orbs:
 defaults: &defaults
   working_directory: ~/app
   docker:
-    - image: circleci/php:7.4.3
+    - image: circleci/php:8.0.9
     - image: circleci/mysql:5.7-ram
       environment:
         MYSQL_ROOT_PASSWORD: root
