@@ -18,7 +18,7 @@
         "laravel/legacy-factories": "^1.3.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "nwidart/laravel-modules": "^7.0",
+        "nwidart/laravel-modules": "^8.0",
         "owen-it/laravel-auditing": "^13.0.2",
         "php-open-source-saver/jwt-auth": "^1.4",
         "predis/predis": "^1.1",
