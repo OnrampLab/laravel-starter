@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0befda4ad2cb95703b84420e9f6d4a7",
+    "content-hash": "85d677892d1338e86286230454b46142",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2645,16 +2645,16 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "v13.0.1",
+            "version": "v13.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "8b86d309864004d7ddea5a9511e430fe2b78a28b"
+                "reference": "f7cff2efd616541969655bcb674c460ab0018cc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/8b86d309864004d7ddea5a9511e430fe2b78a28b",
-                "reference": "8b86d309864004d7ddea5a9511e430fe2b78a28b",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/f7cff2efd616541969655bcb674c460ab0018cc6",
+                "reference": "f7cff2efd616541969655bcb674c460ab0018cc6",
                 "shasum": ""
             },
             "require": {
@@ -2729,7 +2729,7 @@
                 "issues": "https://github.com/owen-it/laravel-auditing/issues",
                 "source": "https://github.com/owen-it/laravel-auditing"
             },
-            "time": "2022-03-08T00:41:37+00:00"
+            "time": "2022-03-14T22:26:32+00:00"
         },
         {
             "name": "php-open-source-saver/jwt-auth",

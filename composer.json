@@ -19,7 +19,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "nwidart/laravel-modules": "^7.0",
-        "owen-it/laravel-auditing": "^13.0.1",
+        "owen-it/laravel-auditing": "^13.0.2",
         "php-open-source-saver/jwt-auth": "^1.4",
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.7.0",
