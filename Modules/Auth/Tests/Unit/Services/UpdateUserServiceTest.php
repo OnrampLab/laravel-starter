@@ -23,8 +23,8 @@ class UpdateUserServiceTest extends TestCase
         Role::create(['name' => 'role1']);
         Role::create(['name' => 'role2']);
 
-        $this->accounts = factory(Account::class, 2)->create();
-        $this->user = factory(User::class)->create();
+        $this->accounts = Account::factory()->create();
+        $this->user = User::factory()->create();
         $this->repositoryMock = Mockery::mock(UserRepository::class);
         $this->app->instance(UserRepository::class, $this->repositoryMock);
         $this->service = app(UpdateUserService::class);

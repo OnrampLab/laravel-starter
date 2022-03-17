@@ -1,9 +1,8 @@
 ARG PHP_EXTENSIONS="pdo_mysql pdo_sqlite"
-FROM thecodingmachine/php:7.4-v3-slim-apache AS php
+FROM thecodingmachine/php:8.1-v4-slim-apache AS php
 ENV TEMPLATE_PHP_INI=production \
     APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-RUN composer global require hirak/prestissimo
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 ADD --chown=docker:docker . /var/www/html

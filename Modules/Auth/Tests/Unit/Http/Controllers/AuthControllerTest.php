@@ -23,7 +23,7 @@ class AuthControllerTest extends TestCase
             'email' => 'test@test.com',
             'password' => 'test',
         ];
-        $this->user = factory(User::class)->create([
+        $this->user = User::factory()->create([
             'email' => $this->userData['email'],
             'password' => Hash::make($this->userData['password']),
         ]);

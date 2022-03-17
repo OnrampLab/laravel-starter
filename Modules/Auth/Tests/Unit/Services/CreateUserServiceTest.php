@@ -29,8 +29,8 @@ class CreateUserServiceTest extends TestCase
 
         Role::create(['name' => 'role1']);
 
-        $this->account = factory(Account::class)->create();
-        $this->user = factory(User::class)->create();
+        $this->account = Account::factory()->create();
+        $this->user = User::factory()->create();
 
         $this->userData = [
             'name' => 'test',

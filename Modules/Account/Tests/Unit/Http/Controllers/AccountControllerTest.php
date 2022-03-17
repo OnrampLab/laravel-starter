@@ -22,7 +22,7 @@ class AccountControllerTest extends TestCase
 
         Event::fake();
 
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
     }
 
     /**

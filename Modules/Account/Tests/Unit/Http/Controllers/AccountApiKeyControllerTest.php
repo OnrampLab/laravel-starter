@@ -18,8 +18,8 @@ class AccountApiKeyControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->account = factory(Account::class)->create();
-        $this->accountApiKey = factory(AccountApiKey::class)->create([
+        $this->account = Account::factory()->create();
+        $this->accountApiKey = AccountApiKey::factory()->create([
             'account_id' => $this->account->id,
         ]);
     }

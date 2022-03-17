@@ -21,7 +21,7 @@ class UserControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->apiToken = auth()->login($this->user);
 
         $this->createUserServiceMock = Mockery::mock(CreateUserService::class);

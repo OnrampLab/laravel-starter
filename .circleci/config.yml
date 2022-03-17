@@ -8,7 +8,7 @@ orbs:
 defaults: &defaults
   working_directory: ~/app
   docker:
-    - image: circleci/php:7.4.3
+    - image: cimg/php:8.1.2
     - image: circleci/mysql:5.7-ram
       environment:
         MYSQL_ROOT_PASSWORD: root
@@ -35,11 +35,6 @@ commands:
           name: Copy environment variables
           command: |
             cp .env.example .env
-      - run:
-          name: Install php extensions
-          command: |
-            sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
-            sudo docker-php-ext-install pcntl pdo_mysql
       - run:
           name: Install composer packages
           command: |

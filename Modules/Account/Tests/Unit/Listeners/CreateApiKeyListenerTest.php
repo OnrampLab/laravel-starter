@@ -23,7 +23,7 @@ class CreateApiKeyListenerTest extends TestCase
 
         Event::fake();
 
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
         $this->event = new AccountCreatedEvent($this->account);
         $this->accountApiKeyRepository = Mockery::mock(AccountApiKeyRepository::class);
         $this->app->instance(AccountApiKeyRepository::class, $this->accountApiKeyRepository);

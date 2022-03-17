@@ -17,8 +17,8 @@ class AccountTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
-        $this->account = factory(Account::class)->create();
+        $this->user = User::factory()->create();
+        $this->account = Account::factory()->create();
         $this->account->users()->attach($this->user->id);
     }
 
