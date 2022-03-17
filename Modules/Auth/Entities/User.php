@@ -3,17 +3,18 @@
 namespace Modules\Auth\Entities;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Account\Entities\Account;
+use Modules\Auth\Database\Factories\UserFactory;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use HasRoles;
+    use HasFactory;
 
     protected $guard_name = "api";
 
@@ -69,5 +70,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    protected static function newFactory()
+    {
+        return UserFactory::new();
     }
 }

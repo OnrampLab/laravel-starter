@@ -12,7 +12,7 @@ class UserTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->make();
+        $this->user = User::factory()->make();
     }
 
     /**

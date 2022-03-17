@@ -22,7 +22,7 @@ class CreateUserTest extends TestCase
 
         Role::create(['name' => 'system-admin']);
 
-        $this->account = factory(Account::class)->create();
+        $this->account = Account::factory()->create();
     }
 
     /**

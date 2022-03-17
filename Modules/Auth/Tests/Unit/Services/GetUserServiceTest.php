@@ -18,7 +18,7 @@ class GetUserServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
         $this->repositoryMock = Mockery::mock(UserRepository::class);
         $this->app->instance(UserRepository::class, $this->repositoryMock);
         $this->service = app(GetUserService::class);
