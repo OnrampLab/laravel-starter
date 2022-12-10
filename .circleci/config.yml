@@ -9,7 +9,8 @@ defaults: &defaults
   working_directory: ~/app
   docker:
     - image: cimg/php:8.1.2
-    - image: circleci/mysql:5.7-ram
+    - image: cimg/mysql:8.0
+      command: [--default-authentication-plugin=mysql_native_password]
       environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: testing_db
@@ -25,6 +26,35 @@ defaults: &defaults
 
 
 commands:
+
+  run_phpcs_phpstan:
+    description: 'run PHPCS and PHPSTAN'
+    steps:
+      - run:
+          name: Run PHPCS
+          command: |
+            if [[ "${CIRCLE_BRANCH}" != "master" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
+              tools/scripts/phpcs-pr.sh
+            fi
+      - run:
+          name: Run PHPStan analysis
+          command: |
+            if [[ "${CIRCLE_BRANCH}" != "master" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
+              tools/scripts/phpstan-pr.sh
+            fi
+      - run:
+          name: Run PHPStan analysis for all files
+          command: |
+            if [[ "${CIRCLE_BRANCH}" != "master" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
+              tools/scripts/phpstan-pr-all-files.sh
+            fi
+      - run:
+          name: Run PHP insight
+          command: |
+            if [[ "${CIRCLE_BRANCH}" != "master" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
+              php artisan insights  --no-interaction
+            fi
+
   run_test:
     description: "Run test"
     steps:
@@ -94,6 +124,7 @@ jobs:
     <<: *defaults
     steps:
       - run_test
+      - run_phpcs_phpstan
 
   use_capistrano_to_deploy_staging:
     docker:
@@ -109,79 +140,79 @@ jobs:
     steps:
       - use_capistrano_to_deploy
 
-  build-staging-image:
-    executor: aws-ecr/default
-    steps:
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          create-repo: false
-          dockerfile: Dockerfile
-          path: .
-          region: AWS_REGION
-          repo: laravel-starter
-          tag: "latest,release-${CIRCLE_SHA1}"
-          extra-build-args: "--target php-prod"
+  # build-staging-image:
+  #   executor: aws-ecr/default
+  #   steps:
+  #     - aws-ecr/build-and-push-image:
+  #         account-url: AWS_ECR_ACCOUNT_URL
+  #         aws-access-key-id: AWS_ACCESS_KEY_ID
+  #         aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+  #         create-repo: false
+  #         dockerfile: Dockerfile
+  #         path: .
+  #         region: AWS_REGION
+  #         repo: laravel-starter
+  #         tag: "latest,release-${CIRCLE_SHA1}"
+  #         extra-build-args: "--target php-prod"
 
-  build-production-image:
-    executor: aws-ecr/default
-    steps:
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          create-repo: false
-          dockerfile: Dockerfile
-          path: .
-          region: AWS_REGION
-          repo: laravel-starter
-          tag: "${CIRCLE_TAG}"
-          extra-build-args: "--target php-prod"
+  # build-production-image:
+  #   executor: aws-ecr/default
+  #   steps:
+  #     - aws-ecr/build-and-push-image:
+  #         account-url: AWS_ECR_ACCOUNT_URL
+  #         aws-access-key-id: AWS_ACCESS_KEY_ID
+  #         aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+  #         create-repo: false
+  #         dockerfile: Dockerfile
+  #         path: .
+  #         region: AWS_REGION
+  #         repo: laravel-starter
+  #         tag: "${CIRCLE_TAG}"
+  #         extra-build-args: "--target php-prod"
 
-  create-deployment:
-    executor: aws-eks/python3
-    parameters:
-      cluster-name:
-        description: |
-          Name of the EKS cluster
-        type: string
-      aws-region:
-        description: |
-          AWS Region
-        type: string
-    steps:
-      - checkout
+  # create-deployment:
+  #   executor: aws-eks/python3
+  #   parameters:
+  #     cluster-name:
+  #       description: |
+  #         Name of the EKS cluster
+  #       type: string
+  #     aws-region:
+  #       description: |
+  #         AWS Region
+  #       type: string
+  #   steps:
+  #     - checkout
 
-      - kustomize/install:
-          version: v3.8.4
+  #     - kustomize/install:
+  #         version: v3.8.4
 
-      - aws-eks/update-kubeconfig-with-authenticator:
-          authenticator-release-tag: v0.5.1
-          cluster-name: << parameters.cluster-name >>
-          aws-region: << parameters.aws-region >>
-          install-kubectl: true
+  #     - aws-eks/update-kubeconfig-with-authenticator:
+  #         authenticator-release-tag: v0.5.1
+  #         cluster-name: << parameters.cluster-name >>
+  #         aws-region: << parameters.aws-region >>
+  #         install-kubectl: true
 
-      - run:
-          name: Update image tag and deploy
-          command: |
-              ENVIRONMENT="staging"
-              TAG="release-${CIRCLE_SHA1}"
+  #     - run:
+  #         name: Update image tag and deploy
+  #         command: |
+  #             ENVIRONMENT="staging"
+  #             TAG="release-${CIRCLE_SHA1}"
 
-              if [ -n "${CIRCLE_TAG}" ]; then
-                ENVIRONMENT="production"
-                TAG="${CIRCLE_TAG}"
-              fi
+  #             if [ -n "${CIRCLE_TAG}" ]; then
+  #               ENVIRONMENT="production"
+  #               TAG="${CIRCLE_TAG}"
+  #             fi
 
-              root=$(pwd)
+  #             root=$(pwd)
 
-              echo "deploying ${TAG} to ${ENVIRONMENT}"
+  #             echo "deploying ${TAG} to ${ENVIRONMENT}"
 
-              cd ${root}/tools/infrastructure/container-based/ochestration/kubernetes/bases
-              kustomize edit set image "laravel-starter=account_id.dkr.ecr.us-east-1.amazonaws.com/laravel-starter:${TAG}"
+  #             cd ${root}/tools/infrastructure/container-based/ochestration/kubernetes/bases
+  #             kustomize edit set image "laravel-starter=account_id.dkr.ecr.us-east-1.amazonaws.com/laravel-starter:${TAG}"
 
-              cd ${root}/tools/infrastructure/container-based/ochestration/kubernetes/${ENVIRONMENT}/bases
-              kustomize build | kubectl apply -f -
+  #             cd ${root}/tools/infrastructure/container-based/ochestration/kubernetes/${ENVIRONMENT}/bases
+  #             kustomize build | kubectl apply -f -
 
 workflows:
   version: 2

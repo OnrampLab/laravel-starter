@@ -5,4 +5,13 @@
 
     <rule ref="onr-phpcs-laravel"/>
 
+    <file>app</file>
+    <file>config</file>
+    <file>packages</file>
+    <file>public</file>
+    <file>resources</file>
+    <file>routes</file>
+    <file>tests</file>
+    <file>Modules</file>
+
 </ruleset>
