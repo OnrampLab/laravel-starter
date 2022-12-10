@@ -16,7 +16,6 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "nunomaduro/collision": "^6.1",
-        "nunomaduro/larastan": "^2.1",
         "nwidart/laravel-modules": "^9.0.0",
         "owen-it/laravel-auditing": "^13.0.2",
         "php-open-source-saver/jwt-auth": "^1.4",
@@ -36,7 +35,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "laravel": {
@@ -73,6 +75,14 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit"
+        ],
+        "test:watch": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit-watcher watch --filter NoneTest < /dev/tty"
         ]
     },
     "require-dev": {
@@ -80,6 +90,8 @@
         "fakerphp/faker": "^1.20",
         "filp/whoops": "^2.14",
         "mockery/mockery": "^1.5",
+        "nunomaduro/larastan": "^2.2",
+        "onramplab/onr-phpcs-laravel": "^1.2",
         "phpunit/phpunit": "^9.5",
         "sempro/phpunit-pretty-print": "^1.4"
     }
