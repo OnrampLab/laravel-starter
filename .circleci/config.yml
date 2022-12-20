@@ -81,6 +81,7 @@ commands:
           name: Test
           command: |
             php artisan key:generate
+            php artisan jwt:secret -f
             DB_CONNECTION=testing_mysql DB_HOST=127.0.01 DB_DATABASE=testing_db vendor/bin/phpunit
 
   # for vm based deployment
