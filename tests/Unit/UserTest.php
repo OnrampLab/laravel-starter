@@ -6,6 +6,11 @@ use Modules\Auth\Entities\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class UserTest extends TestCase
 {
     use RefreshDatabase;
@@ -19,12 +24,9 @@ class UserTest extends TestCase
 
     /**
      * @test
-     *
-     * @return void
      */
     public function properties()
     {
-
         $this->assertNotNull($this->user->name);
         $this->assertNotNull($this->user->email);
         $this->assertNotNull($this->user->email_verified_at);

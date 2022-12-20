@@ -4,9 +4,10 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Log;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
@@ -17,7 +18,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
     ];
 
     /**
@@ -32,23 +32,16 @@ class Handler extends ExceptionHandler
 
     /**
      * Report or log an exception.
-     *
-     * @param  \Exception  $exception
-     * @return void
      */
-    public function report(Throwable $exception)
+    public function report(\Throwable $exception)
     {
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
      */
-    public function render($request, Throwable $exception)
+    public function render(Request $request, \Throwable $exception): Response
     {
         if (strpos($request->header('Content-Type'), 'application/json') !== false) {
             $status = 500;
@@ -68,7 +61,7 @@ class Handler extends ExceptionHandler
                 $message = 'Route not found';
             }
 
-            Log::error("[Handler] $message", [
+            Log::error("[Handler] {$message}", [
                 'url' => $request->fullUrl(),
                 'data' => $request->except(['password']),
                 'exception' => $exception,
@@ -77,7 +70,8 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => $message,
             ], $status);
-        } elseif ($this->isHttpException($exception)) {
+        }
+        if ($this->isHttpException($exception)) {
             return $this->renderHttpException($exception);
         }
 
