@@ -5,10 +5,11 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,15 +34,21 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      */
-    public function report(\Throwable $exception)
+    public function report(Throwable $exception)
     {
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
      */
-    public function render(Request $request, \Throwable $exception): Response
+    public function render($request, Throwable $exception)
     {
         if (strpos($request->header('Content-Type'), 'application/json') !== false) {
             $status = 500;
