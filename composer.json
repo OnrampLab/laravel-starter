@@ -11,7 +11,7 @@
         "php": ">=8.2",
         "calebporzio/parental": "^1.1",
         "guzzlehttp/guzzle": "^7.4",
-        "laravel/framework": "^9.0.0",
+        "laravel/framework": "^9.44",
         "laravel/horizon": "^5.2.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
@@ -62,7 +62,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
         "code:analysis": [
