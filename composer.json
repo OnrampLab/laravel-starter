@@ -20,6 +20,7 @@
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.6",
         "nwidart/laravel-modules": "^10.0",
+        "onramplab/laravel-clean-architecture": "10.0.0",
         "owen-it/laravel-auditing": "^13.5",
         "php-open-source-saver/jwt-auth": "^2.1",
         "predis/predis": "^1.1",
