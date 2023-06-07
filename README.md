@@ -41,6 +41,22 @@
   * Core
     * 提供核心自訂的框架元件，像是內建支援 `Audit` 功能
 
+### Run Seeders
+
+```bash
+php artisan module:seed Account
+php artisan module:seed Auth
+
+```
+
+## Useful Commands
+
+### Create a user
+
+```bash
+php artisan auth:create-user admin@laravel-starter.com system-admin 1
+```
+
 ## laravel-modules Commands
 
 ### Create a module

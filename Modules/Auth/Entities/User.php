@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Account\Entities\Account;
 use Modules\Auth\Database\Factories\UserFactory;
 
@@ -56,7 +57,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
         'name', 'email', 'password',
@@ -65,7 +66,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password', 'remember_token',
@@ -74,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -83,7 +84,8 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The accounts that belong to the user.
      */
-    function accounts() {
+    public function accounts(): BelongsToMany
+    {
         return $this->belongsToMany(Account::class, 'account_user', 'user_id', 'account_id');
     }
 

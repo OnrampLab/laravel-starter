@@ -8,7 +8,7 @@ orbs:
 defaults: &defaults
   working_directory: ~/app
   docker:
-    - image: cimg/php:8.1.2
+    - image: cimg/php:8.2.2
     - image: cimg/mysql:8.0
       command: [--default-authentication-plugin=mysql_native_password]
       environment:
