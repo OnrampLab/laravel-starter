@@ -100,6 +100,12 @@
         ],
         "phpcs:fix-all": [
             "tools/scripts/phpcs-fix.sh all"
+        ],
+        "refactor": [
+            "rector process"
+        ],
+        "refactor:dry-run": [
+            "rector process --dry-run"
         ]
     },
     "require-dev": {
@@ -109,6 +115,7 @@
         "mockery/mockery": "^1.5",
         "onramplab/onr-phpcs-laravel": "^1.2",
         "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.17.0",
         "sempro/phpunit-pretty-print": "^1.4"
     }
 }
