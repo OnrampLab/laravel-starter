@@ -47,8 +47,6 @@ class AccountApiKeyController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
-     * @param int $accountId
      * @return Response
      */
     public function store(Request $request, int $accountId)

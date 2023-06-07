@@ -9,7 +9,6 @@ class UserPolicy
     /**
      * Determine if the given resource can be created by the user.
      *
-     * @param  \Modules\Auth\Entities\User  $user
      * @return bool
      */
     public function create(User $user)
@@ -20,7 +19,6 @@ class UserPolicy
     /**
      * Determine if any resources can be viewed by the user.
      *
-     * @param  \Modules\Auth\Entities\User  $user
      * @return bool
      */
     public function viewAny(User $user)
@@ -31,7 +29,6 @@ class UserPolicy
     /**
      * Determine if the given resource can be viewed by the user.
      *
-     * @param  \Modules\Auth\Entities\User  $user
      * @return bool
      */
     public function view(User $user)
@@ -42,7 +39,6 @@ class UserPolicy
     /**
      * Determine if the given resource can be updated by the user.
      *
-     * @param  \Modules\Auth\Entities\User  $user
      * @return bool
      */
     public function update(User $user)
@@ -53,7 +49,6 @@ class UserPolicy
     /**
      * Determine if the given resource can be deleted by the user.
      *
-     * @param  \Modules\Auth\Entities\User  $user
      * @return bool
      */
     public function delete(User $user)
