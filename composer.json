@@ -93,6 +93,12 @@
             "Composer\\Config::disableProcessTimeout",
             "phpunit-watcher watch --filter NoneTest < /dev/tty"
         ],
+        "insights": [
+            "phpinsights"
+        ],
+        "insights:fix": [
+            "phpinsights fix"
+        ],
         "phpcs:fix-pr": [
             "tools/scripts/phpcs-fix.sh pr"
         ],
