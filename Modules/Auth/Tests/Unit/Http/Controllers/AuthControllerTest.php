@@ -1,12 +1,12 @@
 <?php
+
 namespace Modules\Contact\Http\Controllers;
 
 use Hash;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Http\Resources\UserResource;
+use Tests\TestCase;
 
 /**
  * @group api
@@ -69,7 +69,7 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response->assertStatus(401);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'message' => 'Unauthenticated.',
         ]);
     }

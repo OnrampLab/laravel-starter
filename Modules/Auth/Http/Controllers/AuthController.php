@@ -2,13 +2,13 @@
 
 namespace Modules\Auth\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Resources\Json\JsonResource;
-
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Modules\Auth\Http\Resources\UserResource;
+use Modules\Auth\UseCases\LoginUseCase;
 
 class AuthController extends Controller
 {
@@ -22,87 +22,35 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['store', 'refresh']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
-    {
-        return view('auth::index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('auth::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): JsonResource
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
-            throw new AuthenticationException(
-                'Unauthenticated.'
-            );
-        }
+        $token = LoginUseCase::perform($credentials);
 
         return $this->respondWithToken($token);
     }
 
     /**
      * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function me(): UserResource
     {
         return new UserResource(auth()->user());
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        return view('auth::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return view('auth::edit');
-    }
-
-    /**
      * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    public function refresh(): JsonResource
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(Auth::refresh());
     }
 
     /**
      * Remove the specified resource from storage.
-     * @return Response
      */
-    public function destroy()
+    public function destroy(): JsonResponse
     {
         auth()->logout();
 
@@ -111,12 +59,8 @@ class AuthController extends Controller
 
     /**
      * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken(string $token): JsonResource
     {
         return new JsonResource([
             'access_token' => $token,
