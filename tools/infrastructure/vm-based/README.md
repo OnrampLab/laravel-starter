@@ -57,5 +57,5 @@ bundle install
 ### Command for deploy
 Deploy 到 production
 ```bash
-CI_BRANCH=master cap production deploy
+CI_BRANCH=main cap production deploy
 ```

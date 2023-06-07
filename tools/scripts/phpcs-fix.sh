@@ -13,7 +13,7 @@ if [[ "${FIX_TYPE}" == "all" ]]; then
   `${FIXER_COMMAND}`
   vendor/bin/phpcbf
 elif [[ "${FIX_TYPE}" == "pr" ]]; then
-  GET_FILES_COMMAND="git diff origin/master HEAD --name-only --diff-filter ACMR"
+  GET_FILES_COMMAND="git diff origin/main HEAD --name-only --diff-filter ACMR"
 
   COUNT=`${GET_FILES_COMMAND} | grep '\.php$' | wc -l`
 

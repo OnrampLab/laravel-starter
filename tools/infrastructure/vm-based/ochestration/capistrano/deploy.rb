@@ -2,7 +2,7 @@
 Dotenv.overload ".env.#{fetch(:stage)}", '.env' # override system env
 
 
-# Default branch is :master
+# Default branch is :main
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # config/deploy.rb

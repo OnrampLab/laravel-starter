@@ -1,7 +1,6 @@
 {
     "name": "onramplab/hello",
-    "require": {
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "OnrampLab\\Hello\\": "src/"
@@ -9,7 +8,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-main": "1.0-dev"
         },
         "laravel": {
             "providers": [
