@@ -11,8 +11,6 @@ class CreateApiKeyListener
 
     /**
      * Create the event listener.
-     *
-     * @return void
      */
     public function __construct(AccountApiKeyRepository $accountApiKeyRepository)
     {
@@ -23,7 +21,6 @@ class CreateApiKeyListener
      * Handle the event.
      *
      * @param  object  $event
-     * @return void
      */
     public function handle(AccountCreatedEvent $event)
     {

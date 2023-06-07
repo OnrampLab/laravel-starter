@@ -3,14 +3,12 @@
 namespace Modules\Account\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Config;
 
 class AccountServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -23,8 +21,6 @@ class AccountServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -33,50 +29,25 @@ class AccountServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('account.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'account'
-        );
-    }
-
-    protected function registerMiddlewares()
-    {
-        $router = $this->app['router'];
-        $router->pushMiddlewareToGroup('auth:apiToken', \Modules\Account\Http\Middleware\CheckAccountApiKey::class);
-    }
-
-    /**
      * Register views.
-     *
-     * @return void
      */
     public function registerViews()
     {
         $viewPath = resource_path('views/modules/account');
 
-        $sourcePath = __DIR__.'/../Resources/views';
+        $sourcePath = __DIR__ . '/../Resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+            $sourcePath => $viewPath,
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/account';
-        }, \Config::get('view.paths')), [$sourcePath]), 'account');
+        }, Config::get('view.paths')), [$sourcePath]), 'account');
     }
 
     /**
      * Register translations.
-     *
-     * @return void
      */
     public function registerTranslations()
     {
@@ -85,7 +56,7 @@ class AccountServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'account');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'account');
+            $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'account');
         }
     }
 
@@ -97,5 +68,25 @@ class AccountServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    /**
+     * Register config.
+     */
+    protected function registerConfig()
+    {
+        $this->publishes([
+            __DIR__ . '/../Config/config.php' => config_path('account.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            'account',
+        );
+    }
+
+    protected function registerMiddlewares()
+    {
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('auth:apiToken', \Modules\Account\Http\Middleware\CheckAccountApiKey::class);
     }
 }

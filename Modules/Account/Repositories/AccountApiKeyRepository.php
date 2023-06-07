@@ -2,10 +2,8 @@
 
 namespace Modules\Account\Repositories;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Encryption\Encrypter;
 use Prettus\Repository\Eloquent\BaseRepository;
-
 use Modules\Account\Entities\AccountApiKey;
 
 class AccountApiKeyRepository extends BaseRepository
@@ -15,7 +13,7 @@ class AccountApiKeyRepository extends BaseRepository
      *
      * @return string
      */
-    function model()
+    public function model()
     {
         return AccountApiKey::class;
     }

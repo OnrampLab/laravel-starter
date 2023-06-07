@@ -5,7 +5,6 @@ namespace Modules\Auth\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
 use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Services\GetUserService;
@@ -25,7 +24,7 @@ class UserController extends Controller
      */
     protected $listUserService;
 
-     /**
+    /**
      * @var GetUserService
      */
     protected $getUserService;
@@ -45,8 +44,8 @@ class UserController extends Controller
         ListUserService $listUserService,
         GetUserService $getUserService,
         UpdateUserService $updateUserService,
-        DeleteUserService $deleteUserService
-    ){
+        DeleteUserService $deleteUserService,
+    ) {
         $this->createUserService = $createUserService;
         $this->listUserService = $listUserService;
         $this->getUserService = $getUserService;

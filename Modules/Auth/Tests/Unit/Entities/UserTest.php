@@ -3,9 +3,12 @@
 namespace Modules\Auth\Tests\Entities;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Auth\Entities\User;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class UserTest extends TestCase
 {
     protected function setUp(): void

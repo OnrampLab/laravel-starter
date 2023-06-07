@@ -4,15 +4,17 @@ namespace Modules\Account\Tests\Unit\Listeners;
 
 use Tests\TestCase;
 use Mockery;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-
 use Modules\Account\Entities\Account;
 use Modules\Account\Repositories\AccountApiKeyRepository;
 use Modules\Account\Events\AccountCreatedEvent;
 use Modules\Account\Listeners\CreateApiKeyListener;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CreateApiKeyListenerTest extends TestCase
 {
     use RefreshDatabase;

@@ -12,16 +12,13 @@ class DeleteUserService
     protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
-    )
-    {
+        UserRepository $userRepository,
+    ) {
         $this->userRepository = $userRepository;
     }
 
     public function perform(int $userId)
     {
-        $result = $this->userRepository->delete($userId);
-
-        return $result;
+        return $this->userRepository->delete($userId);
     }
 }

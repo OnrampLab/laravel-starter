@@ -8,6 +8,10 @@ use Modules\Auth\Entities\User;
 use Tests\TestCase;
 use Modules\Auth\UseCases\LoginUseCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LoginUseCaseTest extends TestCase
 {
     use RefreshDatabase;

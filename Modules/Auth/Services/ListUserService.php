@@ -12,16 +12,13 @@ class ListUserService
     protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
-    )
-    {
+        UserRepository $userRepository,
+    ) {
         $this->userRepository = $userRepository;
     }
 
     public function perform()
     {
-        $users = $this->userRepository->all();
-
-        return $users;
+        return $this->userRepository->all();
     }
 }

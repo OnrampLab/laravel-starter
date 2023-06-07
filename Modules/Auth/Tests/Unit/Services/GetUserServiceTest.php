@@ -5,11 +5,14 @@ namespace Modules\Auth\Tests;
 use Mockery;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 use Modules\Auth\Services\GetUserService;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GetUserServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -26,7 +29,6 @@ class GetUserServiceTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function perform_should_work()
     {

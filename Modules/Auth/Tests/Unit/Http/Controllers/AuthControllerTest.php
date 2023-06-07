@@ -10,6 +10,9 @@ use Tests\TestCase;
 
 /**
  * @group api
+ *
+ * @internal
+ * @coversNothing
  */
 class AuthControllerTest extends TestCase
 {
@@ -29,27 +32,25 @@ class AuthControllerTest extends TestCase
         ]);
         $this->token = auth()->attempt($this->userData);
         $this->headers = [
-            'Authorization' => "Bearer: $this->token",
+            'Authorization' => "Bearer: {$this->token}",
         ];
     }
 
     /**
      * @test login()
-     *
-     * @return void
      */
     public function login_should_succeed()
     {
         $url = '/api/auth/login';
         $data = [
-            'email'
+            'email',
         ];
         $response = $this->json('POST', $url, $this->userData);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
-                'access_token', 'expires_in', 'token_type'
+                'access_token', 'expires_in', 'token_type',
             ],
         ]);
     }
@@ -57,9 +58,8 @@ class AuthControllerTest extends TestCase
     /**
      * @test login()
      * @dataProvider failedLoginProvider
-     * @return void
      */
-    public function login_should_fail_when_wrong_email_or_password($email, $password)
+    public function login_should_fail_when_wrong_email_or_password(string $email, string $password)
     {
         $url = '/api/auth/login';
 
@@ -77,15 +77,13 @@ class AuthControllerTest extends TestCase
     public function failedLoginProvider()
     {
         return [
-            'wrong_email'    => ['wrong@test.com', 'test'],
+            'wrong_email' => ['wrong@test.com', 'test'],
             'wrong_password' => ['test@test.com', '123'],
         ];
     }
 
     /**
      * @test me()
-     *
-     * @return void
      */
     public function me_should_succeed()
     {
@@ -102,8 +100,6 @@ class AuthControllerTest extends TestCase
 
     /**
      * @test logout()
-     *
-     * @return void
      */
     public function logout_should_invalid_the_token()
     {
@@ -123,8 +119,6 @@ class AuthControllerTest extends TestCase
 
     /**
      * @test refresh()
-     *
-     * @return void
      */
     public function refresh_should_get_a_new_token()
     {
@@ -137,7 +131,7 @@ class AuthControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
-                'access_token', 'expires_in', 'token_type'
+                'access_token', 'expires_in', 'token_type',
             ],
         ]);
     }
@@ -147,7 +141,7 @@ class AuthControllerTest extends TestCase
         $url = '/api/auth/me';
         $data = [];
         $headers = [
-            'Authorization' => "Bearer: $token",
+            'Authorization' => "Bearer: {$token}",
         ];
 
         $response = $this->json('POST', $url, $data, $headers);

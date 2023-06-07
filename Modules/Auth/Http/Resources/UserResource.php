@@ -3,8 +3,6 @@
 namespace Modules\Auth\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
-use Modules\Auth\Http\Resources\RoleResource;
 use Modules\Account\Http\Resources\AccountResource;
 
 class UserResource extends JsonResource

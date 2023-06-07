@@ -16,7 +16,8 @@ class AccountController extends Controller
      */
     protected $accountRepository;
 
-    public function __construct(AccountRepository $accountRepository) {
+    public function __construct(AccountRepository $accountRepository)
+    {
         $this->accountRepository = $accountRepository;
     }
 

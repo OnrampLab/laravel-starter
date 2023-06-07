@@ -3,14 +3,12 @@
 namespace Modules\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Config;
 
 class CoreServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -22,8 +20,6 @@ class CoreServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -31,24 +27,7 @@ class CoreServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            module_path('Core', 'Config/config.php') => config_path('core.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            module_path('Core', 'Config/config.php'), 'core'
-        );
-    }
-
-    /**
      * Register views.
-     *
-     * @return void
      */
     public function registerViews()
     {
@@ -57,18 +36,16 @@ class CoreServiceProvider extends ServiceProvider
         $sourcePath = module_path('Core', 'Resources/views');
 
         $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
+            $sourcePath => $viewPath,
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/core';
-        }, \Config::get('view.paths')), [$sourcePath]), 'core');
+        }, Config::get('view.paths')), [$sourcePath]), 'core');
     }
 
     /**
      * Register translations.
-     *
-     * @return void
      */
     public function registerTranslations()
     {
@@ -89,5 +66,19 @@ class CoreServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    /**
+     * Register config.
+     */
+    protected function registerConfig()
+    {
+        $this->publishes([
+            module_path('Core', 'Config/config.php') => config_path('core.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            module_path('Core', 'Config/config.php'),
+            'core',
+        );
     }
 }

@@ -1,16 +1,18 @@
 <?php
-namespace Modules\Account\Tests\Unit\Http\Controllers;
 
+namespace Modules\Account\Tests\Unit\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
-
 use Modules\Account\Entities\Account;
-use Modules\Account\Entities\AccountApiKey;
 use Modules\Account\Events\AccountCreatedEvent;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class AccountControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -27,11 +29,10 @@ class AccountControllerTest extends TestCase
 
     /**
      * @test
-     * @return void
      */
     public function index()
     {
-        $url = "/api/accounts";
+        $url = '/api/accounts';
         $response = $this->json('GET', $url);
 
         $response->assertStatus(200);
@@ -41,18 +42,17 @@ class AccountControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                ]
+                ],
             ],
         ]);
     }
 
     /**
      * @test
-     * @return void
      */
     public function store()
     {
-        $url = "/api/accounts";
+        $url = '/api/accounts';
         $payload = [
             'name' => 'new name',
         ];
@@ -67,10 +67,10 @@ class AccountControllerTest extends TestCase
 
     /**
      * @test
-     * @return void
      */
-    public function store_should_emit_account_created_event () {
-        $url = "/api/accounts";
+    public function store_should_emit_account_created_event()
+    {
+        $url = '/api/accounts';
         $payload = [
             'name' => 'new name',
         ];
@@ -82,12 +82,11 @@ class AccountControllerTest extends TestCase
 
     /**
      * @test
-     * @return void
      */
     public function update()
     {
         $accountId = $this->account->id;
-        $url = "/api/accounts/$accountId";
+        $url = "/api/accounts/{$accountId}";
         $payload = [
             'name' => 'new name',
         ];
@@ -104,11 +103,11 @@ class AccountControllerTest extends TestCase
      * test destroy() with id.
      *
      * @test
-     * @return void
      */
-    public function destroy () {
+    public function destroy()
+    {
         $accountId = $this->account->id;
-        $url = "/api/accounts/$accountId";
+        $url = "/api/accounts/{$accountId}";
         $response = $this->json('DELETE', $url);
 
         $account = $this->account->find($accountId);

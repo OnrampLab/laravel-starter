@@ -2,7 +2,6 @@
 
 namespace Modules\Auth\UseCases;
 
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use OnrampLab\CleanArchitecture\Exceptions\CustomDomainException;
@@ -27,7 +26,7 @@ class LoginUseCase extends UseCase
                 'Email or Password is not correct',
                 [],
                 401,
-                new AuthenticationException('Unauthenticated.')
+                new AuthenticationException('Unauthenticated.'),
             );
         }
 

@@ -14,8 +14,6 @@ class AuthController extends Controller
 {
     /**
      * Create a new AuthController instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -65,7 +63,7 @@ class AuthController extends Controller
         return new JsonResource([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60 * 1000
+            'expires_in' => auth()->factory()->getTTL() * 60 * 1000,
         ]);
     }
 }

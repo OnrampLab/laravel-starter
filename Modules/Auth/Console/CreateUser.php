@@ -4,7 +4,6 @@ namespace Modules\Auth\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-
 use Modules\Auth\Services\CreateUserService;
 
 class CreateUser extends Command
@@ -35,8 +34,6 @@ class CreateUser extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct(CreateUserService $createUserService)
     {

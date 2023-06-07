@@ -4,7 +4,6 @@ namespace Modules\Auth\Services;
 
 use Hash;
 use Illuminate\Support\Str;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 
@@ -16,9 +15,8 @@ class CreateUserService
     protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
-    )
-    {
+        UserRepository $userRepository,
+    ) {
         $this->userRepository = $userRepository;
     }
 
@@ -37,8 +35,7 @@ class CreateUserService
         $encryptedPassword = Hash::make($password);
         $attributes['password'] = $encryptedPassword;
 
-        unset($attributes['roles']);
-        unset($attributes['accounts']);
+        unset($attributes['roles'], $attributes['accounts']);
 
         return $this->userRepository->create($attributes);
     }

@@ -57,7 +57,6 @@ class AccountPolicy
         return $this->canAccess($user, $account) && $user->hasRole('account-admin');
     }
 
-
     /**
      * Determine if the user can access the given account.
      *
@@ -66,7 +65,7 @@ class AccountPolicy
      */
     private function canAccess(User $user, Account $account)
     {
-        return $user->accounts->contains(function(Account $userAccount) use ($account) {
+        return $user->accounts->contains(function (Account $userAccount) use ($account) {
             return $userAccount->id === $account->id;
         });
     }

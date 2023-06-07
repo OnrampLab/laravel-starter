@@ -65,7 +65,7 @@ class BaseEntityPolicy
      */
     private function canAccess(User $user, Account $account)
     {
-        return $user->accounts->contains(function(Account $userAccount) use ($account) {
+        return $user->accounts->contains(function (Account $userAccount) use ($account) {
             return $userAccount->id === $account->id;
         });
     }

@@ -5,7 +5,6 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
 use Modules\Account\Repositories\AccountApiKeyRepository;
 use Modules\Account\Http\Resources\AccountApiKeyResource;
 

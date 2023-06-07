@@ -3,7 +3,6 @@
 namespace Modules\Account\Http\Middleware;
 
 use Closure;
-
 use Modules\Account\Repositories\AccountApiKeyRepository;
 
 class CheckAccountApiKey
@@ -13,8 +12,8 @@ class CheckAccountApiKey
      */
     protected $accountApiKeyRepository;
 
-
-    public function __construct(AccountApiKeyRepository $accountApiKeyRepository) {
+    public function __construct(AccountApiKeyRepository $accountApiKeyRepository)
+    {
         $this->accountApiKeyRepository = $accountApiKeyRepository;
     }
 
@@ -35,7 +34,6 @@ class CheckAccountApiKey
 
         $token = str_replace('Bearer ', '', $header);
         $apiKey = $this->accountApiKeyRepository->findByToken($token);
-
 
         if ($apiKey) {
             $request->route()->setParameter('accountId', $apiKey->account_id);

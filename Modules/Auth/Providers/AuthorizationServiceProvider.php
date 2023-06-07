@@ -3,7 +3,6 @@
 namespace Modules\Auth\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Policies\UserPolicy;
 
@@ -20,8 +19,6 @@ class AuthorizationServiceProvider extends ServiceProvider
 
     /**
      * Register any application authentication / authorization services.
-     *
-     * @return void
      */
     public function boot()
     {

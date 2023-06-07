@@ -1,14 +1,17 @@
 <?php
-namespace Modules\Account\Tests\Unit\Http\Controllers;
 
+namespace Modules\Account\Tests\Unit\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
-
 use Modules\Account\Entities\Account;
 use Modules\Account\Entities\AccountApiKey;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class AccountApiKeyControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -28,12 +31,11 @@ class AccountApiKeyControllerTest extends TestCase
      * test index() with id.
      *
      * @test
-     * @return void
      */
     public function index()
     {
         $accountId = $this->account->id;
-        $url = "/api/accounts/$accountId/account-api-keys";
+        $url = "/api/accounts/{$accountId}/account-api-keys";
         $response = $this->json('GET', $url);
 
         $response->assertStatus(200);
@@ -51,11 +53,11 @@ class AccountApiKeyControllerTest extends TestCase
      * test store()
      *
      * @test
-     * @return void
      */
-    public function store () {
+    public function store()
+    {
         $accountId = $this->account->id;
-        $url = "/api/accounts/$accountId/account-api-keys";
+        $url = "/api/accounts/{$accountId}/account-api-keys";
         $response = $this->json('POST', $url);
 
         $response->assertStatus(201);
@@ -68,12 +70,12 @@ class AccountApiKeyControllerTest extends TestCase
      * test destroy() with id.
      *
      * @test
-     * @return void
      */
-    public function destroy () {
+    public function destroy()
+    {
         $accountId = $this->account->id;
         $accountApiKeyId = $this->accountApiKey->id;
-        $url = "/api/accounts/$accountId/account-api-keys/$accountApiKeyId";
+        $url = "/api/accounts/{$accountId}/account-api-keys/{$accountApiKeyId}";
         $response = $this->json('DELETE', $url);
 
         $accountApiKey = $this->accountApiKey->find($accountApiKeyId);
