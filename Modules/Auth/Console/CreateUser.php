@@ -4,8 +4,6 @@ namespace Modules\Auth\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 use Modules\Auth\Services\CreateUserService;
 
@@ -16,7 +14,12 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'auth:create-user {name} {email} {role} {account} {password?}';
+    protected $signature = 'auth:create-user
+                            {name : Name of the user}
+                            {email : Email of the user}
+                            {role : Role of the user}
+                            {account : Accessed account ID of the user}
+                            {password? : Password of the user, will generate a random password if not given}';
 
     /**
      * The console command description.
@@ -61,22 +64,6 @@ class CreateUser extends Command
         $this->createUserService->perform($userData);
 
         $this->info('User created, password: ' . $userData['password']);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'Name of the user'],
-            ['email', InputArgument::REQUIRED, 'Email of the user'],
-            ['role', InputArgument::REQUIRED, 'Role of the user'],
-            ['account', InputArgument::REQUIRED, 'Accessed account of the user'],
-            ['password', InputArgument::OPTIONAL, 'Password of the user, will generate a random password if not given'],
-        ];
     }
 
     /**
