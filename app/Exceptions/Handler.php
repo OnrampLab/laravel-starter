@@ -2,14 +2,7 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
-use Throwable;
+use OnrampLab\CleanArchitecture\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -19,6 +12,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
+        //
     ];
 
     /**
@@ -30,58 +24,4 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
-
-    /**
-     * Report or log an exception.
-     */
-    public function report(Throwable $exception)
-    {
-        parent::report($exception);
-    }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $e
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $exception)
-    {
-        if (strpos($request->header('Content-Type'), 'application/json') !== false) {
-            $status = 500;
-
-            if ($this->isHttpException($exception)) {
-                // Grab the HTTP status code from the Exception
-                $status = $exception->getStatusCode();
-            }
-
-            if ($exception instanceof AuthenticationException || $exception instanceof JWTException) {
-                $status = 401;
-            }
-
-            $message = $exception->getMessage();
-
-            if ($exception instanceof NotFoundHttpException) {
-                $message = 'Route not found';
-            }
-
-            Log::error("[Handler] {$message}", [
-                'url' => $request->fullUrl(),
-                'data' => $request->except(['password']),
-                'exception' => $exception,
-            ]);
-
-            return response()->json([
-                'message' => $message,
-            ], $status);
-        }
-        if ($this->isHttpException($exception)) {
-            return $this->renderHttpException($exception);
-        }
-
-        return parent::render($request, $exception);
-    }
 }
