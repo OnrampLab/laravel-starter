@@ -3,6 +3,7 @@
 namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Account\Events\AccountCreatedEvent;
@@ -24,7 +25,7 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(): JsonResource
     {
         $accounts = $this->accountRepository->all();
 
@@ -32,17 +33,9 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        return view('account::create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResource
     {
         $payload = $request->input();
         $account = $this->accountRepository->create($payload);
@@ -52,25 +45,9 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     */
-    public function show(int $id): Response
-    {
-        return view('account::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id): Response
-    {
-        return view('account::edit');
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): Response
+    public function update(Request $request, int $id): JsonResource
     {
         $payload = $request->input();
         $account = $this->accountRepository->update($payload, $id);

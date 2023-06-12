@@ -3,6 +3,7 @@
 namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Account\Http\Resources\AccountApiKeyResource;
@@ -29,43 +30,19 @@ class AccountApiKeyController extends Controller
             'account_id' => $accountId,
         ]);
 
-        return [
+        return response([
             'data' => $apiKeys,
-        ];
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        return view('account::create');
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, int $accountId): Response
+    public function store(Request $request, int $accountId): JsonResource
     {
         $accountApiKey = $this->accountApiKeyRepository->createApiKey($accountId);
 
         return new AccountApiKeyResource($accountApiKey);
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show(int $id): Response
-    {
-        return view('account::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id): Response
-    {
-        return view('account::edit');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Modules\Auth\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Auth\Http\Resources\UserResource;
@@ -56,7 +57,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(): JsonResource
     {
         $users = $this->listUserService->perform();
 
@@ -64,17 +65,9 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        return view('auth::create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResource
     {
         $payload = $request->input();
         $user = $this->createUserService->perform($payload);
@@ -85,7 +78,7 @@ class UserController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show(int $userId): Response
+    public function show(int $userId): JsonResource
     {
         $user = $this->getUserService->perform($userId);
 
@@ -93,17 +86,9 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id): Response
-    {
-        return view('auth::edit');
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $userId): Response
+    public function update(Request $request, int $userId): JsonResource
     {
         $payload = $request->input();
         $user = $this->updateUserService->perform($payload, $userId);

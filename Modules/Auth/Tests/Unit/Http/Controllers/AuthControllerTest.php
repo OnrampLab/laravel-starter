@@ -94,7 +94,7 @@ class AuthControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertExactJson([
-            'data' => (new UserResource($this->user))->toArray($data),
+            'data' => (new UserResource($this->user))->toArray(request()),
         ]);
     }
 
