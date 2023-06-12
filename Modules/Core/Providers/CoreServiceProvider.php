@@ -2,15 +2,15 @@
 
 namespace Modules\Core\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Config;
+use Illuminate\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerTranslations();
         $this->registerConfig();
@@ -21,7 +21,7 @@ class CoreServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
     }
@@ -29,7 +29,7 @@ class CoreServiceProvider extends ServiceProvider
     /**
      * Register views.
      */
-    public function registerViews()
+    public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/core');
 
@@ -47,7 +47,7 @@ class CoreServiceProvider extends ServiceProvider
     /**
      * Register translations.
      */
-    public function registerTranslations()
+    public function registerTranslations(): void
     {
         $langPath = resource_path('lang/modules/core');
 
@@ -63,7 +63,7 @@ class CoreServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
     }
@@ -71,7 +71,7 @@ class CoreServiceProvider extends ServiceProvider
     /**
      * Register config.
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->publishes([
             module_path('Core', 'Config/config.php') => config_path('core.php'),

@@ -2,8 +2,8 @@
 
 namespace Modules\Account\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Account\Database\Factories\AccountFactory;
 use Modules\Auth\Entities\User;
 
@@ -15,7 +15,7 @@ use Modules\Auth\Entities\User;
  * @property int|null $parent_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<User> $users
  * @property-read int|null $users_count
  * @method static \Modules\Account\Database\Factories\AccountFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Account newModelQuery()

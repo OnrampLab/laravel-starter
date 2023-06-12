@@ -11,14 +11,14 @@ class HelloServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
     }
 
     /**
      * Register any application services.
      */
-    public function register()
+    public function register(): void
     {
         $this->registerCommands();
     }
@@ -29,7 +29,7 @@ class HelloServiceProvider extends ServiceProvider
     /**
      * Register the Artisan commands.
      */
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([

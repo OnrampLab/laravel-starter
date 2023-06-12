@@ -2,8 +2,8 @@
 
 namespace Modules\Account\Listeners;
 
-use Modules\Account\Repositories\AccountApiKeyRepository;
 use Modules\Account\Events\AccountCreatedEvent;
+use Modules\Account\Repositories\AccountApiKeyRepository;
 
 class CreateApiKeyListener
 {
@@ -22,7 +22,7 @@ class CreateApiKeyListener
      *
      * @param  object  $event
      */
-    public function handle(AccountCreatedEvent $event)
+    public function handle(AccountCreatedEvent $event): void
     {
         $accountId = $event->account->id;
 

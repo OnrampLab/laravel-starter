@@ -3,17 +3,15 @@
 namespace Modules\Account\Repositories;
 
 use Illuminate\Encryption\Encrypter;
-use Prettus\Repository\Eloquent\BaseRepository;
 use Modules\Account\Entities\AccountApiKey;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class AccountApiKeyRepository extends BaseRepository
 {
     /**
      * Specify Model class name
-     *
-     * @return string
      */
-    public function model()
+    public function model(): string
     {
         return AccountApiKey::class;
     }

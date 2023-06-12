@@ -19,11 +19,8 @@ class CheckAccountApiKey
 
     /**
      * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(\Illuminate\Http\Request $request, Closure $next): mixed
     {
         $header = $request->header('Authorization');
         $error = 'API Token is invalied.';

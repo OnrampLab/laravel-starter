@@ -2,15 +2,15 @@
 
 namespace Modules\Account\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Config;
+use Illuminate\Support\ServiceProvider;
 
 class AccountServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerTranslations();
         $this->registerConfig();
@@ -22,7 +22,7 @@ class AccountServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
@@ -31,7 +31,7 @@ class AccountServiceProvider extends ServiceProvider
     /**
      * Register views.
      */
-    public function registerViews()
+    public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/account');
 
@@ -49,7 +49,7 @@ class AccountServiceProvider extends ServiceProvider
     /**
      * Register translations.
      */
-    public function registerTranslations()
+    public function registerTranslations(): void
     {
         $langPath = resource_path('lang/modules/account');
 
@@ -65,7 +65,7 @@ class AccountServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
     }
@@ -73,7 +73,7 @@ class AccountServiceProvider extends ServiceProvider
     /**
      * Register config.
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->publishes([
             __DIR__ . '/../Config/config.php' => config_path('account.php'),
@@ -84,7 +84,7 @@ class AccountServiceProvider extends ServiceProvider
         );
     }
 
-    protected function registerMiddlewares()
+    protected function registerMiddlewares(): void
     {
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('auth:apiToken', \Modules\Account\Http\Middleware\CheckAccountApiKey::class);

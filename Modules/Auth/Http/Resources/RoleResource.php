@@ -9,10 +9,9 @@ class RoleResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray(\Illuminate\Http\Request $request): array
     {
         return [
             'id' => $this->id,

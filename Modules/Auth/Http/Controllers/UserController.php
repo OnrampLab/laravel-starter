@@ -5,12 +5,12 @@ namespace Modules\Auth\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Auth\Services\CreateUserService;
-use Modules\Auth\Services\ListUserService;
-use Modules\Auth\Services\GetUserService;
-use Modules\Auth\Services\UpdateUserService;
-use Modules\Auth\Services\DeleteUserService;
 use Modules\Auth\Http\Resources\UserResource;
+use Modules\Auth\Services\CreateUserService;
+use Modules\Auth\Services\DeleteUserService;
+use Modules\Auth\Services\GetUserService;
+use Modules\Auth\Services\ListUserService;
+use Modules\Auth\Services\UpdateUserService;
 
 class UserController extends Controller
 {
@@ -55,9 +55,8 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $users = $this->listUserService->perform();
 
@@ -66,18 +65,16 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return view('auth::create');
     }
 
     /**
      * Store a newly created resource in storage.
-     * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $payload = $request->input();
         $user = $this->createUserService->perform($payload);
@@ -87,9 +84,8 @@ class UserController extends Controller
 
     /**
      * Show the specified resource.
-     * @return Response
      */
-    public function show(int $userId)
+    public function show(int $userId): Response
     {
         $user = $this->getUserService->perform($userId);
 
@@ -98,19 +94,16 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
      */
-    public function edit($id)
+    public function edit(int $id): Response
     {
         return view('auth::edit');
     }
 
     /**
      * Update the specified resource in storage.
-     * @return Response
      */
-    public function update(Request $request, int $userId)
+    public function update(Request $request, int $userId): Response
     {
         $payload = $request->input();
         $user = $this->updateUserService->perform($payload, $userId);
@@ -120,9 +113,8 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @return Response
      */
-    public function destroy(int $userId)
+    public function destroy(int $userId): Response
     {
         $this->deleteUserService->perform($userId);
 

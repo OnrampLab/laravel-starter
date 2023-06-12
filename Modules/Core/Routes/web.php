@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('core')->group(function () {
+Route::prefix('core')->group(function (): void {
     Route::get('/', 'CoreController@index');
 });

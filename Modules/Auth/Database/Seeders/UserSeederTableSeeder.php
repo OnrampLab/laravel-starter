@@ -11,7 +11,7 @@ class UserSeederTableSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(CreateUserService $createUserService, AccountRepository $accountRepository)
+    public function run(CreateUserService $createUserService, AccountRepository $accountRepository): void
     {
         $userService = app(CreateUserService::class);
         $account = $accountRepository->first();
@@ -23,6 +23,6 @@ class UserSeederTableSeeder extends Seeder
             'accounts' => [$account->id],
         ];
 
-        $user = $userService->perform($userData);
+        $userService->perform($userData);
     }
 }

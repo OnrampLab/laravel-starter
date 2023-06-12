@@ -30,10 +30,8 @@ class SayHiCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): mixed
     {
         echo "hi!\n";
     }

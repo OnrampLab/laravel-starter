@@ -5,9 +5,9 @@ namespace Modules\Account\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Account\Events\AccountCreatedEvent;
 use Modules\Account\Http\Resources\AccountResource;
 use Modules\Account\Repositories\AccountRepository;
-use Modules\Account\Events\AccountCreatedEvent;
 
 class AccountController extends Controller
 {
@@ -23,9 +23,8 @@ class AccountController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $accounts = $this->accountRepository->all();
 
@@ -34,18 +33,16 @@ class AccountController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return view('account::create');
     }
 
     /**
      * Store a newly created resource in storage.
-     * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $payload = $request->input();
         $account = $this->accountRepository->create($payload);
@@ -56,30 +53,24 @@ class AccountController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
-     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
         return view('account::show');
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
      */
-    public function edit($id)
+    public function edit(int $id): Response
     {
         return view('account::edit');
     }
 
     /**
      * Update the specified resource in storage.
-     * @param int $id
-     * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): Response
     {
         $payload = $request->input();
         $account = $this->accountRepository->update($payload, $id);
@@ -89,10 +80,8 @@ class AccountController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
      */
-    public function destroy($id)
+    public function destroy(int $id): Response
     {
         $this->accountRepository->delete($id);
 

@@ -14,8 +14,6 @@ class RouteServiceProvider extends ServiceProvider
      * The path to your application's "home" route.
      *
      * Typically, users are redirected here after authentication.
-     *
-     * @var string
      */
     final public const HOME = '/home';
 
@@ -28,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-        $this->routes(function () {
+        $this->routes(function (): void {
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));

@@ -3,8 +3,8 @@
 namespace Modules\Auth\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Auth\Entities\User;
 use Illuminate\Support\Str;
+use Modules\Auth\Entities\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\Entities\User>

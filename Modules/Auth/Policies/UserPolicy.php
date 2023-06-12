@@ -8,50 +8,40 @@ class UserPolicy
 {
     /**
      * Determine if the given resource can be created by the user.
-     *
-     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasRole('system-admin');
     }
 
     /**
      * Determine if any resources can be viewed by the user.
-     *
-     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasRole('system-admin');
     }
 
     /**
      * Determine if the given resource can be viewed by the user.
-     *
-     * @return bool
      */
-    public function view(User $user)
+    public function view(User $user): bool
     {
         return $user->hasRole('system-admin');
     }
 
     /**
      * Determine if the given resource can be updated by the user.
-     *
-     * @return bool
      */
-    public function update(User $user)
+    public function update(User $user): bool
     {
         return $user->hasRole('system-admin');
     }
 
     /**
      * Determine if the given resource can be deleted by the user.
-     *
-     * @return bool
      */
-    public function delete(User $user)
+    public function delete(User $user): bool
     {
         return $user->hasRole('system-admin');
     }

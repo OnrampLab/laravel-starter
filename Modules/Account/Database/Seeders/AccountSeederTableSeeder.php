@@ -10,7 +10,7 @@ class AccountSeederTableSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
         Account::create(['name' => 'Default Account']);
     }

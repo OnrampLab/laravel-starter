@@ -2,9 +2,9 @@
 
 namespace Modules\Auth\Providers;
 
+use Config;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Console\CreateUser;
-use Config;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,7 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Boot the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerTranslations();
         $this->registerConfig();
@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
     }
@@ -41,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register views.
      */
-    public function registerViews()
+    public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
 
@@ -57,7 +57,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register translations.
      */
-    public function registerTranslations()
+    public function registerTranslations(): void
     {
         $langPath = resource_path('lang/modules/' . $this->moduleNameLower);
 
@@ -68,7 +68,7 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    public function registerCommands()
+    public function registerCommands(): void
     {
         $this->commands([
             CreateUser::class,
@@ -80,7 +80,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
     }
@@ -88,7 +88,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register config.
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->publishes([
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),

@@ -13,7 +13,7 @@
 
 Route::group([
     'prefix' => 'auth',
-], function ($router) {
+], function ($router): void {
     Route::post('login', 'AuthController@store');
     Route::post('logout', 'AuthController@destroy');
     Route::post('refresh', 'AuthController@refresh');
