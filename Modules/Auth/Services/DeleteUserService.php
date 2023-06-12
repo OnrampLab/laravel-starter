@@ -17,7 +17,7 @@ class DeleteUserService
         $this->userRepository = $userRepository;
     }
 
-    public function perform(int $userId)
+    public function perform(int $userId): int
     {
         return $this->userRepository->delete($userId);
     }

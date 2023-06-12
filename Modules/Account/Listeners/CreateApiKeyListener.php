@@ -7,20 +7,15 @@ use Modules\Account\Repositories\AccountApiKeyRepository;
 
 class CreateApiKeyListener
 {
-    public $accountApiKeyRepository;
-
     /**
      * Create the event listener.
      */
-    public function __construct(AccountApiKeyRepository $accountApiKeyRepository)
+    public function __construct(public AccountApiKeyRepository $accountApiKeyRepository)
     {
-        $this->accountApiKeyRepository = $accountApiKeyRepository;
     }
 
     /**
      * Handle the event.
-     *
-     * @param  object  $event
      */
     public function handle(AccountCreatedEvent $event): void
     {

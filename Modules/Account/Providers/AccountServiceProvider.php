@@ -62,8 +62,6 @@ class AccountServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
     public function provides(): array
     {
@@ -86,7 +84,7 @@ class AccountServiceProvider extends ServiceProvider
 
     protected function registerMiddlewares(): void
     {
-        $router = $this->app['router'];
+        $router = $this->app->get('router');
         $router->pushMiddlewareToGroup('auth:apiToken', \Modules\Account\Http\Middleware\CheckAccountApiKey::class);
     }
 }

@@ -3,13 +3,15 @@
 namespace Modules\Auth\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Permission\Models\Role;
 
+/**
+ * @mixin Role
+ */
 class RoleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     *
-     * @return array
      */
     public function toArray(\Illuminate\Http\Request $request): array
     {

@@ -16,7 +16,7 @@ class AccountApiKeyRepository extends BaseRepository
         return AccountApiKey::class;
     }
 
-    public function createApiKey($accountId)
+    public function createApiKey(int $accountId): AccountApiKey
     {
         $token = base64_encode(Encrypter::generateKey(config('app.cipher')));
 
@@ -26,7 +26,7 @@ class AccountApiKeyRepository extends BaseRepository
         ]);
     }
 
-    public function findByToken($token)
+    public function findByToken(string $token): AccountApiKey|null
     {
         return $this->findByField('token', $token)->first();
     }

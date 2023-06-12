@@ -49,13 +49,9 @@ class AccountPolicy
 
     /**
      * Determine if the user can access the given account.
-     *
-     * @param  Account  $model
      */
     private function canAccess(User $user, Account $account): bool
     {
-        return $user->accounts->contains(function (Account $userAccount) use ($account) {
-            return $userAccount->id === $account->id;
-        });
+        return $user->accounts->contains('id', $account->id);
     }
 }

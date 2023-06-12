@@ -11,7 +11,7 @@ class AuthorizationServiceProvider extends ServiceProvider
     /**
      * The policy mappings for the application.
      *
-     * @var array
+     * @var array<class-string, class-string>
      */
     protected $policies = [
         User::class => UserPolicy::class,

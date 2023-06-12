@@ -31,8 +31,10 @@ class SayHiCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): mixed
+    public function handle(): int
     {
         echo "hi!\n";
+
+        return Command::SUCCESS;
     }
 }

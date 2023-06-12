@@ -19,5 +19,6 @@ parameters:
         - ./*/*/Migrations/*.php
         - ./_ide_helper.php
         - ./.phpstorm.meta.php
+        - ./phpinsights.php
 
     checkMissingIterableValueType: false

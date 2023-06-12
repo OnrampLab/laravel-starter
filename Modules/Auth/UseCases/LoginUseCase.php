@@ -30,6 +30,6 @@ class LoginUseCase extends UseCase
             );
         }
 
-        return $token;
+        return (string) $token;
     }
 }

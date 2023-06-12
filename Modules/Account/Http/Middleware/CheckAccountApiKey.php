@@ -31,9 +31,10 @@ class CheckAccountApiKey
 
         $token = str_replace('Bearer ', '', $header);
         $apiKey = $this->accountApiKeyRepository->findByToken($token);
+        $route = $request->route();
 
-        if ($apiKey) {
-            $request->route()->setParameter('accountId', $apiKey->account_id);
+        if ($apiKey && $route) {
+            $route->setParameter('accountId', (string) $apiKey->account_id);
         } else {
             abort(401, $error);
         }

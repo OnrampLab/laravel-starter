@@ -63,6 +63,7 @@ class AuthController extends Controller
         return new JsonResource([
             'access_token' => $token,
             'token_type' => 'bearer',
+            // @phpstan-ignore-next-line
             'expires_in' => auth()->factory()->getTTL() * 60 * 1000,
         ]);
     }

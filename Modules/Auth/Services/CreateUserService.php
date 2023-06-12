@@ -20,7 +20,7 @@ class CreateUserService
         $this->userRepository = $userRepository;
     }
 
-    public function perform(array $attributes)
+    public function perform(array $attributes): User
     {
         $user = $this->createUser($attributes);
         $this->assignUserRoles($user, $attributes['roles']);

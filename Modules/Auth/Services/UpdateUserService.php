@@ -19,7 +19,7 @@ class UpdateUserService
         $this->userRepository = $userRepository;
     }
 
-    public function perform(array $attributes, int $userId)
+    public function perform(array $attributes, int $userId): User
     {
         $user = $this->updateUser($attributes, $userId);
 

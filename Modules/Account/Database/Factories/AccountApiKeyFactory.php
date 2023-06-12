@@ -5,6 +5,9 @@ namespace Modules\Account\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Account\Entities\AccountApiKey;
 
+/**
+ * @extends Factory<AccountApiKey>
+ */
 class AccountApiKeyFactory extends Factory
 {
     protected $model = AccountApiKey::class;

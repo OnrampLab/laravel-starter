@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Services;
 
+use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 
 class GetUserService
@@ -17,7 +18,7 @@ class GetUserService
         $this->userRepository = $userRepository;
     }
 
-    public function perform(int $userId)
+    public function perform(int $userId): User
     {
         return $this->userRepository->find($userId);
     }
