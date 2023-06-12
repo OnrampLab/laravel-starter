@@ -99,3 +99,11 @@ services:
 volumes:
   data: {}
   esdata: {}
+
+networks:
+    default:
+        driver:
+            bridge
+        ipam:
+          config:
+          - subnet: "${DOCKER_SUBNET:-172.24.0.0/24}"
