@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Services;
 
+use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 
 class GetUserService
@@ -12,16 +13,13 @@ class GetUserService
     protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
-    )
-    {
+        UserRepository $userRepository,
+    ) {
         $this->userRepository = $userRepository;
     }
 
-    public function perform(int $userId)
+    public function perform(int $userId): User
     {
-        $user = $this->userRepository->find($userId);
-
-        return $user;
+        return $this->userRepository->find($userId);
     }
 }

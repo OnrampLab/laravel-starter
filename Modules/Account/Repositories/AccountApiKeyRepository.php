@@ -2,25 +2,21 @@
 
 namespace Modules\Account\Repositories;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Encryption\Encrypter;
-use Prettus\Repository\Eloquent\BaseRepository;
-
 use Modules\Account\Entities\AccountApiKey;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class AccountApiKeyRepository extends BaseRepository
 {
     /**
      * Specify Model class name
-     *
-     * @return string
      */
-    function model()
+    public function model(): string
     {
         return AccountApiKey::class;
     }
 
-    public function createApiKey($accountId)
+    public function createApiKey(int $accountId): AccountApiKey
     {
         $token = base64_encode(Encrypter::generateKey(config('app.cipher')));
 
@@ -30,7 +26,7 @@ class AccountApiKeyRepository extends BaseRepository
         ]);
     }
 
-    public function findByToken($token)
+    public function findByToken(string $token): AccountApiKey|null
     {
         return $this->findByField('token', $token)->first();
     }

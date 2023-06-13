@@ -4,12 +4,13 @@ namespace Modules\Account\Tests\Unit\Entities;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
-
-use Modules\Auth\Entities\User;
 use Modules\Account\Entities\AccountApiKey;
 use Modules\Account\Entities\Account;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class AccountApiTest extends TestCase
 {
     use RefreshDatabase;

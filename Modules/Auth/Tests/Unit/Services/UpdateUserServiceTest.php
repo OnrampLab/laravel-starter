@@ -6,12 +6,15 @@ use Mockery;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
-
 use Modules\Account\Entities\Account;
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 use Modules\Auth\Services\UpdateUserService;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class UpdateUserServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -32,7 +35,6 @@ class UpdateUserServiceTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function perform_should_work()
     {
@@ -43,7 +45,7 @@ class UpdateUserServiceTest extends TestCase
             'name' => 'test',
             'email' => 'test@test.com',
             'roles' => ['role2'],
-            'accounts' => $this->accounts->pluck('id')->toArray()
+            'accounts' => $this->accounts->pluck('id')->toArray(),
         ];
 
         $this->repositoryMock

@@ -1,11 +1,11 @@
 <?php
+
 namespace Modules\Contact\Http\Controllers;
 
 use Mockery;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
-
 use Modules\Account\Entities\Account;
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
@@ -13,6 +13,9 @@ use Modules\Auth\Services\CreateUserService;
 
 /**
  * @group service
+ *
+ * @internal
+ * @coversNothing
  */
 class CreateUserServiceTest extends TestCase
 {
@@ -37,7 +40,7 @@ class CreateUserServiceTest extends TestCase
             'email' => 'test@test.com',
             'password' => 'test',
             'roles' => ['role1'],
-            'accounts' => [$this->account->id]
+            'accounts' => [$this->account->id],
         ];
 
         $this->repositoryMock = Mockery::mock(UserRepository::class);
@@ -47,8 +50,6 @@ class CreateUserServiceTest extends TestCase
 
     /**
      * @test perform()
-     *
-     * @return void
      */
     public function perform_should_work()
     {

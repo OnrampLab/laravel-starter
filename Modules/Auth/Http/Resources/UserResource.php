@@ -3,19 +3,18 @@
 namespace Modules\Auth\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
-use Modules\Auth\Http\Resources\RoleResource;
 use Modules\Account\Http\Resources\AccountResource;
+use Modules\Auth\Entities\User;
 
+/**
+ * @mixin User
+ */
 class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
-    public function toArray($request)
+    public function toArray(\Illuminate\Http\Request $request): array
     {
         return [
             'id' => $this->id,

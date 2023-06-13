@@ -2,6 +2,8 @@
 
 namespace Modules\Auth\Services;
 
+use Illuminate\Support\Collection;
+use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 
 class ListUserService
@@ -12,16 +14,16 @@ class ListUserService
     protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
-    )
-    {
+        UserRepository $userRepository,
+    ) {
         $this->userRepository = $userRepository;
     }
 
-    public function perform()
+    /**
+     * @return Collection<int, User>
+     */
+    public function perform(): Collection
     {
-        $users = $this->userRepository->all();
-
-        return $users;
+        return $this->userRepository->all();
     }
 }

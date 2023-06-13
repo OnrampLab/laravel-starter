@@ -4,17 +4,14 @@ namespace Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Account\Repositories\AccountRepository;
-use Modules\Auth\Entities\User;
 use Modules\Auth\Services\CreateUserService;
 
 class UserSeederTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run(CreateUserService $createUserService, AccountRepository $accountRepository)
+    public function run(CreateUserService $createUserService, AccountRepository $accountRepository): void
     {
         $userService = app(CreateUserService::class);
         $account = $accountRepository->first();
@@ -26,6 +23,6 @@ class UserSeederTableSeeder extends Seeder
             'accounts' => [$account->id],
         ];
 
-        $user = $userService->perform($userData);
+        $userService->perform($userData);
     }
 }

@@ -8,7 +8,7 @@ parameters:
         - Modules
 
     # The level 8 is the highest level
-    level: 0
+    level: 8
 
     # ignoreErrors:
     #    - '#Unsafe usage of new static#'
@@ -19,5 +19,6 @@ parameters:
         - ./*/*/Migrations/*.php
         - ./_ide_helper.php
         - ./.phpstorm.meta.php
+        - ./phpinsights.php
 
     checkMissingIterableValueType: false

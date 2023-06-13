@@ -5,7 +5,6 @@ namespace Modules\Auth\Tests;
 use Mockery;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Services\CreateUserService;
 use Modules\Auth\Services\ListUserService;
@@ -13,6 +12,10 @@ use Modules\Auth\Services\GetUserService;
 use Modules\Auth\Services\DeleteUserService;
 use Modules\Auth\Services\UpdateUserService;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -42,7 +45,6 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function store()
     {
@@ -52,7 +54,7 @@ class UserControllerTest extends TestCase
             'email' => 'test@test.com',
             'password' => 'test',
             'roles' => ['role1'],
-            'accounts' => [1]
+            'accounts' => [1],
         ];
 
         $this->createUserServiceMock
@@ -76,7 +78,6 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function index()
     {
@@ -105,7 +106,6 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function show()
     {
@@ -135,7 +135,6 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function update()
     {
@@ -144,7 +143,7 @@ class UserControllerTest extends TestCase
             'name' => 'test',
             'email' => 'test@test.com',
             'roles' => ['role2'],
-            'accounts' => [1, 2]
+            'accounts' => [1, 2],
         ];
 
         $this->updateUserServiceMock
@@ -172,7 +171,6 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function destroy()
     {
@@ -195,7 +193,7 @@ class UserControllerTest extends TestCase
     {
         return $this
             ->withHeaders([
-                'Authorization' => "Bearer $this->apiToken",
+                'Authorization' => "Bearer {$this->apiToken}",
             ]);
     }
 }

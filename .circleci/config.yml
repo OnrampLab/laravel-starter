@@ -37,6 +37,10 @@ commands:
               tools/scripts/phpcs-pr.sh
             fi
       - run:
+          name: Run PHPCS
+          command: |
+            vendor/bin/phpstan clear-result-cache
+      - run:
           name: Run PHPStan analysis
           command: |
             if [[ "${CIRCLE_BRANCH}" != "main" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
@@ -45,14 +49,14 @@ commands:
       - run:
           name: Run PHPStan analysis for all files
           command: |
-            if [[ "${CIRCLE_BRANCH}" != "main" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
-              tools/scripts/phpstan-pr-all-files.sh
+            if [[ "${CIRCLE_BRANCH}" == "main" ]]; then
+              tools/scripts/phpstan-all-files.sh
             fi
       - run:
           name: Run PHP insight
           command: |
             if [[ "${CIRCLE_BRANCH}" != "main" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
-              php artisan insights  --no-interaction
+              vendor/bin/phpinsights --no-interaction
             fi
 
   run_test:
@@ -73,10 +77,6 @@ commands:
           key: dependency-cache-composer-{{ checksum "composer.lock" }}
           paths:
             - ~/app/vendor
-      - run:
-          name: Do static analysis
-          command: |
-            php -d memory_limit=4G vendor/bin/phpstan analyse
       - run:
           name: Test
           command: |

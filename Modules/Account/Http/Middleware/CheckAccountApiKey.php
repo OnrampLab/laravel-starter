@@ -3,7 +3,6 @@
 namespace Modules\Account\Http\Middleware;
 
 use Closure;
-
 use Modules\Account\Repositories\AccountApiKeyRepository;
 
 class CheckAccountApiKey
@@ -13,19 +12,15 @@ class CheckAccountApiKey
      */
     protected $accountApiKeyRepository;
 
-
-    public function __construct(AccountApiKeyRepository $accountApiKeyRepository) {
+    public function __construct(AccountApiKeyRepository $accountApiKeyRepository)
+    {
         $this->accountApiKeyRepository = $accountApiKeyRepository;
     }
 
     /**
      * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(\Illuminate\Http\Request $request, Closure $next): mixed
     {
         $header = $request->header('Authorization');
         $error = 'API Token is invalied.';
@@ -36,10 +31,10 @@ class CheckAccountApiKey
 
         $token = str_replace('Bearer ', '', $header);
         $apiKey = $this->accountApiKeyRepository->findByToken($token);
+        $route = $request->route();
 
-
-        if ($apiKey) {
-            $request->route()->setParameter('accountId', $apiKey->account_id);
+        if ($apiKey && $route) {
+            $route->setParameter('accountId', (string) $apiKey->account_id);
         } else {
             abort(401, $error);
         }

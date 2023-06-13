@@ -3,7 +3,6 @@
 namespace Modules\Auth\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Policies\UserPolicy;
 
@@ -12,7 +11,7 @@ class AuthorizationServiceProvider extends ServiceProvider
     /**
      * The policy mappings for the application.
      *
-     * @var array
+     * @var array<class-string, class-string>
      */
     protected $policies = [
         User::class => UserPolicy::class,
@@ -20,10 +19,8 @@ class AuthorizationServiceProvider extends ServiceProvider
 
     /**
      * Register any application authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerPolicies();
     }

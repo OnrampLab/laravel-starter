@@ -5,11 +5,14 @@ namespace Modules\Auth\Tests;
 use Mockery;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 use Modules\Auth\Services\DeleteUserService;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DeleteUserServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -26,7 +29,6 @@ class DeleteUserServiceTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function perform_should_work()
     {

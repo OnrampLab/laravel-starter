@@ -10,7 +10,7 @@ FIXER_COMMAND="vendor/bin/php-cs-fixer fix --diff --config .php-cs-fixer.php"
 rm -rf .php-cs-fixer.cache
 
 if [[ "${FIX_TYPE}" == "all" ]]; then
-  `${FIXER_COMMAND}`
+  eval $FIXER_COMMAND
   vendor/bin/phpcbf
 elif [[ "${FIX_TYPE}" == "pr" ]]; then
   GET_FILES_COMMAND="git diff origin/main HEAD --name-only --diff-filter ACMR"
@@ -18,7 +18,7 @@ elif [[ "${FIX_TYPE}" == "pr" ]]; then
   COUNT=`${GET_FILES_COMMAND} | grep '\.php$' | wc -l`
 
   if (( $COUNT > 0 )); then
-    FILES=`${GET_FILES_COMMAND} | grep '\.php$'`
+    FILES=eval "${GET_FILES_COMMAND} | grep '\.php$'"
     echo $FILES | xargs ${FIXER_COMMAND} --path-mode=intersection --
     echo $FILES | xargs vendor/bin/phpcbf
   else

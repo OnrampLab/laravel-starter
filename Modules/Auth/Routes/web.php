@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('auth')->group(function() {
+Route::prefix('auth')->group(function (): void {
     Route::get('/', 'AuthController@index');
 });

@@ -6,16 +6,10 @@ use Modules\Account\Entities\Account;
 
 class AccountCreatedEvent
 {
-    public $account;
-
     /**
      * Create a new event instance.
-     *
-     * @param Account $account
-     * @return void
      */
-    public function __construct(Account $account)
+    public function __construct(public Account $account)
     {
-        $this->account = $account;
     }
 }

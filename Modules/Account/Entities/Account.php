@@ -2,8 +2,10 @@
 
 namespace Modules\Account\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Account\Database\Factories\AccountFactory;
 use Modules\Auth\Entities\User;
 
@@ -15,9 +17,9 @@ use Modules\Auth\Entities\User;
  * @property int|null $parent_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Modules\Account\Database\Factories\AccountFactory factory(...$parameters)
+ * @method static \Modules\Account\Database\Factories\AccountFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Account newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Account newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Account query()
@@ -40,20 +42,25 @@ class Account extends Model
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
     ];
 
     /**
      * The users that belong to the account.
+     *
+     * @return BelongsToMany<User>
      */
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'account_user')->withTimestamps();
     }
 
-    protected static function newFactory()
+    /**
+     * @return Factory<Account>
+     */
+    protected static function newFactory(): Factory
     {
         return AccountFactory::new();
     }

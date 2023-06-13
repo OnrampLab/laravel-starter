@@ -9,74 +9,49 @@ class AccountPolicy
 {
     /**
      * Determine if the given resource can be created by the user.
-     *
-     * @param  \Modules\Auth\Entities\User  $user
-     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasRole('system-admin');
     }
 
     /**
      * Determine if any resources can be viewed by the user.
-     *
-     * @param  \Modules\Auth\Entities\User  $user
-     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasAnyRole(['account-analyst', 'account-admin']);
     }
 
     /**
      * Determine if the given resource can be viewed by the user.
-     *
-     * @param  \Modules\Auth\Entities\User  $user
-     * @param  Account  $account
-     * @return bool
      */
-    public function view(User $user, Account $account)
+    public function view(User $user, Account $account): bool
     {
         return $this->canAccess($user, $account) && $user->hasAnyRole(['account-analyst', 'account-admin']);
     }
 
     /**
      * Determine if the given resource can be updated by the user.
-     *
-     * @param  \Modules\Auth\Entities\User  $user
-     * @param  Account  $account
-     * @return bool
      */
-    public function update(User $user, Account $account)
+    public function update(User $user, Account $account): bool
     {
         return $this->canAccess($user, $account) && $user->hasRole('account-admin');
     }
 
     /**
      * Determine if the given resource can be deleted by the user.
-     *
-     * @param  \Modules\Auth\Entities\User  $user
-     * @param  Account  $account
-     * @return bool
      */
-    public function delete(User $user, Account $account)
+    public function delete(User $user, Account $account): bool
     {
         return $this->canAccess($user, $account) && $user->hasRole('account-admin');
     }
 
-
     /**
      * Determine if the user can access the given account.
-     *
-     * @param  \Modules\Auth\Entities\User  $user
-     * @param  Account  $model
-     * @return bool
      */
-    private function canAccess(User $user, Account $account)
+    private function canAccess(User $user, Account $account): bool
     {
-        return $user->accounts->contains(function(Account $userAccount) use ($account) {
-            return $userAccount->id === $account->id;
-        });
+        return $user->accounts->contains('id', $account->id);
     }
 }

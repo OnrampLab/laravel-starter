@@ -3,7 +3,6 @@
 namespace Modules\Auth\Services;
 
 use Hash;
-
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 
@@ -15,13 +14,12 @@ class UpdateUserService
     protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
-    )
-    {
+        UserRepository $userRepository,
+    ) {
         $this->userRepository = $userRepository;
     }
 
-    public function perform(array $attributes, int $userId)
+    public function perform(array $attributes, int $userId): User
     {
         $user = $this->updateUser($attributes, $userId);
 

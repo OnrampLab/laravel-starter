@@ -3,11 +3,11 @@
 namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
-use Modules\Account\Repositories\AccountApiKeyRepository;
 use Modules\Account\Http\Resources\AccountApiKeyResource;
+use Modules\Account\Repositories\AccountApiKeyRepository;
 
 class AccountApiKeyController extends Controller
 {
@@ -23,35 +23,22 @@ class AccountApiKeyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @return Response
      */
-    public function index(int $accountId)
+    public function index(int $accountId): Response
     {
         $apiKeys = $this->accountApiKeyRepository->findWhere([
             'account_id' => $accountId,
         ]);
 
-        return [
+        return response([
             'data' => $apiKeys,
-        ];
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('account::create');
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
-     * @param int $accountId
-     * @return Response
      */
-    public function store(Request $request, int $accountId)
+    public function store(Request $request, int $accountId): JsonResource
     {
         $accountApiKey = $this->accountApiKeyRepository->createApiKey($accountId);
 
@@ -59,32 +46,9 @@ class AccountApiKeyController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        return view('account::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return view('account::edit');
-    }
-
-    /**
      * Remove the specified resource from storage.
-     * @param int $accountId
-     * @param int $id
-     * @return Response
      */
-    public function destroy($accountId, $id)
+    public function destroy(int $accountId, int $id): Response
     {
         $this->accountApiKeyRepository->delete($id);
 
