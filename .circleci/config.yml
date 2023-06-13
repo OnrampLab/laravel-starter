@@ -37,6 +37,10 @@ commands:
               tools/scripts/phpcs-pr.sh
             fi
       - run:
+          name: Run PHPCS
+          command: |
+            vendor/bin/phpstan clear-result-cache
+      - run:
           name: Run PHPStan analysis
           command: |
             if [[ "${CIRCLE_BRANCH}" != "main" ]] && [[ "${CIRCLE_BRANCH}" != "release" ]] && [[ -z "${CIRCLE_TAG}" ]]; then
