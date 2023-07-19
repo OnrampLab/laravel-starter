@@ -17,10 +17,11 @@
         "laravel/horizon": "^5.15",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "nunomaduro/collision": "^6.1",
+        "nunomaduro/collision": "^7.7.0",
         "nwidart/laravel-modules": "^10.0",
         "onramplab/laravel-clean-architecture": "10.0.0",
         "owen-it/laravel-auditing": "^13.5",
+        "pestphp/pest": "^2.8.3",
         "php-open-source-saver/jwt-auth": "^2.1",
         "prettus/l5-repository": "^2.9",
         "spatie/laravel-ignition": "^2.0",
@@ -86,7 +87,7 @@
         ],
         "test": [
             "Composer\\Config::disableProcessTimeout",
-            "phpunit"
+            "pest"
         ],
         "test:watch": [
             "Composer\\Config::disableProcessTimeout",
