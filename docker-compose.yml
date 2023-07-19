@@ -31,6 +31,26 @@ services:
         php artisan serve --host 0.0.0.0
         "
 
+  horizon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: php-dev
+      args:
+        GITHUB_PERSONAL_TOKEN: ${GITHUB_PERSONAL_TOKEN}
+    volumes:
+      - ./:/var/www/html
+    links:
+      - db
+      - redis
+      - elasticsearch
+    depends_on:
+      - php
+    environment:
+      GITHUB_PERSONAL_TOKEN: ${GITHUB_PERSONAL_TOKEN}
+    command: >
+      bash -i -c -e " cd /var/www/html; composer install; php artisan horizon"
+
   node:
     image: node:16
     ports:
