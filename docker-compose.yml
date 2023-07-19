@@ -47,7 +47,7 @@ services:
         "
 
   db:
-    image: mysql:8.0 # or mariadb
+    image: mysql:8.0.33
     ports:
       - "${DB_PORT}:3306"
     volumes:
@@ -62,7 +62,7 @@ services:
 
   redis:
     image:
-      redis:5.0.4
+      redis:5.0.14
     ports:
       - 6379:6379
     healthcheck:
