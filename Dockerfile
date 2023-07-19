@@ -29,4 +29,8 @@ ENV PHP_EXTENSION_IGBINARY=1 \
     OPCACHE_SAVE_COMMENTS=0
 COPY ./tools/php.ini /etc/php/8.2/cli/php.ini
 
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan optimize --force
+
 WORKDIR /var/www/html
