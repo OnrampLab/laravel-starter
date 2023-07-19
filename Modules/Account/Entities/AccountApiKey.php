@@ -21,11 +21,6 @@ use Modules\Account\Database\Factories\AccountApiKeyFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey query()
- * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey whereAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AccountApiKey whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class AccountApiKey extends Model
