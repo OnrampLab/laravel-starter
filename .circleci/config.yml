@@ -82,7 +82,7 @@ commands:
           command: |
             php artisan key:generate
             php artisan jwt:secret -f
-            DB_CONNECTION=testing_mysql DB_HOST=127.0.01 DB_DATABASE=testing_db vendor/bin/phpunit
+            DB_CONNECTION=testing_mysql DB_HOST=127.0.01 DB_DATABASE=testing_db composer test
 
   # for vm based deployment
   use_capistrano_to_deploy:
