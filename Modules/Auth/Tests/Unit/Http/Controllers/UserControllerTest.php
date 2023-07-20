@@ -2,15 +2,16 @@
 
 namespace Modules\Auth\Tests;
 
-use Mockery;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\LazyCollection;
+use Mockery;
 use Modules\Auth\Entities\User;
 use Modules\Auth\Services\CreateUserService;
-use Modules\Auth\Services\ListUserService;
-use Modules\Auth\Services\GetUserService;
 use Modules\Auth\Services\DeleteUserService;
+use Modules\Auth\Services\GetUserService;
+use Modules\Auth\Services\ListUserService;
 use Modules\Auth\Services\UpdateUserService;
+use Tests\TestCase;
 
 /**
  * @internal
@@ -86,7 +87,7 @@ class UserControllerTest extends TestCase
         $this->listUserServiceMock
             ->shouldReceive('perform')
             ->once()
-            ->andReturn(collect([$this->user]));
+            ->andReturn(LazyCollection::make([$this->user]));
 
         $response = $this->getAuthedRequest()->json('GET', $url);
 
