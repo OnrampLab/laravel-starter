@@ -1,4 +1,4 @@
-ARG PHP_EXTENSIONS="pdo_mysql pdo_sqlite redis"
+ARG PHP_EXTENSIONS="pdo_mysql pdo_sqlite redis igbinary bcmath"
 FROM thecodingmachine/php:8.2-v4-slim-apache AS php
 ENV TEMPLATE_PHP_INI=production \
     APACHE_DOCUMENT_ROOT=/var/www/html/public
