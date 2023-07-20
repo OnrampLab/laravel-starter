@@ -4,9 +4,9 @@ namespace Modules\Account\Tests\Unit\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Tests\TestCase;
 use Modules\Account\Entities\Account;
 use Modules\Account\Entities\AccountApiKey;
+use Tests\TestCase;
 
 /**
  * @internal

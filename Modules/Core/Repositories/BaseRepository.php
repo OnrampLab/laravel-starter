@@ -17,18 +17,17 @@ use Modules\Core\Contracts\SortDirection;
 abstract class BaseRepository implements Repository
 {
     /**
-     * @return class-string
+     * @return M
      */
-    abstract public function model(): string;
+    abstract protected function model();
 
     /**
      * @return LazyCollection<int, M>
      */
     public function all(): LazyCollection
     {
-        $model = App::make($this->model());
 
-        return $model::lazy();
+        return $this->model()::lazy();
     }
 
     /**
@@ -37,8 +36,7 @@ abstract class BaseRepository implements Repository
      */
     public function find(string|int $id)
     {
-        $model = App::make($this->model());
-        return $model->findOrFail($id);
+        return $this->model()->findOrFail($id);
     }
 
     /**
@@ -50,7 +48,7 @@ abstract class BaseRepository implements Repository
         /**
          * @var M
          */
-        $entity = App::make($this->model());
+        $entity = App::make($this->model()::class);
         $entity->fill($attributes);
 
         return $this->save($entity);
@@ -74,8 +72,7 @@ abstract class BaseRepository implements Repository
     public function delete($entityOrEntityId): int
     {
         if (is_int($entityOrEntityId) || is_string($entityOrEntityId)) {
-            $model = App::make($this->model());
-            return (int) $model->whereIn('id', [$entityOrEntityId])->delete();
+            return (int) $this->model()->whereIn('id', [$entityOrEntityId])->delete();
         }
 
         return (int) $entityOrEntityId->delete();
@@ -99,9 +96,7 @@ abstract class BaseRepository implements Repository
      */
     public function search(array $conditions, null|Collection $sorts = null): LazyCollection
     {
-        $query = App::make($this->model());
-
-        $query = $query->where($conditions);
+        $query = $this->model()->where($conditions);
 
         if ($sorts) {
             $sorts->each(function ($sort) use ($query) {

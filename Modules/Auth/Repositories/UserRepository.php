@@ -3,15 +3,15 @@
 namespace Modules\Auth\Repositories;
 
 use Modules\Auth\Entities\User;
-use Prettus\Repository\Eloquent\BaseRepository;
+use Modules\Core\Repositories\BaseRepository;
 
+/**
+ * @extends BaseRepository<User>
+ */
 class UserRepository extends BaseRepository
 {
-    /**
-     * Specify Model class name
-     */
-    public function model(): string
+    protected function model()
     {
-        return User::class;
+        return new User();
     }
 }

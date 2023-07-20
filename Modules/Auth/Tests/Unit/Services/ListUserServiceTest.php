@@ -2,12 +2,13 @@
 
 namespace Modules\Auth\Tests;
 
-use Mockery;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\LazyCollection;
+use Mockery;
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 use Modules\Auth\Services\ListUserService;
+use Tests\TestCase;
 
 /**
  * @internal
@@ -35,7 +36,7 @@ class ListUserServiceTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('all')
             ->once()
-            ->andReturn(collect([$this->user]));
+            ->andReturn(LazyCollection::make([$this->user]));
 
         $this->service->perform();
     }
