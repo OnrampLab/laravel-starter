@@ -7,7 +7,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class $CLASS$ implements ShouldQueue
 {
-    use Dispatchable, Queueable;
+    use Dispatchable;
+    use Queueable;
 
     /**
      * Create a new job instance.
@@ -21,10 +22,8 @@ class $CLASS$ implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         //
     }
