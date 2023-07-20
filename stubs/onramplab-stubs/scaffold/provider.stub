@@ -2,6 +2,7 @@
 
 namespace $NAMESPACE$;
 
+use Config;
 use Illuminate\Support\ServiceProvider;
 
 class $CLASS$ extends ServiceProvider
@@ -78,18 +79,20 @@ class $CLASS$ extends ServiceProvider
             module_path($this->moduleName, '$PATH_CONFIG$/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, '$PATH_CONFIG$/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, '$PATH_CONFIG$/config.php'),
+            $this->moduleNameLower,
         );
     }
 
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
+        foreach (Config::get('view.paths') as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }
         }
+
         return $paths;
     }
 }
