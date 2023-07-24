@@ -3,15 +3,15 @@
 namespace Modules\Account\Repositories;
 
 use Modules\Account\Entities\Account;
-use Prettus\Repository\Eloquent\BaseRepository;
+use Modules\Core\Repositories\BaseRepository;
 
+/**
+ * @extends BaseRepository<Account>
+ */
 class AccountRepository extends BaseRepository
 {
-    /**
-     * Specify Model class name
-     */
-    public function model(): string
+    public function model()
     {
-        return Account::class;
+        return new Account();
     }
 }

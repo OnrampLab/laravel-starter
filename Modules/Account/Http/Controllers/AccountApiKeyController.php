@@ -26,7 +26,7 @@ class AccountApiKeyController extends Controller
      */
     public function index(int $accountId): Response
     {
-        $apiKeys = $this->accountApiKeyRepository->findWhere([
+        $apiKeys = $this->accountApiKeyRepository->search([
             'account_id' => $accountId,
         ]);
 

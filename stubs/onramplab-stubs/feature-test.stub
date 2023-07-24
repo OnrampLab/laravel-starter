@@ -8,12 +8,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class $CLASS$ extends TestCase
 {
+    public function setUp(): void
+    {
+      parent::setUp();
+    }
+
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         $response = $this->get('/');
 

@@ -2,7 +2,7 @@
 
 namespace Modules\Auth\Services;
 
-use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Modules\Auth\Entities\User;
 use Modules\Auth\Repositories\UserRepository;
 
@@ -20,9 +20,9 @@ class ListUserService
     }
 
     /**
-     * @return Collection<int, User>
+     * @return LazyCollection<int, User>
      */
-    public function perform(): Collection
+    public function perform(): LazyCollection
     {
         return $this->userRepository->all();
     }
