@@ -21,7 +21,12 @@ abstract class BaseRepository implements Repository
      */
     public function all(): LazyCollection
     {
-        return $this->model()::lazy();
+        /**
+         * @var LazyCollection<int, M>
+         */
+        $collection = $this->model()::lazy();
+
+        return $collection;
     }
 
     /**
@@ -29,6 +34,9 @@ abstract class BaseRepository implements Repository
      */
     public function find(string|int $id)
     {
+        /**
+         * @var M
+         */
         return $this->model()->findOrFail($id);
     }
 
@@ -100,6 +108,9 @@ abstract class BaseRepository implements Repository
             });
         }
 
+        /**
+         * @var LazyCollection<int, M>
+         */
         return $query->lazy();
     }
 
