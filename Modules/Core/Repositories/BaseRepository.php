@@ -17,21 +17,14 @@ use Modules\Core\Contracts\SortDirection;
 abstract class BaseRepository implements Repository
 {
     /**
-     * @return M
-     */
-    abstract protected function model();
-
-    /**
      * @return LazyCollection<int, M>
      */
     public function all(): LazyCollection
     {
-
         return $this->model()::lazy();
     }
 
     /**
-     * @param string|int $id
      * @return M
      */
     public function find(string|int $id)
@@ -55,7 +48,6 @@ abstract class BaseRepository implements Repository
     }
 
     /**
-     * @param string|int $id
      * @return M
      */
     public function update(array $attributes, int|string $id)
@@ -110,4 +102,9 @@ abstract class BaseRepository implements Repository
 
         return $query->lazy();
     }
+
+    /**
+     * @return M
+     */
+    abstract protected function model();
 }

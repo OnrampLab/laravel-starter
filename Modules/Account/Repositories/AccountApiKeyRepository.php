@@ -12,11 +12,6 @@ use Modules\Core\Repositories\BaseRepository;
  */
 class AccountApiKeyRepository extends BaseRepository
 {
-    protected function model()
-    {
-        return new AccountApiKey();
-    }
-
     public function createApiKey(int $accountId): AccountApiKey
     {
         $token = base64_encode(Encrypter::generateKey(config('app.cipher')));
@@ -34,5 +29,10 @@ class AccountApiKeyRepository extends BaseRepository
         $model = App::make($this->model());
 
         return $model->where('token', $token)->first();
+    }
+
+    protected function model()
+    {
+        return new AccountApiKey();
     }
 }

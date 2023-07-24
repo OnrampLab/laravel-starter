@@ -16,7 +16,6 @@ interface Repository
     public function all(): LazyCollection;
 
     /**
-     * @param string|int $id
      * @return T
      */
     public function find(string|int $id);
@@ -29,7 +28,6 @@ interface Repository
 
     /**
      * @param array<string, mixed> $attributes
-     * @param int|string $id
      * @return T
      */
     public function update(array $attributes, int|string $id);
