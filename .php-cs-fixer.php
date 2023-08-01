@@ -42,5 +42,6 @@ return $config->setRules([
             'comment_types' => ['asterisk'],
         ],
         'not_operator_with_successor_space' => true,
+        'new_with_braces' => ['anonymous_class' => false],
     ])
     ->setFinder($finder);
