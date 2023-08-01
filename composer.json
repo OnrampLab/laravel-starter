@@ -92,6 +92,12 @@
             "Composer\\Config::disableProcessTimeout",
             "phpunit-watcher watch --filter NoneTest < /dev/tty"
         ],
+        "rector": [
+            "rector process"
+        ],
+        "rector:dry-run": [
+            "rector process --dry-run"
+        ],
         "insights": [
             "phpinsights"
         ],
@@ -105,10 +111,13 @@
             "PHP_CS_FIXER_IGNORE_ENV=true tools/scripts/phpcs-fix.sh all"
         ],
         "refactor": [
-            "rector process"
+            "composer rector",
+            "composer insights:fix",
+            "composer phpcs:fix-all"
         ],
         "refactor:dry-run": [
-            "rector process --dry-run"
+            "composer rector:dry-run",
+            "composer insights"
         ]
     },
     "require-dev": {
