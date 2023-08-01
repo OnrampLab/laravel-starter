@@ -2,15 +2,20 @@
 
 namespace Modules\Auth\Tests\Entities;
 
-use Tests\TestCase;
 use Modules\Auth\Entities\User;
+use Tests\EntityTestCase;
 
 /**
  * @internal
  * @coversNothing
  */
-class UserTest extends TestCase
+class UserTest extends EntityTestCase
 {
+    protected function model(): string
+    {
+        return User::class;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

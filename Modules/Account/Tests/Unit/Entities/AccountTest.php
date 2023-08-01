@@ -2,18 +2,21 @@
 
 namespace Modules\Account\Tests\Unit\Entities;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Auth\Entities\User;
 use Modules\Account\Entities\Account;
+use Tests\EntityTestCase;
 
 /**
  * @internal
  * @coversNothing
  */
-class AccountTest extends TestCase
+class AccountTest extends EntityTestCase
 {
-    use RefreshDatabase;
+    protected function model(): string
+    {
+        return User::class;
+    }
 
     protected function setUp(): void
     {

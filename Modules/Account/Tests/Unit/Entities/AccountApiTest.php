@@ -2,18 +2,21 @@
 
 namespace Modules\Account\Tests\Unit\Entities;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Account\Entities\AccountApiKey;
 use Modules\Account\Entities\Account;
+use Tests\EntityTestCase;
 
 /**
  * @internal
  * @coversNothing
  */
-class AccountApiTest extends TestCase
+class AccountApiTest extends EntityTestCase
 {
-    use RefreshDatabase;
+    protected function model(): string
+    {
+        return AccountApiKey::class;
+    }
 
     protected function setUp(): void
     {
