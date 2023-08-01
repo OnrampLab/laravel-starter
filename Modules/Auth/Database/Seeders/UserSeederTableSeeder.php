@@ -14,7 +14,7 @@ class UserSeederTableSeeder extends Seeder
     public function run(CreateUserService $createUserService, AccountRepository $accountRepository): void
     {
         $userService = app(CreateUserService::class);
-        $account = $accountRepository->first();
+        $account = $accountRepository->find(1);
         $userData = [
             'name' => 'System Admin',
             'email' => 'admin@laravel-starter.com',
