@@ -37,7 +37,7 @@ commands:
               tools/scripts/phpcs-pr.sh
             fi
       - run:
-          name: Run PHPCS
+          name: Clear PHPStan cache
           command: |
             vendor/bin/phpstan clear-result-cache
       - run:
