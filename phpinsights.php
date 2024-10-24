@@ -132,7 +132,10 @@ return [
             ],
         ],
         SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff::class => [
-            'maxLength' => 80,
+            'maxLinesLength' => 80,
+            'exclude' => [
+                'Database/Migrations',
+            ],
         ],
         SlevomatCodingStandard\Sniffs\Commenting\UselessFunctionDocCommentSniff::class => [
             'traversableTypeHints' => [],
