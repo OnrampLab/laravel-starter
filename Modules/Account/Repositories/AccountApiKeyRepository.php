@@ -14,8 +14,9 @@ class AccountApiKeyRepository extends BaseRepository
 {
     public function createApiKey(int $accountId): AccountApiKey
     {
-        $token = base64_encode(Encrypter::generateKey(config('app.cipher')));
-
+        /** @var string $cipher */
+        $cipher = config('app.cipher');
+        $token = base64_encode(Encrypter::generateKey($cipher));
         $entity = new AccountApiKey([
             'account_id' => $accountId,
             'token' => $token,

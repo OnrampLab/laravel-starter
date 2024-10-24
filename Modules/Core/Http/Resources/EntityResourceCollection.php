@@ -11,7 +11,7 @@ class EntityResourceCollection extends JsonResource
      */
     public function toArray(\Illuminate\Http\Request $request): array
     {
-        /** @var array<string, mixed> */
+        /** @var array<string, mixed> $pagination */
         $pagination = $this->resource->toArray();
 
         return [

@@ -2,7 +2,6 @@
 
 namespace Modules\Account\Tests\Unit\Entities;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Account\Entities\AccountApiKey;
 use Modules\Account\Entities\Account;
 use Tests\EntityTestCase;
@@ -13,11 +12,6 @@ use Tests\EntityTestCase;
  */
 class AccountApiTest extends EntityTestCase
 {
-    protected function model(): string
-    {
-        return AccountApiKey::class;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -37,5 +31,10 @@ class AccountApiTest extends EntityTestCase
     public function test_relations()
     {
         $this->assertEquals($this->accountApiKey->account->id, $this->accountApiKey->account_id);
+    }
+
+    protected function model(): string
+    {
+        return AccountApiKey::class;
     }
 }

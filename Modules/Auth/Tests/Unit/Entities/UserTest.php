@@ -11,11 +11,6 @@ use Tests\EntityTestCase;
  */
 class UserTest extends EntityTestCase
 {
-    protected function model(): string
-    {
-        return User::class;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,5 +28,10 @@ class UserTest extends EntityTestCase
         $this->assertNotNull($this->user->email_verified_at);
         $this->assertNotNull($this->user->password);
         $this->assertNotNull($this->user->remember_token);
+    }
+
+    protected function model(): string
+    {
+        return User::class;
     }
 }

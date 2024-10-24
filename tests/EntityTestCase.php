@@ -10,6 +10,14 @@ abstract class EntityTestCase extends TestCase
     use CreatesApplication;
     use RefreshDatabase;
 
+    /**
+     * @test
+     */
+    public function if_any_missing_property_not_tested_or_added_to_factory(): void
+    {
+        $this->assertModelFactoryDefined($this->model());
+    }
+
     protected function assertModelFactoryDefined(string $modelClass, array $virtualPropertyNames = []): void
     {
         // Since virtual properties can not be defined in factory, we need to pass it in.
@@ -31,14 +39,6 @@ abstract class EntityTestCase extends TestCase
         foreach ($modelCurrentKeys as $key) {
             $this->assertContains($key, $allKeys);
         }
-    }
-
-    /**
-     * @test
-     */
-    public function if_any_missing_property_not_tested_or_added_to_factory(): void
-    {
-        $this->assertModelFactoryDefined($this->model());
     }
 
     /**

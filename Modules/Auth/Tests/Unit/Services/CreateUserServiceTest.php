@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Contact\Http\Controllers;
+namespace Modules\Auth\Http\Controllers;
 
 use Mockery;
 use Tests\TestCase;

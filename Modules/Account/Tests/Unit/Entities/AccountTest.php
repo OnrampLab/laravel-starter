@@ -2,7 +2,6 @@
 
 namespace Modules\Account\Tests\Unit\Entities;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Auth\Entities\User;
 use Modules\Account\Entities\Account;
 use Tests\EntityTestCase;
@@ -13,11 +12,6 @@ use Tests\EntityTestCase;
  */
 class AccountTest extends EntityTestCase
 {
-    protected function model(): string
-    {
-        return User::class;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,5 +29,10 @@ class AccountTest extends EntityTestCase
     public function test_relations()
     {
         $this->assertEquals($this->account->users->count(), 1);
+    }
+
+    protected function model(): string
+    {
+        return User::class;
     }
 }
