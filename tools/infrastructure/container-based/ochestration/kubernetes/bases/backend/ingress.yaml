@@ -28,35 +28,27 @@ spec:
   #   - larevel-starter.com
   #   secretName: cert-manager-test
   rules:
-    - host: larevel-starter.com
-      http:
-        paths:
-          # - path: /*
-          #   backend:
-          #     serviceName: ssl-redirect
-          #     servicePort: use-annotation
-          - path: /
-            backend:
-              serviceName: next-starter-service
-              servicePort: 80
     - host: api.larevel-starter.com
       http:
         paths:
           # - path: /
           #   backend:
-          #     serviceName: ssl-redirect
-          #     servicePort: use-annotation
+          #     name: ssl-redirect
+          #     port: use-annotation
           - path: /
             backend:
-              serviceName: laravel-starter-service
-              servicePort: 80
+              name: laravel-starter-service
+              port:
+                  number: 80
     - host: pma.larevel-starter.com
       http:
         paths:
           - path: /
             backend:
-              serviceName: phpmyadmin-service
-              servicePort: 80
+              name: phpmyadmin-service
+              port:
+                  number: 80
+
 
 # ---
 # apiVersion: certmanager.k8s.io/v1alpha1
