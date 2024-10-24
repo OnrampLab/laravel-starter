@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Contact\Http\Controllers;
+namespace Modules\Auth\Http\Controllers;
 
 use Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;

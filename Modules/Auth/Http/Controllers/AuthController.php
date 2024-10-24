@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use Modules\Auth\Http\Resources\UserResource;
+use Modules\Auth\UseCases\Commands\LoginCommand;
 use Modules\Auth\UseCases\LoginUseCase;
 
 class AuthController extends Controller
@@ -24,7 +25,11 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        $token = LoginUseCase::perform($credentials);
+        $command = LoginCommand::validateAndCreate($credentials);
+
+        $token = LoginUseCase::perform([
+            'command' => $command->toArray(),
+        ]);
 
         return $this->respondWithToken($token);
     }

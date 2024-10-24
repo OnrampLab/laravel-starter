@@ -4,21 +4,18 @@ namespace Modules\Auth\UseCases;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
+use Modules\Auth\UseCases\Commands\LoginCommand;
 use OnrampLab\CleanArchitecture\Exceptions\CustomDomainException;
 use OnrampLab\CleanArchitecture\UseCase;
-use Spatie\LaravelData\Attributes\Validation\Email;
 
 class LoginUseCase extends UseCase
 {
-    #[Email()]
-    public string $email;
-
-    public string $password;
+    public LoginCommand $command;
 
     public function handle(): string
     {
         // TODO: should not call infrastructure layer in use case
-        $token = Auth::attempt($this->toArray());
+        $token = Auth::attempt($this->command->toArray());
 
         if (! $token) {
             throw new CustomDomainException(

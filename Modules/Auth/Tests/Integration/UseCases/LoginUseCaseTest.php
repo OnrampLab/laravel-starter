@@ -5,8 +5,9 @@ namespace Modules\Auth\Tests\Integration\UseCases;
 use Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Auth\Entities\User;
-use Tests\TestCase;
+use Modules\Auth\UseCases\Commands\LoginCommand;
 use Modules\Auth\UseCases\LoginUseCase;
+use Tests\TestCase;
 
 /**
  * @internal
@@ -39,9 +40,13 @@ class LoginUseCaseTest extends TestCase
      */
     public function login_success(): void
     {
-        $token = LoginUseCase::perform([
+        $command = LoginCommand::validateAndCreate([
             'email' => $this->user->email,
             'password' => $this->password,
+        ]);
+
+        $token = LoginUseCase::perform([
+            'command' => $command->toArray(),
         ]);
 
         $this->assertNotNull($token);
