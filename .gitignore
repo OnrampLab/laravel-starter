@@ -1,4 +1,5 @@
 /node_modules
+/.phpunit.cache
 /public/css
 /public/js
 /public/hot
@@ -6,11 +7,14 @@
 /public/storage
 /storage/*.key
 /vendor
+/log
 .env
 .phpunit.result.cache
+.php-cs-fixer.cache
+.phpstorm.meta.php
+.idea
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/log
-.php-cs-fixer.cache
+_ide_helper.php
