@@ -67,7 +67,7 @@ services:
   db:
     image: mysql:8.0.42
     ports:
-      - "${DB_PORT}:3306"
+      - "${DOCKER_DB_PORT}:${DB_PORT}"
     volumes:
       - data:/var/lib/mysql
     environment:
