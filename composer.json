@@ -123,6 +123,7 @@
         "fakerphp/faker": "^1.24",
         "filp/whoops": "^2.17",
         "friendsofphp/php-cs-fixer": "^3.75",
+        "larastan/larastan": "^2.11",
         "mockery/mockery": "^1.6",
         "nunomaduro/phpinsights": "^2.13",
         "onramplab/onr-phpcs-laravel": "^1.2",
