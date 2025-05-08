@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Tests;
+namespace Modules\Auth\Tests\Unit\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\LazyCollection;

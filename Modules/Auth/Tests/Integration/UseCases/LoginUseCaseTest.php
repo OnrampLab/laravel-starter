@@ -61,9 +61,7 @@ class LoginUseCaseTest extends TestCase
     {
         $this->expectExceptionMessage('Email or Password is not correct');
 
-        LoginUseCase::perform([
-            'email' => $this->user->email,
-            'password' => 'wrong_password',
-        ]);
+        $command = new LoginCommand($this->user->email, 'wrong_password');
+        LoginUseCase::perform(['command' => $command->toArray()]);
     }
 }

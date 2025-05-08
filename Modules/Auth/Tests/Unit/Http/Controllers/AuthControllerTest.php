@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Http\Controllers;
+namespace Modules\Auth\Tests\Unit\Http\Controllers;
 
 use Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -74,7 +74,7 @@ class AuthControllerTest extends TestCase
         ]);
     }
 
-    public function failedLoginProvider()
+    public static function failedLoginProvider(): array
     {
         return [
             'wrong_email' => ['wrong@test.com', 'test'],

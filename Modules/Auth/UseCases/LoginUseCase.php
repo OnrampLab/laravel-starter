@@ -5,8 +5,8 @@ namespace Modules\Auth\UseCases;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Modules\Auth\UseCases\Commands\LoginCommand;
+use OnrampLab\CleanArchitecture\Application\UseCase;
 use OnrampLab\CleanArchitecture\Exceptions\CustomDomainException;
-use OnrampLab\CleanArchitecture\UseCase;
 
 class LoginUseCase extends UseCase
 {

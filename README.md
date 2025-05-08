@@ -41,6 +41,9 @@
   * Core
     * 提供核心自訂的框架元件，像是內建支援 `Audit` 功能
 
+### Templates
+  * 整合 stubs/onramplab-stubs/*.stub 以取代 laravel-modules 預設的 stubs template
+
 ### Run Seeders
 
 ```bash
@@ -136,3 +139,11 @@ Provisioning and ochestration for VM-based infrastructure, please refer to [vm-b
 1. Tag a version
   1. Run `npm version patch`, `npm version minor` or `npm major` to tag a version
   1. Push your new commits with `git push --follow-tags`
+
+## First install
+```
+cp .env.example .env
+docker exec -it php bash
+php artisan key:generate
+php artisan jwt:secret
+```
