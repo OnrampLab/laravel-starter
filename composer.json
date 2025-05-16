@@ -13,14 +13,14 @@
         "beyondcode/laravel-dump-server": "^2.1",
         "calebporzio/parental": "^1.4",
         "guzzlehttp/guzzle": "^7.9",
-        "laravel/framework": "^11.44",
+        "laravel/framework": "^12.14",
         "laravel/horizon": "^5.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10",
         "nunomaduro/collision": "^8.1",
         "nwidart/laravel-modules": "^10.0",
-        "onramplab/laravel-clean-architecture": "^11",
-        "owen-it/laravel-auditing": "^13.7",
+        "onramplab/laravel-clean-architecture": "^12.0",
+        "owen-it/laravel-auditing": "^14.0",
         "php-open-source-saver/jwt-auth": "^2.8",
         "spatie/laravel-ignition": "^2.9",
         "spatie/laravel-permission": "^6"
@@ -123,13 +123,13 @@
         "fakerphp/faker": "^1.24",
         "filp/whoops": "^2.17",
         "friendsofphp/php-cs-fixer": "^3.75",
-        "larastan/larastan": "^2.11",
+        "larastan/larastan": "^3.4",
         "mockery/mockery": "^1.6",
         "nunomaduro/phpinsights": "^2.13",
         "onramplab/onr-phpcs-laravel": "^1.2",
-        "pestphp/pest": "^2.36",
-        "phpunit/phpunit": "^10.5",
-        "rector/rector": "^0.17.0",
-        "sebastian/diff": "^5.0.0"
+        "pestphp/pest": "^3.0",
+        "phpunit/phpunit": "^11.5",
+        "rector/rector": "^2.0",
+        "sebastian/diff": "^6.0"
     }
 }
