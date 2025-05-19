@@ -37,13 +37,19 @@
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "extra": {
         "laravel": {
             "dont-discover": [
                 "barryvdh/laravel-ide-helper"
+            ]
+        },
+        "merge-plugin": {
+            "include": [
+                "Modules/*/composer.json"
             ]
         }
     },
